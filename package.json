@@ -1,0 +1,29 @@
+{
+  "name": "The-4th-task-by-Misha-Yakubchuk",
+  "version": "1.0.0",
+  "description": "Let`s do it!",
+  "main": "index.js",
+  "dependencies": {
+    "parcel-bundler": "^1.12.4"
+  },
+  "devDependencies": {
+    "pug": "^3.0.0",
+    "sass": "^1.26.8"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "parcel test-page/test-page.pug --open",
+    "build": "parcel build src/ -d output/colors-type --public-url ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FanManutd/The-4th-task-by-Misha-Yakubchuk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FanManutd/The-4th-task-by-Misha-Yakubchuk/issues"
+  },
+  "homepage": "https://github.com/FanManutd/The-4th-task-by-Misha-Yakubchuk#readme"
+}
