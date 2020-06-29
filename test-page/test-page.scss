@@ -1,6 +1,6 @@
 .test-page{
   margin: 200px auto 0px;
-  width: 320px;
+  max-width: 320px;
   height: 50px;
   &__plugin{
     background-color: red;

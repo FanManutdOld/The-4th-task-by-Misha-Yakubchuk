@@ -1,6 +1,6 @@
 import Plugin from '../src/plugin/plugin.js';
 
 $(document).ready(() => {
-  const plugin = document.querySelector('.test-page__plugin');
+  const plugin = document.querySelector('.range-slider__here');
   new Plugin(plugin);
 });
