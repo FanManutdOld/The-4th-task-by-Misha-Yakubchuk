@@ -1,5 +1,3 @@
-import { event, Event } from "jquery";
-
 class plugin {
   constructor(slider) {
     this.slider = slider;
@@ -14,29 +12,11 @@ class plugin {
 
 
     this.track = document.createElement("div");
-    this.track.classList.add("track");
-    this.track.style.position = "absolute";
-    this.track.style.width = "100%";
-    this.track.style.height = "10px"
-    this.track.style.top = "30px";
-    this.track.style.boxSizing = "border-box";
-    this.track.style.border = "2px solid gray";
-    this.track.style.borderRadius = "5px";
-    this.track.style.backgroundColor = "rgba(18,243,100,0.5)";
+    this.track.classList.add("slider__track");
     this.slider.appendChild(this.track);
 
     this.runner = document.createElement("div");
-    this.runner.classList.add("runner");
-    this.runner.style.position = "absolute";
-    this.runner.style.width = "15px";
-    this.runner.style.height = "30px"
-    this.runner.style.top = "20px";
-    this.runner.style.left = "0%";
-    this.runner.style.boxSizing = "border-box";
-    this.runner.style.border = "1px solid black";
-    this.runner.style.borderRadius = "1px";
-    this.runner.style.backgroundColor = "rgba(18,138,243)";
-    this.runner.style.cursor = "pointer";
+    this.runner.classList.add("slider__runner");
     //runner.onmousedown = function(event) { event.}
     this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
     this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this));
