@@ -5,26 +5,36 @@ class plugin {
   }
 
   init() {
-    this.slider.style.backgroundColor = "rgba(21,69,225,0.05)";
     this.slider.style.position = "relative";
     this.min = 200;
     this.max = 500;
 
 
     this.track = document.createElement("div");
-    this.track.classList.add("slider__track");
-    this.slider.appendChild(this.track);
+    this.track.className = "slider__track slider__track_orange";
+
+    this.bar = document.createElement("div");
+    this.bar.className = "slider__bar slider__bar_orange";
 
     this.runner = document.createElement("div");
-    this.runner.classList.add("slider__runner");
+    this.runner.className = "slider__runner slider__runner_orange";
     //runner.onmousedown = function(event) { event.}
     this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
     this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this));
     this.runner.ondragstart = function () {
       return false;
     };
-    this.slider.appendChild(this.runner);
 
+    this.single = document.createElement("div");
+    this.single.className = "slider__single slider__single_orange";
+
+    this.slider.appendChild(this.track);
+    this.slider.appendChild(this.bar);
+    this.slider.appendChild(this.runner);
+    this.slider.appendChild(this.single);
+
+    
+    this.rightEdge = (this.slider.offsetWidth - this.runner.offsetWidth) / this.slider.offsetWidth * 100;
   }
 
   handleRunnerMouseDown(event) {
@@ -46,21 +56,11 @@ class plugin {
   }
 
   handleRunnerMouseMove(runner, shiftX, event) {
-    let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    let newPosition = (posX - shiftX - this.slider.getBoundingClientRect().left) / this.slider.offsetWidth * 100;
+    let positions = this.calcPositions(runner, shiftX, event);
 
-    if (newPosition < 0) {
-      newPosition = 0;
-    }
-    let rightEdge = (this.slider.offsetWidth - runner.offsetWidth) / this.slider.offsetWidth * 100;
-    if (newPosition > rightEdge) {
-      newPosition = rightEdge;
-    }
+    let newValue = ((this.max - this.min) * positions.runnerPosition / this.rightEdge) + this.min;
 
-    let newValue = ((this.max - this.min) * newPosition / rightEdge) + this.min;
-
-    //newPosition = newPosition / this.item.offsetWidth * 100;
-    this.setPosition(runner, newPosition);
+    this.setPositions(runner, positions);
     this.setValue(newValue);
 
   }
@@ -76,13 +76,29 @@ class plugin {
     }
   }
 
-  setPosition(runner, newPosition) {
-    runner.style.left = newPosition + "%";
-    this.track.style.background = `linear-gradient(to right, rgba(206, 80, 80, 0.5) ${newPosition + 1}%, rgba(18,243,100,0.5) ${newPosition + 1}%)`;
+  calcPositions(runner, shiftX, event) {
+    let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
+    let runnerPosition = (posX - shiftX - this.slider.getBoundingClientRect().left) / this.slider.offsetWidth * 100;
+
+    if (runnerPosition < 0) {
+      runnerPosition = 0;
+    }
+    if (runnerPosition > this.rightEdge) {
+      runnerPosition = this.rightEdge;
+    }
+    let barPosition = runnerPosition + runner.offsetWidth / 2 / this.slider.offsetWidth * 100;
+    let singlePosition = barPosition - this.single.offsetWidth / 2 / this.slider.offsetWidth * 100;
+    return {runnerPosition, barPosition, singlePosition};
+  }
+
+  setPositions(runner, positions) {
+    runner.style.left = positions.runnerPosition + "%";
+    this.bar.style.width = positions.barPosition + "%";
+    this.single.style.left = positions.singlePosition + "%";
   }
 
   setValue(newValue) {
-    console.log(Math.floor(newValue));
+    this.single.textContent = Math.floor(newValue);
   }
 }
 
