@@ -6,30 +6,29 @@ class plugin {
 
   init() {
     this.slider.style.position = "relative";
-    this.min = 200;
-    this.max = 500;
+    this.min = 0;
+    this.max = 1000;
 
 
     this.track = document.createElement("div");
     this.track.className = "slider__track slider__track_orange";
+    this.track.addEventListener("mousedown", this.handleTrackMouseDown.bind(this));
+    this.track.addEventListener("touchstart", this.handleTrackMouseDown.bind(this));
 
     this.bar = document.createElement("div");
     this.bar.className = "slider__bar slider__bar_orange";
 
     this.runner = document.createElement("div");
     this.runner.className = "slider__runner slider__runner_orange";
-    //runner.onmousedown = function(event) { event.}
     this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
     this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this));
-    this.runner.ondragstart = function () {
-      return false;
-    };
+   
 
     this.single = document.createElement("div");
     this.single.className = "slider__single slider__single_orange";
 
     this.slider.appendChild(this.track);
-    this.slider.appendChild(this.bar);
+    this.track.appendChild(this.bar);
     this.slider.appendChild(this.runner);
     this.slider.appendChild(this.single);
 
@@ -37,42 +36,54 @@ class plugin {
     this.rightEdge = (this.slider.offsetWidth - this.runner.offsetWidth) / this.slider.offsetWidth * 100;
   }
 
+  handleTrackMouseDown(event) {
+    event.preventDefault();
+    let shiftX = this.runner.offsetWidth / 2;
+    //ссылки на eventListener, что бы удалить эти же eventListener
+    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, this.runner, shiftX);
+    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
+    let positions = this.calcPositions(this.runner, shiftX, event);
+    this.setPositions(this.runner, positions);
+    if(event.type == "mousedown") {
+      document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
+      document.addEventListener("mouseup", this.refHandleDocumentMouseUp);
+    }
+    else {
+      document.addEventListener("touchmove", this.refHandleDocumentMouseMove);
+      document.addEventListener("touchend", this.refHandleDocumentMouseUp);
+    }
+  }
+
   handleRunnerMouseDown(event) {
     event.preventDefault();
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
     let shiftX = posX - event.currentTarget.getBoundingClientRect().left;
     //ссылки на eventListener, что бы удалить эти же eventListener
-    this.refHandleRunnerMouseMove = this.handleRunnerMouseMove.bind(this, event.currentTarget, shiftX);
-    this.refHandleRunnerMouseUp = this.handleRunnerMouseUp.bind(this);
+    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, event.currentTarget, shiftX);
+    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
     if(event.type == "mousedown") {
-      document.addEventListener("mousemove", this.refHandleRunnerMouseMove);
-      document.addEventListener("mouseup", this.refHandleRunnerMouseUp);
+      document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
+      document.addEventListener("mouseup", this.refHandleDocumentMouseUp);
     }
     else {
-      document.addEventListener("touchmove", this.refHandleRunnerMouseMove);
-      document.addEventListener("touchend", this.refHandleRunnerMouseUp);
+      document.addEventListener("touchmove", this.refHandleDocumentMouseMove);
+      document.addEventListener("touchend", this.refHandleDocumentMouseUp);
     }
-    console.log("click");
   }
 
-  handleRunnerMouseMove(runner, shiftX, event) {
+  handleDocumentMouseMove(runner, shiftX, event) {
     let positions = this.calcPositions(runner, shiftX, event);
-
-    let newValue = ((this.max - this.min) * positions.runnerPosition / this.rightEdge) + this.min;
-
     this.setPositions(runner, positions);
-    this.setValue(newValue);
-
   }
 
-  handleRunnerMouseUp(event) {
+  handleDocumentMouseUp(event) {
     if(event.type == "mouseup") {
-      document.removeEventListener("mousemove", this.refHandleRunnerMouseMove);
-      document.removeEventListener("mouseup", this.refHandleRunnerMouseUp);
+      document.removeEventListener("mousemove", this.refHandleDocumentMouseMove);
+      document.removeEventListener("mouseup", this.refHandleDocumentMouseUp);
     }
     else {
-      document.removeEventListener("touchmove", this.refHandleRunnerMouseMove);
-      document.removeEventListener("touchend", this.refHandleRunnerMouseUp);
+      document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
+      document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
     }
   }
 
@@ -86,6 +97,10 @@ class plugin {
     if (runnerPosition > this.rightEdge) {
       runnerPosition = this.rightEdge;
     }
+
+    let newValue = ((this.max - this.min) * runnerPosition / this.rightEdge) + this.min;
+    this.setValue(newValue);
+
     let barPosition = runnerPosition + runner.offsetWidth / 2 / this.slider.offsetWidth * 100;
     let singlePosition = barPosition - this.single.offsetWidth / 2 / this.slider.offsetWidth * 100;
     return {runnerPosition, barPosition, singlePosition};
