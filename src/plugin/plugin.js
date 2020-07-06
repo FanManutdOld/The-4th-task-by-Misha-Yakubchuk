@@ -1,13 +1,14 @@
 class plugin {
-  constructor(slider) {
+  constructor(slider, data) {
     this.slider = slider;
+    this.min = data.min;
+    this.max = data.max;
+    this.current = data.current;
     this.init();
   }
 
   init() {
     this.slider.style.position = "relative";
-    this.min = 0;
-    this.max = 1000;
 
 
     this.track = document.createElement("div");
@@ -32,8 +33,8 @@ class plugin {
     this.slider.appendChild(this.runner);
     this.slider.appendChild(this.single);
 
-    
     this.rightEdge = (this.slider.offsetWidth - this.runner.offsetWidth) / this.slider.offsetWidth * 100;
+    this.initPositions();
   }
 
   handleTrackMouseDown(event) {
@@ -85,6 +86,15 @@ class plugin {
       document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
       document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
     }
+  }
+
+  initPositions() {
+    let positions = {};
+    positions.runnerPosition = (this.current * this.rightEdge - this.min * this.rightEdge) / (this.max - this.min);
+    this.setValue(this.current);
+    positions.barPosition = positions.runnerPosition + this.runner.offsetWidth / 2 / this.slider.offsetWidth * 100;
+    positions.singlePosition = positions.barPosition - this.single.offsetWidth / 2 / this.slider.offsetWidth * 100;
+    this.setPositions(this.runner, positions);
   }
 
   calcPositions(runner, shiftX, event) {
