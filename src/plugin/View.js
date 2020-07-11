@@ -1,33 +1,36 @@
 class View {
-  constructor() {
-    
+  constructor(observer) {
+    this.viewInitSubject = new observer();
+    this.viewChangedSubject = new observer();
   }
 
-  initView() {
-    this.slider.style.position = "relative";
+  initView(scin, slider, currentValue) {
+    slider.style.position = "relative";
 
 
     this.track = document.createElement("div");
-    this.track.className = "slider__track slider__track_orange";
+    this.track.className = "slider__track slider__track_" + scin;
     this.track.addEventListener("mousedown", this.handleTrackMouseDown.bind(this));
     this.track.addEventListener("touchstart", this.handleTrackMouseDown.bind(this));
 
     this.bar = document.createElement("div");
-    this.bar.className = "slider__bar slider__bar_orange";
+    this.bar.className = "slider__bar slider__bar_" + scin;
 
     this.runner = document.createElement("div");
-    this.runner.className = "slider__runner slider__runner_orange";
+    this.runner.className = "slider__runner slider__runner_" + scin;
     this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
     this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this));
    
 
     this.single = document.createElement("div");
-    this.single.className = "slider__single slider__single_orange";
+    this.single.className = "slider__single slider__single_" + scin;
 
-    this.slider.appendChild(this.track);
     this.track.appendChild(this.bar);
-    this.slider.appendChild(this.runner);
-    this.slider.appendChild(this.single);
+    slider.appendChild(this.track);
+    slider.appendChild(this.runner);
+    slider.appendChild(this.single);
+    this.setValue(currentValue);
+    this.viewInitSubject.notifyObservers([this.runner.offsetWidth, this.single.offsetWidth]);
   }
 
   handleTrackMouseDown(event) {
@@ -53,7 +56,7 @@ class View {
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
     let shiftX = posX - event.currentTarget.getBoundingClientRect().left;
     //ссылки на eventListener, что бы удалить эти же eventListener
-    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, event.currentTarget, shiftX);
+    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
     if(event.type == "mousedown") {
       document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
@@ -65,9 +68,9 @@ class View {
     }
   }
 
-  handleDocumentMouseMove(runner, shiftX, event) {
-    let positions = this.calcPositions(runner, shiftX, event);
-    this.setPositions(runner, positions);
+  handleDocumentMouseMove(shiftX, event) {
+    let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
+    this.viewChangedSubject.notifyObservers([posX, shiftX]);
   }
 
   handleDocumentMouseUp(event) {

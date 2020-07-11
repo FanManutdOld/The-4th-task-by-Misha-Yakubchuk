@@ -1,6 +1,6 @@
 import Plugin from '../src/plugin/plugin.js';
 import pluginMVC from '../src/plugin/pluginMVC.js';
-import App from '../src/plugin/App';
+import App from '../src/plugin/App.js';
 
 $(document).ready(() => {
   const sliderHere = document.querySelector('.range-slider__here');

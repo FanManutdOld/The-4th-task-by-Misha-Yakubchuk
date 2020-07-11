@@ -1,44 +1,46 @@
 class Model {
-  constructor() {
+  constructor(slider, data, observer) {
     this.slider = slider;
+    this.sliderWidth = slider.offsetWidth;
     this.min = data.min;
     this.max = data.max;
     this.current = data.current;
     this.scin = "orange";
-    this.init();
+    this.valueChangedSubject = new observer();
+    this.positionsChangedSubject = new observer();
+    this.positions = {};
   }
 
-  init() {
-    this.rightEdge = (this.slider.offsetWidth - this.runner.offsetWidth) / this.slider.offsetWidth * 100;
+  init(runnerWidth, singleWidth) {
+    this.runnerWidth = runnerWidth;
+    this.singleWidth = singleWidth;
+    this.rightEdge = (this.sliderWidth - this.runnerWidth) / this.sliderWidth * 100;
     this.initPositions();
   }
 
   initPositions() {
-    let positions = {};
-    positions.runnerPosition = (this.current * this.rightEdge - this.min * this.rightEdge) / (this.max - this.min);
-    this.setValue(this.current);
-    positions.barPosition = positions.runnerPosition + this.runner.offsetWidth / 2 / this.slider.offsetWidth * 100;
-    positions.singlePosition = positions.barPosition - this.single.offsetWidth / 2 / this.slider.offsetWidth * 100;
-    this.setPositions(this.runner, positions);
+    this.positions.runnerPosition = (this.current * this.rightEdge - this.min * this.rightEdge) / (this.max - this.min);
+    this.positions.barPosition = this.positions.runnerPosition + this.runnerWidth / 2 / this.sliderWidth * 100;
+    this.positions.singlePosition = this.positions.barPosition - this.singleWidth / 2 / this.sliderWidth * 100;
+    this.positionsChangedSubject.notifyObservers(this.positions);
   }
 
-  calcPositions(runner, shiftX, event) {
-    let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    let runnerPosition = (posX - shiftX - this.slider.getBoundingClientRect().left) / this.slider.offsetWidth * 100;
+  calcPositions(runnerWidth, posX, shiftX) {
+    this.positions.runnerPosition = (posX - shiftX - this.slider.getBoundingClientRect().left) / this.sliderWidth * 100;
 
-    if (runnerPosition < 0) {
-      runnerPosition = 0;
+    if (this.positions.runnerPosition < 0) {
+      this.positions.runnerPosition = 0;
     }
-    if (runnerPosition > this.rightEdge) {
-      runnerPosition = this.rightEdge;
+    if (this.positions.runnerPosition > this.rightEdge) {
+      this.positions.runnerPosition = this.rightEdge;
     }
 
-    let newValue = ((this.max - this.min) * runnerPosition / this.rightEdge) + this.min;
-    this.setValue(newValue);
+    let newValue = ((this.max - this.min) * this.positions.runnerPosition / this.rightEdge) + this.min;
+    this.valueChangedSubject.notifyObservers(newValue);
 
-    let barPosition = runnerPosition + runner.offsetWidth / 2 / this.slider.offsetWidth * 100;
-    let singlePosition = barPosition - this.single.offsetWidth / 2 / this.slider.offsetWidth * 100;
-    return {runnerPosition, barPosition, singlePosition};
+    this.positions.barPosition = this.positions.runnerPosition + runnerWidth / 2 / this.sliderWidth * 100;
+    this.positions.singlePosition = this.positions.barPosition - this.singleWidth / 2 / this.sliderWidth * 100;
+    this.positionsChangedSubject.notifyObservers(this.positions);
   }
 }
 
