@@ -1,6 +1,7 @@
 class View {
   constructor(observer) {
-    this.viewInitSubject = new observer();
+    /* this.viewInitSubject = new observer();
+    this.viewChangedSubject = new observer(); */
     this.viewChangedSubject = new observer();
   }
 
@@ -30,7 +31,7 @@ class View {
     slider.appendChild(this.runner);
     slider.appendChild(this.single);
     this.setValue(currentValue);
-    this.viewInitSubject.notifyObservers([this.runner.offsetWidth, this.single.offsetWidth]);
+    this.viewChangedSubject.notifyObservers("init", [this.runner.offsetWidth, this.single.offsetWidth]);
   }
 
   handleTrackMouseDown(event) {
@@ -70,7 +71,7 @@ class View {
 
   handleDocumentMouseMove(shiftX, event) {
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notifyObservers([posX, shiftX]);
+    this.viewChangedSubject.notifyObservers("move", [posX, shiftX]);
   }
 
   handleDocumentMouseUp(event) {
