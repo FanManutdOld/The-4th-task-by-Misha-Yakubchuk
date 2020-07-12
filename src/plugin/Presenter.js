@@ -1,19 +1,33 @@
-import Model from "./Model";
-
 class Presenter {
   constructor(model, view) {
-    model.modelChangedSubject.addObserver("positions", function (positions) {
-      view.setPositions(view.runner, positions);
+    this.model = model;
+    this.view = view;
+    this.initPlugin();
+    this.addObservers();
+  }
+
+  initPlugin() {
+    this.model.modelChangedSubject.addObserverOnce("initPositions", (positions) => {
+      this.view.setPositions(this.view.runner, positions);
     });
-    view.viewChangedSubject.addObserver("init", function ([runnerWidth, singleWidth] = data) {
-      model.init(runnerWidth, singleWidth);
+    this.view.viewChangedSubject.addObserverOnce("init", ([runnerWidth, singleWidth] = data) => {
+      this.model.init(runnerWidth, singleWidth);
     });
-    view.initView(model.scin, model.slider, model.current);
-    view.viewChangedSubject.addObserver("move", function ([posX, shiftX] = data) {
-      model.calcPositions(model.runnerWidth, posX, shiftX);
+    this.view.initView(this.model.scin, this.model.slider, this.model.current);
+  }
+
+  addObservers() {
+    this.view.viewChangedSubject.addObserver("move", ([posX, shiftX] = data) => {
+      this.model.calcPositions(this.model.runnerWidth, posX, shiftX);
     });
-    model.modelChangedSubject.addObserver("value", function (newValue) {
-      view.setValue(newValue);
+    this.model.modelChangedSubject.addObserver("value", (newValue) => {
+      this.view.setValue(newValue);
+    });
+    this.model.modelChangedSubject.addObserver("positions", (positions) => {
+      this.view.setPositions(this.view.runner, positions);
+    });
+    this.view.viewChangedSubject.addObserver("singleWidth", (singleWidth) => {
+      this.model.updateSingleWidth(singleWidth);
     });
   }
 }
