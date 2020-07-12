@@ -1,7 +1,5 @@
 class View {
   constructor(observer) {
-    /* this.viewInitSubject = new observer();
-    this.viewChangedSubject = new observer(); */
     this.viewChangedSubject = new observer();
   }
 
@@ -30,18 +28,18 @@ class View {
     slider.appendChild(this.track);
     slider.appendChild(this.runner);
     slider.appendChild(this.single);
-    this.setValue(currentValue);
+    this.single.textContent = Math.floor(currentValue);
     this.viewChangedSubject.notifyObservers("init", [this.runner.offsetWidth, this.single.offsetWidth]);
   }
 
   handleTrackMouseDown(event) {
     event.preventDefault();
-    let shiftX = this.runner.offsetWidth / 2;
+    let shiftX = this.runner.offsetWidth / 2 - 0.5;
     //ссылки на eventListener, что бы удалить эти же eventListener
-    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, this.runner, shiftX);
+    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
-    let positions = this.calcPositions(this.runner, shiftX, event);
-    this.setPositions(this.runner, positions);
+    let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
+    this.viewChangedSubject.notifyObservers("move", [posX, shiftX]);
     if(event.type == "mousedown") {
       document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
       document.addEventListener("mouseup", this.refHandleDocumentMouseUp);
@@ -92,7 +90,11 @@ class View {
   }
 
   setValue(newValue) {
+    const singleWidth = this.single.offsetWidth;
     this.single.textContent = Math.floor(newValue);
+    if (singleWidth != this.single.offsetWidth) {
+      this.viewChangedSubject.notifyObservers("singleWidth", this.single.offsetWidth);
+    }
   }
 }
 
