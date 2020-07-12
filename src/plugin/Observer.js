@@ -13,14 +13,10 @@ class Observer {
       this.observers[eventType].isAddOnce = false;
       this.observers[eventType].data = [];
     }
-    this.observers[eventType].data.push(callback);
-    /* for (let i = 0, ilen = this.observers.length; i < ilen; i += 1) {
-      let observer = this.observers[i];
-      if (observer === callback) {
-        throw new Error('observer already in the list');
-      }
+    if (this.observers[eventType].data.includes(callback)) {
+      throw new Error('observer already in the list');
     }
-    this.observers.push(o); */
+    this.observers[eventType].data.push(callback);
   }
 
   addObserverOnce(eventType, callback) {
@@ -30,38 +26,34 @@ class Observer {
 
   removeObserver(eventType, callback) {
     if (this.observers[eventType]) {
-      if(this.observers[eventType].data.includes(callback)) {
+      if (this.observers[eventType].data.includes(callback)) {
         this.observers[eventType].data = this.observers[eventType].data.filter(observer => observer !== callback);
+        if (this.observers[eventType].data.length == 0) {   //если наблюдателей больше нет, удаляем свойство из observers.
+          delete this.observers[eventType];
+        }
         return;
       }
       throw new Error('could not find callback in list of callbacks');
     }
     throw new Error('could not find observer in list of observers');
-    /* for (let i = 0, ilen = this.observers.length; i < ilen; i += 1) {
-      let observer = this.observers[i];
-      if (observer === callback) {
-        observers.splice(i, 1);
-        return;
-      }
-    } */
   }
 
   notifyObservers(eventType, data) {
     if (this.observers[eventType] == undefined || this.observers[eventType].data == undefined) {
-			throw new Error('could not find callback or observer')
-		}
+      throw new Error('could not find callback or observer');
+    }
 
-		let itObj = this;		
+    let that = this;
 
-		this.observers[eventType].data.forEach(observer => {
-			if(itObj.observers[eventType].isAddOnce) {
-				itObj.off(e, itObj.observers[eventType].data[0]);
-			}	
-			observer(data);
-		});
-    /* for (let i = 0, ilen = observersSnapshot.length; i < ilen; i += 1) {
-      observersSnapshot[i](data);
-    } */
+    // Make a copy of observer list in case the list
+    // is mutated during the notifications.
+    let observersTemp = this.observers[eventType].data.slice();
+    observersTemp.forEach(observer => {
+      if (that.observers[eventType].isAddOnce) {
+        that.removeObserver(eventType, that.observers[eventType].data[0]);
+      }
+      observer(data);
+    });
   }
 }
 
