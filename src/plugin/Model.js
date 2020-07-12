@@ -6,8 +6,6 @@ class Model {
     this.max = data.max;
     this.current = data.current;
     this.scin = "orange";
-    /* this.valueChangedSubject = new observer();
-    this.positionsChangedSubject = new observer(); */
     this.modelChangedSubject = new observer();
     this.positions = {};
   }
@@ -23,7 +21,7 @@ class Model {
     this.positions.runnerPosition = (this.current * this.rightEdge - this.min * this.rightEdge) / (this.max - this.min);
     this.positions.barPosition = this.positions.runnerPosition + this.runnerWidth / 2 / this.sliderWidth * 100;
     this.positions.singlePosition = this.positions.barPosition - this.singleWidth / 2 / this.sliderWidth * 100;
-    this.modelChangedSubject.notifyObservers("positions", this.positions);
+    this.modelChangedSubject.notifyObservers("initPositions", this.positions);
   }
 
   calcPositions(runnerWidth, posX, shiftX) {
@@ -40,9 +38,15 @@ class Model {
     this.modelChangedSubject.notifyObservers("value", newValue);
 
     this.positions.barPosition = this.positions.runnerPosition + runnerWidth / 2 / this.sliderWidth * 100;
+    console.log(this.singleWidth);
+    console.log(this.positions.barPosition);
     this.positions.singlePosition = this.positions.barPosition - this.singleWidth / 2 / this.sliderWidth * 100;
     this.modelChangedSubject.notifyObservers("positions", this.positions);
   }
+
+  updateSingleWidth(singleWidth) {
+    this.singleWidth = singleWidth;
+  } 
 }
 
 export default Model;
