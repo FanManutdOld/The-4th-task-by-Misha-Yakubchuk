@@ -13,7 +13,7 @@ class Presenter {
     this.view.viewChangedSubject.addObserverOnce("init", ([runnerWidth, singleWidth] = data) => {
       this.model.init(runnerWidth, singleWidth);
     });
-    this.view.initView(this.model.scin, this.model.slider, this.model.current);
+    this.view.initView(this.model.config.scin, this.model.slider, this.model.config.current);
   }
 
   addObservers() {

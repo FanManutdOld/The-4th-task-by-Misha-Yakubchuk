@@ -1,11 +1,13 @@
 class Model {
-  constructor(slider, data, observer) {
+  constructor(slider, userConfig, observer) {
     this.slider = slider;
     this.sliderWidth = slider.offsetWidth;
-    this.min = data.min;
-    this.max = data.max;
-    this.current = data.current;
-    this.scin = "orange";
+    this.config = {
+      min: 0,
+      max: 1000,
+      current: 500,
+      scin: "orange",
+    }
     this.modelChangedSubject = new observer();
     this.positions = {};
   }
@@ -18,7 +20,7 @@ class Model {
   }
 
   initPositions() {
-    this.positions.runnerPosition = (this.current * this.rightEdge - this.min * this.rightEdge) / (this.max - this.min);
+    this.positions.runnerPosition = (this.config.current * this.rightEdge - this.config.min * this.rightEdge) / (this.config.max - this.config.min);
     this.positions.barPosition = this.positions.runnerPosition + this.runnerWidth / 2 / this.sliderWidth * 100;
     this.positions.singlePosition = this.positions.barPosition - this.singleWidth / 2 / this.sliderWidth * 100;
     this.modelChangedSubject.notifyObservers("initPositions", this.positions);
@@ -34,7 +36,7 @@ class Model {
       this.positions.runnerPosition = this.rightEdge;
     }
 
-    let newValue = ((this.max - this.min) * this.positions.runnerPosition / this.rightEdge) + this.min;
+    let newValue = ((this.config.max - this.config.min) * this.positions.runnerPosition / this.rightEdge) + this.config.min;
     this.modelChangedSubject.notifyObservers("value", newValue);
 
     this.positions.barPosition = this.positions.runnerPosition + runnerWidth / 2 / this.sliderWidth * 100;
