@@ -10,8 +10,8 @@ class Presenter {
     this.model.modelChangedSubject.addObserverOnce("initPositions", (positions) => {
       this.view.setPositions(this.view.runner, positions);
     });
-    this.view.viewChangedSubject.addObserverOnce("init", ([runnerWidth, singleWidth] = data) => {
-      this.model.init(runnerWidth, singleWidth);
+    this.view.viewChangedSubject.addObserverOnce("init", ([runnerWidth, helperWidth] = data) => {
+      this.model.init(runnerWidth, helperWidth);
     });
     this.view.initView(this.model.config.scin, this.model.slider, this.model.config.current);
   }
@@ -26,8 +26,8 @@ class Presenter {
     this.model.modelChangedSubject.addObserver("positions", (positions) => {
       this.view.setPositions(this.view.runner, positions);
     });
-    this.view.viewChangedSubject.addObserver("singleWidth", (singleWidth) => {
-      this.model.updateSingleWidth(singleWidth);
+    this.view.viewChangedSubject.addObserver("helperWidth", (helperWidth) => {
+      this.model.updatehelperWidth(helperWidth);
     });
   }
 }

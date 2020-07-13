@@ -12,9 +12,9 @@ class Model {
     this.positions = {};
   }
 
-  init(runnerWidth, singleWidth) {
+  init(runnerWidth, helperWidth) {
     this.runnerWidth = runnerWidth;
-    this.singleWidth = singleWidth;
+    this.helperWidth = helperWidth;
     this.rightEdge = (this.sliderWidth - this.runnerWidth) / this.sliderWidth * 100;
     this.initPositions();
   }
@@ -22,7 +22,7 @@ class Model {
   initPositions() {
     this.positions.runnerPosition = (this.config.current * this.rightEdge - this.config.min * this.rightEdge) / (this.config.max - this.config.min);
     this.positions.barPosition = this.positions.runnerPosition + this.runnerWidth / 2 / this.sliderWidth * 100;
-    this.positions.singlePosition = this.positions.barPosition - this.singleWidth / 2 / this.sliderWidth * 100;
+    this.positions.helperPosition = this.positions.barPosition - this.helperWidth / 2 / this.sliderWidth * 100;
     this.modelChangedSubject.notifyObservers("initPositions", this.positions);
   }
 
@@ -40,14 +40,12 @@ class Model {
     this.modelChangedSubject.notifyObservers("value", newValue);
 
     this.positions.barPosition = this.positions.runnerPosition + runnerWidth / 2 / this.sliderWidth * 100;
-    console.log(this.singleWidth);
-    console.log(this.positions.barPosition);
-    this.positions.singlePosition = this.positions.barPosition - this.singleWidth / 2 / this.sliderWidth * 100;
+    this.positions.helperPosition = this.positions.barPosition - this.helperWidth / 2 / this.sliderWidth * 100;
     this.modelChangedSubject.notifyObservers("positions", this.positions);
   }
 
-  updateSingleWidth(singleWidth) {
-    this.singleWidth = singleWidth;
+  updatehelperWidth(helperWidth) {
+    this.helperWidth = helperWidth;
   } 
 }
 

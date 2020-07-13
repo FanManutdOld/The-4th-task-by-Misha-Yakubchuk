@@ -21,15 +21,15 @@ class View {
     this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this));
    
 
-    this.single = document.createElement("div");
-    this.single.className = "slider__single slider__single_" + scin;
+    this.helper = document.createElement("div");
+    this.helper.className = "slider__helper slider__helper_" + scin;
 
     this.track.appendChild(this.bar);
     slider.appendChild(this.track);
     slider.appendChild(this.runner);
-    slider.appendChild(this.single);
-    this.single.textContent = Math.floor(currentValue);
-    this.viewChangedSubject.notifyObservers("init", [this.runner.offsetWidth, this.single.offsetWidth]);
+    slider.appendChild(this.helper);
+    this.helper.textContent = Math.floor(currentValue);
+    this.viewChangedSubject.notifyObservers("init", [this.runner.offsetWidth, this.helper.offsetWidth]);
   }
 
   handleTrackMouseDown(event) {
@@ -86,14 +86,14 @@ class View {
   setPositions(runner, positions) {
     runner.style.left = positions.runnerPosition + "%";
     this.bar.style.width = positions.barPosition + "%";
-    this.single.style.left = positions.singlePosition + "%";
+    this.helper.style.left = positions.helperPosition + "%";
   }
 
   setValue(newValue) {
-    const singleWidth = this.single.offsetWidth;
-    this.single.textContent = Math.floor(newValue);
-    if (singleWidth != this.single.offsetWidth) {
-      this.viewChangedSubject.notifyObservers("singleWidth", this.single.offsetWidth);
+    const helperWidth = this.helper.offsetWidth;
+    this.helper.textContent = Math.floor(newValue);
+    if (helperWidth != this.helper.offsetWidth) {
+      this.viewChangedSubject.notifyObservers("helperWidth", this.helper.offsetWidth);
     }
   }
 }
