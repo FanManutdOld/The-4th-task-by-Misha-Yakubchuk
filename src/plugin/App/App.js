@@ -1,14 +1,14 @@
-import model from '../Model/Model.js';
-import view from '../View/View.js';
-import presenter from '../Presenter/Presenter.js';
-import observer from '../Observer/Observer.js';
+import Model from '../Model/Model.js';
+import View from '../View/MainView.js';
+import Presenter from '../Presenter/Presenter.js';
+import Observer from '../Observer/Observer.js';
 
 
 class App {
   constructor(slider, userConfig) {
-    let Model = new model(slider, userConfig, observer);
-    let View = new view(observer);
-    let Presenter = new presenter(Model, View);
+    let model = new Model(slider, userConfig, Observer);
+    let view = new View(Observer);
+    let presenter = new Presenter(model, view);
   }
 }
 
