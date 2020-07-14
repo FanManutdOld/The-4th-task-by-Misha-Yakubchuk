@@ -8,8 +8,18 @@ class Model {
       current: 500,
       scin: "orange",
     }
+    this.updateConfig(userConfig);
     this.modelChangedSubject = new observer();
     this.positions = {};
+  }
+
+  updateConfig(newConfig) {
+    for (let [key, value] of Object.entries(newConfig)) {
+      if(!(key in this.config)) {
+        throw new Error("Invalid user property - " + key);
+      }
+      this.config[key] = value;
+    }
   }
 
   init(runnerWidth, helperWidth) {
@@ -37,7 +47,7 @@ class Model {
     }
 
     let newValue = ((this.config.max - this.config.min) * this.positions.runnerPosition / this.rightEdge) + this.config.min;
-    this.modelChangedSubject.notifyObservers("value", newValue);
+    this.modelChangedSubject.notifyObservers("value", newValue);        //обновить значение слайдера, что бы изменилась ширина подсказки.
 
     this.positions.barPosition = this.positions.runnerPosition + runnerWidth / 2 / this.sliderWidth * 100;
     this.positions.helperPosition = this.positions.barPosition - this.helperWidth / 2 / this.sliderWidth * 100;
@@ -46,7 +56,7 @@ class Model {
 
   updatehelperWidth(helperWidth) {
     this.helperWidth = helperWidth;
-  } 
+  }
 }
 
 export default Model;
