@@ -26,9 +26,9 @@ class View {
   }
 
   setPositions(runner, positions) {
-    runner.setPosition(positions.runnerPosition + "%");
-    this.bar.setPosition(positions.barPosition + "%");
-    this.helper.setPosition(positions.helperPosition + "%");
+    runner.setPosition(positions[0] + "%");
+    this.bar.setPosition(positions[1] + "%");
+    this.helper.setPosition(positions[2] + "%");
   }
 
   setValue(newValue) {

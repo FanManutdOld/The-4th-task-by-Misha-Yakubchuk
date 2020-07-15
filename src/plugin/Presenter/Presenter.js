@@ -13,7 +13,7 @@ class Presenter {
     this.view.viewChangedSubject.addObserverOnce("init", ([runnerWidth, helperWidth] = data) => {
       this.model.init(runnerWidth, helperWidth);
     });
-    this.view.initView(this.model.slider, this.model.config.scin, this.model.config.current);
+    this.view.initView(this.model.slider.DOMObject, this.model.config.scin, this.model.config.current);
   }
 
   addObservers() {
@@ -21,7 +21,7 @@ class Presenter {
       this.model.calcShiftX(posX, runnerLeft);
     });
     this.view.viewChangedSubject.addObserver("mouseMove", (posX) => {
-      this.model.calcPositions(this.model.runnerWidth, posX);
+      this.model.calcPositions(this.model.runner.width, posX);
     });
     this.model.modelChangedSubject.addObserver("value", (newValue) => {
       this.view.setValue(newValue);
@@ -30,7 +30,7 @@ class Presenter {
       this.view.setPositions(this.view.runner, positions);
     });
     this.view.viewChangedSubject.addObserver("helperWidth", (helperWidth) => {
-      this.model.updatehelperWidth(helperWidth);
+      this.model.updateHelperWidth(helperWidth);
     });
   }
 }
