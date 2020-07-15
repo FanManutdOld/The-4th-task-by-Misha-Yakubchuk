@@ -15,7 +15,7 @@ class Model {
 
   updateConfig(newConfig) {
     for (let [key, value] of Object.entries(newConfig)) {
-      if(!(key in this.config)) {
+      if (!(key in this.config)) {
         throw new Error("Invalid user property - " + key);
       }
       this.config[key] = value;
@@ -36,8 +36,17 @@ class Model {
     this.modelChangedSubject.notifyObservers("initPositions", this.positions);
   }
 
-  calcPositions(runnerWidth, posX, shiftX) {
-    this.positions.runnerPosition = (posX - shiftX - this.slider.getBoundingClientRect().left) / this.sliderWidth * 100;
+  calcShiftX(posX, runnerLeft) {
+    if (runnerLeft) {
+      this.shiftX = posX - runnerLeft;
+    }
+    else {
+      this.shiftX = this.runnerWidth / 2 - 0.5;
+    }
+  }
+
+  calcPositions(runnerWidth, posX) {
+    this.positions.runnerPosition = (posX - this.shiftX - this.slider.getBoundingClientRect().left) / this.sliderWidth * 100;
 
     if (this.positions.runnerPosition < 0) {
       this.positions.runnerPosition = 0;

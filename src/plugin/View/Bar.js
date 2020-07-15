@@ -3,22 +3,22 @@ class Bar {
     this.viewChangedSubject = observer;
   }
 
-  initBar(slider, scin, runnerWidth) {
+  initBar(slider, scin) {
     this.bar = document.createElement("div");
     this.bar.className = "slider__bar slider__bar_" + scin;
-    this.bar.addEventListener("mousedown", this.handleBarMouseDown.bind(this, runnerWidth));
-    this.bar.addEventListener("touchstart", this.handleBarMouseDown.bind(this, runnerWidth));
+    this.bar.addEventListener("mousedown", this.handleBarMouseDown.bind(this));
+    this.bar.addEventListener("touchstart", this.handleBarMouseDown.bind(this));
     slider.appendChild(this.bar);
   }
 
-  handleBarMouseDown(runnerWidth, event) {
+  handleBarMouseDown(event) {
     event.preventDefault();
-    let shiftX = runnerWidth / 2 - 0.5;
-    //ссылки на eventListener, что бы удалить эти же eventListener
-    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
-    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notifyObservers("move", [posX, shiftX]);
+    this.viewChangedSubject.notifyObservers("mouseDown", [posX]);
+    //ссылки на eventListener, что бы удалить эти же eventListener
+    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this);
+    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
+    this.viewChangedSubject.notifyObservers("mouseMove", posX);
     if(event.type == "mousedown") {
       document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
       document.addEventListener("mouseup", this.refHandleDocumentMouseUp);
@@ -29,9 +29,9 @@ class Bar {
     }
   }
 
-  handleDocumentMouseMove(shiftX, event) {
+  handleDocumentMouseMove(event) {
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notifyObservers("move", [posX, shiftX]);
+    this.viewChangedSubject.notifyObservers("mouseMove", posX);
   }
 
   handleDocumentMouseUp(event) {

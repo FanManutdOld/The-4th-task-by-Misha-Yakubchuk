@@ -3,22 +3,22 @@ class Track {
     this.viewChangedSubject = observer;
   }
 
-  initTrack(slider, scin, runnerWidth) {
+  initTrack(slider, scin) {
     this.track = document.createElement("div");
     this.track.className = "slider__track slider__track_" + scin;
-    this.track.addEventListener("mousedown", this.handleTrackMouseDown.bind(this, runnerWidth));
-    this.track.addEventListener("touchstart", this.handleTrackMouseDown.bind(this, runnerWidth));
+    this.track.addEventListener("mousedown", this.handleTrackMouseDown.bind(this));
+    this.track.addEventListener("touchstart", this.handleTrackMouseDown.bind(this));
     slider.appendChild(this.track);
   }
 
-  handleTrackMouseDown(runnerWidth, event) {
+  handleTrackMouseDown(event) {
     event.preventDefault();
-    let shiftX = runnerWidth / 2 - 0.5;
-    //ссылки на eventListener, что бы удалить эти же eventListener
-    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
-    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notifyObservers("move", [posX, shiftX]);
+    this.viewChangedSubject.notifyObservers("mouseDown", [posX]);
+    //ссылки на eventListener, что бы удалить эти же eventListener
+    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this);
+    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
+    this.viewChangedSubject.notifyObservers("mouseMove", posX);
     if(event.type == "mousedown") {
       document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
       document.addEventListener("mouseup", this.refHandleDocumentMouseUp);
@@ -29,9 +29,9 @@ class Track {
     }
   }
 
-  handleDocumentMouseMove(shiftX, event) {
+  handleDocumentMouseMove(event) {
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notifyObservers("move", [posX, shiftX]);
+    this.viewChangedSubject.notifyObservers("mouseMove", posX);
   }
 
   handleDocumentMouseUp(event) {

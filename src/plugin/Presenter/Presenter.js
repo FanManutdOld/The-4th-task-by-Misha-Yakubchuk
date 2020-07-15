@@ -17,8 +17,11 @@ class Presenter {
   }
 
   addObservers() {
-    this.view.viewChangedSubject.addObserver("move", ([posX, shiftX] = data) => {
-      this.model.calcPositions(this.model.runnerWidth, posX, shiftX);
+    this.view.viewChangedSubject.addObserver("mouseDown", ([posX, runnerLeft] = data) => {
+      this.model.calcShiftX(posX, runnerLeft);
+    });
+    this.view.viewChangedSubject.addObserver("mouseMove", (posX) => {
+      this.model.calcPositions(this.model.runnerWidth, posX);
     });
     this.model.modelChangedSubject.addObserver("value", (newValue) => {
       this.view.setValue(newValue);

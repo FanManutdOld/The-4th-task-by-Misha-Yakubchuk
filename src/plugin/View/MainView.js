@@ -19,8 +19,8 @@ class View {
     
     this.runnerWidth = this.runner.initRunner(slider, scin);
 
-    this.track.initTrack(slider, scin, this.runnerWidth);
-    this.bar.initBar(slider, scin, this.runnerWidth);
+    this.track.initTrack(slider, scin);
+    this.bar.initBar(slider, scin);
     this.helper.initHelper(slider, scin, currentValue);
     this.viewChangedSubject.notifyObservers("init", [this.runnerWidth, this.helper.getWidth()]);
   }

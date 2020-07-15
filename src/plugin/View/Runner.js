@@ -15,9 +15,10 @@ class Runner {
   handleRunnerMouseDown(event) {
     event.preventDefault();
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    let shiftX = posX - event.currentTarget.getBoundingClientRect().left;
+    let runnerLeft = event.currentTarget.getBoundingClientRect().left;
+    this.viewChangedSubject.notifyObservers("mouseDown", [posX, runnerLeft]);
     //ссылки на eventListener, что бы удалить эти же eventListener
-    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
+    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
     if (event.type == "mousedown") {
       document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
@@ -29,9 +30,9 @@ class Runner {
     }
   }
 
-  handleDocumentMouseMove(shiftX, event) {
+  handleDocumentMouseMove(event) {
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notifyObservers("move", [posX, shiftX]);
+    this.viewChangedSubject.notifyObservers("mouseMove", posX);
   }
 
   handleDocumentMouseUp(event) {
