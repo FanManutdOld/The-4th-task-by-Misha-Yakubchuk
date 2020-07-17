@@ -17,17 +17,17 @@ class Presenter {
   }
 
   addObservers() {
-    this.view.viewChangedSubject.addObserver("mouseDown", ([posX, runnerLeft] = data) => {
-      this.model.calcShiftX(posX, runnerLeft);
+    this.view.viewChangedSubject.addObserver("mouseDown", ([runner, posX, runnerCoorLeft] = data) => {
+      this.model.calcShiftX(runner, posX, runnerCoorLeft);
     });
     this.view.viewChangedSubject.addObserver("mouseMove", ([runner, posX]) => {
       this.model.calcPositions(runner, posX);
     });
-    this.model.modelChangedSubject.addObserver("ChangeValue", (newValue) => {
-      this.view.setValue(newValue);
+    this.model.modelChangedSubject.addObserver("ChangeValue", ([runner, newValue] = data) => {
+      this.view.setValue(runner, newValue);
     });
-    this.model.modelChangedSubject.addObserver("ChangePositions", (positions) => {
-      this.view.setPositions(this.view.runnerL, positions);
+    this.model.modelChangedSubject.addObserver("ChangePositions", (data) => {
+      this.view.setPositions(data);
     });
     this.view.viewChangedSubject.addObserver("ChangeHelperWidth", (helperWidth) => {
       this.model.updateHelperWidth(helperWidth);

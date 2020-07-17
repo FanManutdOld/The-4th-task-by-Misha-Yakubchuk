@@ -41,14 +41,27 @@ class View {
     this.bar.setLeft(positions[4] + "%");
     this.bar.setWidth(positions[5] + "%");
   }
-  setPositions(runner, positions) {
-    runner.setPosition(positions[0] + "%");
-    this.helpL.setPosition(positions[1] + "%");
-    this.bar.setWidth(positions[2] + "%");
+  setPositions(positions) {
+    if (positions[0] === "runnerL") {
+      this.runnerL.setPosition(positions[1] + "%");
+      this.helpL.setPosition(positions[2] + "%");
+      this.bar.setWidth(positions[3] + "%");
+      this.bar.setLeft(positions[4] + "%");
+    }
+    else {
+      this.runnerR.setPosition(positions[1] + "%");
+      this.helpR.setPosition(positions[2] + "%");
+      this.bar.setWidth(positions[3] + "%");
+    }
   }
 
-  setValue(newValue) {
-    this.helpL.setValue(newValue);
+  setValue(runner, newValue) {
+    if( runner === "runnerL") {
+      this.helpL.setValue(newValue);
+    }
+    else {
+      this.helpR.setValue(newValue);
+    }
   }
 }
 
