@@ -45,8 +45,12 @@ class Bar {
     }
   }
 
-  setPosition(position) {
-    this.bar.style.width = position;
+  setLeft(value) {
+    this.bar.style.left = value;
+  }
+
+  setWidth(value) {
+    this.bar.style.width = value;
   }
 }
 

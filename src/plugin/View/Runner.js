@@ -1,11 +1,12 @@
 class Runner {
-  constructor(observer) {
+  constructor(observer, runner) {
     this.viewChangedSubject = observer;
+    this.runner = runner;
   }
 
   initRunner(slider, scin) {
     this.runner = document.createElement("div");
-    this.runner.className = "slider__runner slider__runner_" + scin;
+    this.runner.className = `slider__${this.runner} slider__${this.runner}_ + ${scin}`;
     this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
     this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this));
     slider.appendChild(this.runner);
@@ -32,7 +33,7 @@ class Runner {
 
   handleDocumentMouseMove(event) {
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notifyObservers("mouseMove", posX);
+    this.viewChangedSubject.notifyObservers("mouseMove", this.runner, posX);
   }
 
   handleDocumentMouseUp(event) {

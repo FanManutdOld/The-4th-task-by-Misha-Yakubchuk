@@ -5,6 +5,8 @@ $(document).ready(() => {
   new App(sliderHere, {
     min: 0,
     max: 1000,
-    current: 300,
+    double: true,
+    from: 300,
+    to: 700,
   })
 });
