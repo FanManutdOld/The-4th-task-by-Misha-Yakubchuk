@@ -76,11 +76,11 @@ class Model {
     }
 
     this.config.current = ((this.config.max - this.config.min) * this.runner.position / this.slider.rightEdge) + this.config.min;
-    this.modelChangedSubject.notifyObservers("value", this.config.current);        //обновить значение слайдера, что бы изменилась ширина подсказки.
+    this.modelChangedSubject.notifyObservers("ChangeValue", this.config.current);        //обновить значение слайдера, что бы изменилась ширина подсказки.
 
     this.bar.width = this.runner.position + runnerWidth / 2 / this.slider.width * 100;
     this.helper.position = this.bar.width - this.helper.width / 2 / this.slider.width * 100;
-    this.modelChangedSubject.notifyObservers("positions", [this.runner.position, this.bar.width, this.helper.position]);
+    this.modelChangedSubject.notifyObservers("ChangePositions", [this.runner.position, this.bar.width, this.helper.position]);
   }
 
   updateHelperWidth(helperWidth) {

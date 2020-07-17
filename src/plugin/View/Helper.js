@@ -14,7 +14,7 @@ class Helper {
     const helperWidth = this.getWidth();
     this.helper.textContent = Math.floor(newValue);
     if (helperWidth != this.getWidth()) {
-      this.viewChangedSubject.notifyObservers("helperWidth", this.helper.offsetWidth);
+      this.viewChangedSubject.notifyObservers("ChangeHelperWidth", this.helper.offsetWidth);
     }
   }
 

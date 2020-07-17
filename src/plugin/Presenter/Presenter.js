@@ -23,13 +23,13 @@ class Presenter {
     this.view.viewChangedSubject.addObserver("mouseMove", (posX) => {
       this.model.calcPositions(this.model.runner.width, posX);
     });
-    this.model.modelChangedSubject.addObserver("value", (newValue) => {
+    this.model.modelChangedSubject.addObserver("ChangeValue", (newValue) => {
       this.view.setValue(newValue);
     });
-    this.model.modelChangedSubject.addObserver("positions", (positions) => {
+    this.model.modelChangedSubject.addObserver("ChangePositions", (positions) => {
       this.view.setPositions(this.view.runner, positions);
     });
-    this.view.viewChangedSubject.addObserver("helperWidth", (helperWidth) => {
+    this.view.viewChangedSubject.addObserver("ChangeHelperWidth", (helperWidth) => {
       this.model.updateHelperWidth(helperWidth);
     });
   }
