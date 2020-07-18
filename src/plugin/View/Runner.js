@@ -11,7 +11,6 @@ class Runner {
     this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
     this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this));
     slider.appendChild(this.runner);
-    return this.runner.offsetWidth;
   }
 
   handleRunnerMouseDown(event) {
@@ -46,6 +45,10 @@ class Runner {
       document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
       document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
     }
+  }
+
+  getWidth() {
+    return this.runner.offsetWidth;
   }
 
   setPosition(position) {

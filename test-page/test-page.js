@@ -6,7 +6,7 @@ $(document).ready(() => {
     min: 0,
     max: 1000,
     double: true,
-    from: 300,
     to: 700,
+    from: 300,
   })
 });

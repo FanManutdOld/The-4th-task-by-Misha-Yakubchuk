@@ -6,6 +6,7 @@ class Bar {
   initBar(slider, scin) {
     this.bar = document.createElement("div");
     this.bar.className = "slider__bar slider__bar_" + scin;
+    this.bar.style.left = 0 + "%";
     this.bar.addEventListener("mousedown", this.handleBarMouseDown.bind(this));
     this.bar.addEventListener("touchstart", this.handleBarMouseDown.bind(this));
     slider.appendChild(this.bar);
@@ -49,8 +50,8 @@ class Bar {
     this.bar.style.left = value;
   }
 
-  setWidth(value) {
-    this.bar.style.width = value;
+  setRight(value) {
+    this.bar.style.right = value;
   }
 }
 

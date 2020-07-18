@@ -7,11 +7,13 @@ class Presenter {
   }
 
   initPlugin() {
-    this.model.modelChangedSubject.addOnce("initPositions", (positions) => {
+    this.model.modelChangedSubject.addOnce("initPositions", () => {
+      const positions = this.model.getPositions();
       this.view.initPositions(positions);
     });
-    this.view.viewChangedSubject.addOnce("init", ([runnerLWidth, helpLWidth, runnerRWidth, helpRWidth] = data) => {
-      this.model.init(runnerLWidth, helpLWidth, runnerRWidth, helpRWidth);
+    this.view.viewChangedSubject.addOnce("init", () => {
+      const widths = this.view.getWidths();
+      this.model.init(widths);
     });
     this.view.initView(this.model.slider.DOMObject, this.model.config);
   }
