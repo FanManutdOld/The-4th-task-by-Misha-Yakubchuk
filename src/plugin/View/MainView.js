@@ -8,6 +8,10 @@ class View {
   constructor(slider, observer) {
     this.slider = slider;
     this.viewChangedSubject = new observer();
+    this.createClassInstances();
+  }
+
+  createClassInstances() {
     this.track = new Track(this.viewChangedSubject);
     this.bar = new Bar(this.viewChangedSubject);
     this.runnerR = new Runner(this.viewChangedSubject, "runnerR");
@@ -32,6 +36,7 @@ class View {
     else {
       this.viewChangedSubject.notify("initView");
     }
+    window.addEventListener("resize", this.handleWindowResize.bind(this));
   }
 
   updatePositions({ runnerRPos, helpRPos, barRight, runnerLPos, helpLPos, barLeft }) {
@@ -53,6 +58,9 @@ class View {
       this.helpL.setValue(newValue);
     }
   }
+  handleWindowResize() {
+    this.viewChangedSubject.notify("resize");
+  }
 
   getWidths() {
     if (this.config.double) {
@@ -70,6 +78,13 @@ class View {
       sliderWidth: this.slider.offsetWidth,
       runnerRWidth: this.runnerR.getWidth(),
       helpRWidth: this.helpR.getWidth()
+    }
+  }
+
+  getSliderSizes() {
+    return {
+      sliderPosLeft: this.slider.getBoundingClientRect().left,
+      sliderWidth: this.slider.offsetWidth,
     }
   }
 }

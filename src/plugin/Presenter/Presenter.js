@@ -25,11 +25,15 @@ class Presenter {
     this.view.viewChangedSubject.add("mouseMove", (posX) => {
       this.model.calcPositions(posX);
     });
-    this.model.modelChangedSubject.add("changeValue", ([runner, newValue] = data) => {
-      this.view.setValue(runner, newValue);
-    });
     this.view.viewChangedSubject.add("changeHelpWidth", (helpWidth) => {
       this.model.updateHelpWidth(helpWidth);
+    });
+    this.view.viewChangedSubject.add("resize", () => {
+      const sizes = this.view.getSliderSizes();
+      this.model.updateSliderSizes(sizes);
+    });
+    this.model.modelChangedSubject.add("changeValue", ([runner, newValue] = data) => {
+      this.view.setValue(runner, newValue);
     });
   }
 }

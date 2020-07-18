@@ -81,7 +81,7 @@ class Model {
     }
     this.modelChangedSubject.notify("changePositions");
   }
-  
+
   defineCurrentRunner(posX) {
     let posClick = posX - this.slider.posLeft;
     if (!this.config.double) {
@@ -134,6 +134,12 @@ class Model {
 
   updateHelpWidth(helpWidth) {
     this.currentRunner === "runnerR" ? this.helpR.width = helpWidth : this.helpL.width = helpWidth;
+  }
+
+  updateSliderSizes({ sliderPosLeft, sliderWidth }) {
+    this.slider.posLeft = sliderPosLeft;
+    this.slider.width = sliderWidth;
+    console.log("sds");
   }
 
   toPerc(value) {

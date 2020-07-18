@@ -2,7 +2,6 @@ class Runner {
   constructor(observer, runnerSide) {
     this.viewChangedSubject = observer;
     this.runnerSide = runnerSide;
-
   }
 
   initRunner(slider, scin) {
