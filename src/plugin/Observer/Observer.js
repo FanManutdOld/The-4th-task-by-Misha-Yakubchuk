@@ -3,7 +3,7 @@ class Observer {
     this.observers = {};
   }
 
-  addObserver(eventType, callback) {
+  add(eventType, callback) {
     if (typeof callback !== 'function') {
       throw new Error('observer must be a function');
     }
@@ -19,12 +19,12 @@ class Observer {
     this.observers[eventType].data.push(callback);
   }
 
-  addObserverOnce(eventType, callback) {
-    this.addObserver(eventType, callback);
+  addOnce(eventType, callback) {
+    this.add(eventType, callback);
     this.observers[eventType].isAddOnce = true;
   }
 
-  removeObserver(eventType, callback) {
+  remove(eventType, callback) {
     if (this.observers[eventType]) {
       if (this.observers[eventType].data.includes(callback)) {
         this.observers[eventType].data = this.observers[eventType].data.filter(observer => observer !== callback);
@@ -38,7 +38,7 @@ class Observer {
     throw new Error('could not find observer in list of observers');
   }
 
-  notifyObservers(eventType, data) {
+  notify(eventType, data) {
     if (this.observers[eventType] == undefined || this.observers[eventType].data == undefined) {
       throw new Error('could not find callback or observer');
     }
@@ -50,7 +50,7 @@ class Observer {
     let observersTemp = this.observers[eventType].data.slice();
     observersTemp.forEach(observer => {
       if (that.observers[eventType].isAddOnce) {
-        that.removeObserver(eventType, that.observers[eventType].data[0]);
+        that.remove(eventType, that.observers[eventType].data[0]);
       }
       observer(data);
     });

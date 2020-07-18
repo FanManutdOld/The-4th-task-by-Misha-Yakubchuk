@@ -26,10 +26,10 @@ class View {
       this.helpR = new Helper(this.viewChangedSubject);
       const runnerRWidth = this.runnerR.initRunner(slider, scin);
       this.helpR.initHelp(slider, scin, config.to);
-      this.viewChangedSubject.notifyObservers("init", [runnerLWidth, this.helpL.getWidth(), runnerRWidth, this.helpR.getWidth()]);
+      this.viewChangedSubject.notify("init", [runnerLWidth, this.helpL.getWidth(), runnerRWidth, this.helpR.getWidth()]);
     }
     else {
-      this.viewChangedSubject.notifyObservers("init", [runnerLWidth, this.helpL.getWidth()]);
+      this.viewChangedSubject.notify("init", [runnerLWidth, this.helpL.getWidth()]);
     }
   }
 

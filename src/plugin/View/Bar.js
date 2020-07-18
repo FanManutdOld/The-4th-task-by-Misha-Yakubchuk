@@ -14,11 +14,11 @@ class Bar {
   handleBarMouseDown(event) {
     event.preventDefault();
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notifyObservers("mouseDown", [posX]);
+    this.viewChangedSubject.notify("mouseDown", [posX]);
     //ссылки на eventListener, что бы удалить эти же eventListener
     this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
-    this.viewChangedSubject.notifyObservers("mouseMove", posX);
+    this.viewChangedSubject.notify("mouseMove", posX);
     if(event.type == "mousedown") {
       document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
       document.addEventListener("mouseup", this.refHandleDocumentMouseUp);
@@ -31,7 +31,7 @@ class Bar {
 
   handleDocumentMouseMove(event) {
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notifyObservers("mouseMove", posX);
+    this.viewChangedSubject.notify("mouseMove", posX);
   }
 
   handleDocumentMouseUp(event) {
