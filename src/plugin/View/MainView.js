@@ -5,7 +5,8 @@ import Helper from './Help.js';
 
 
 class View {
-  constructor(observer) {
+  constructor(slider, observer) {
+    this.slider = slider;
     this.viewChangedSubject = new observer();
     this.track = new Track(this.viewChangedSubject);
     this.bar = new Bar(this.viewChangedSubject);
@@ -13,71 +14,62 @@ class View {
     this.helpR = new Helper(this.viewChangedSubject);
   }
 
-  initView(slider, config) {
-    slider.style.position = "relative";
+  initView(config) {
+    this.slider.style.position = "relative";
     this.config = config;
-    this.runnerR.initRunner(slider, config.scin);
+    this.runnerR.initRunner(this.slider, config.scin);
 
-    this.track.initTrack(slider, config.scin);
-    this.bar.initBar(slider, config.scin);
-    this.helpR.initHelp(slider, config.scin, config.to);
+    this.track.initTrack(this.slider, config.scin);
+    this.bar.initBar(this.slider, config.scin);
+    this.helpR.initHelp(this.slider, config.scin, config.to);
     if (config.double) {
       this.runnerL = new Runner(this.viewChangedSubject, "runnerL");
       this.helpL = new Helper(this.viewChangedSubject);
-      this.runnerL.initRunner(slider, config.scin);
-      this.helpL.initHelp(slider, config.scin, config.from);
-      this.viewChangedSubject.notify("init");
+      this.runnerL.initRunner(this.slider, config.scin);
+      this.helpL.initHelp(this.slider, config.scin, config.from);
+      this.viewChangedSubject.notify("initView");
     }
     else {
-      this.viewChangedSubject.notify("init");
+      this.viewChangedSubject.notify("initView");
     }
   }
 
-  getWidths() {
-    if (this.config.double) {
-      return {
-        runnerRWidth: this.runnerR.getWidth(), 
-        helpRWidth: this.helpR.getWidth(), 
-        runnerLWidth: this.runnerL.getWidth(), 
-        helpLWidth: this.helpL.getWidth()
-      }
-    }
-    return {
-      runnerRWidth: this.runnerR.getWidth(), 
-      helpRWidth: this.helpR.getWidth()
-    }
-  }
-  initPositions({ runnerRPos, helpRPos, barRight, runnerLPos, helpLPos, barLeft }) {
+  updatePositions({ runnerRPos, helpRPos, barRight, runnerLPos, helpLPos, barLeft }) {
     this.runnerR.setPosition(runnerRPos + "%");
     this.helpR.setPosition(helpRPos + "%");
     this.bar.setRight(barRight + "%");
-    if (runnerLPos) {
+    if (this.config.double) {
       this.runnerL.setPosition(runnerLPos + "%");
       this.helpL.setPosition(helpLPos + "%");
       this.bar.setLeft(barLeft + "%");
     }
   }
 
-  setPositions(positions) {
-    if (positions[0] === "runnerL") {
-      this.runnerL.setPosition(positions[1] + "%");
-      this.helpL.setPosition(positions[2] + "%");
-      this.bar.setWidth(positions[3] + "%");
-      this.bar.setLeft(positions[4] + "%");
+  setValue(runner, newValue) {
+    if (runner === "runnerR") {
+      this.helpR.setValue(newValue);
     }
     else {
-      this.runnerR.setPosition(positions[1] + "%");
-      this.helpR.setPosition(positions[2] + "%");
-      this.bar.setWidth(positions[3] + "%");
+      this.helpL.setValue(newValue);
     }
   }
 
-  setValue(runner, newValue) {
-    if (runner === "runnerL") {
-      this.helpL.setValue(newValue);
+  getWidths() {
+    if (this.config.double) {
+      return {
+        sliderPosLeft: this.slider.getBoundingClientRect().left,
+        sliderWidth: this.slider.offsetWidth,
+        runnerRWidth: this.runnerR.getWidth(),
+        helpRWidth: this.helpR.getWidth(),
+        runnerLWidth: this.runnerL.getWidth(),
+        helpLWidth: this.helpL.getWidth()
+      }
     }
-    else {
-      this.helpR.setValue(newValue);
+    return {
+      sliderPosLeft: this.slider.getBoundingClientRect().left,
+      sliderWidth: this.slider.offsetWidth,
+      runnerRWidth: this.runnerR.getWidth(),
+      helpRWidth: this.helpR.getWidth()
     }
   }
 }

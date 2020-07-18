@@ -15,7 +15,7 @@ class Bar {
   handleBarMouseDown(event) {
     event.preventDefault();
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notify("mouseDown", [posX]);
+    this.viewChangedSubject.notify("mouseDown", posX);
     //ссылки на eventListener, что бы удалить эти же eventListener
     this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);

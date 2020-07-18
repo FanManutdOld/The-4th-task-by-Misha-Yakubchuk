@@ -6,8 +6,8 @@ import Observer from '../Observer/Observer.js';
 
 class App {
   constructor(slider, userConfig) {
-    let model = new Model(slider, userConfig, Observer);
-    let view = new View(Observer);
+    let model = new Model(userConfig, Observer);
+    let view = new View(slider, Observer);
     let presenter = new Presenter(model, view);
   }
 }
