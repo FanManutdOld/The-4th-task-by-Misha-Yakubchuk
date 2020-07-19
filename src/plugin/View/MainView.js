@@ -21,16 +21,21 @@ class View {
   initView(config) {
     this.slider.style.position = "relative";
     this.config = config;
-    this.runnerR.initRunner(this.slider, config.scin);
+    const {
+      scin,
+      to,
+      from
+    } = this.config;
 
-    this.track.initTrack(this.slider, config.scin);
-    this.bar.initBar(this.slider, config.scin);
-    this.helpR.initHelp(this.slider, config.scin, config.to);
+    this.runnerR.initRunner(this.slider, scin);
+    this.track.initTrack(this.slider, scin);
+    this.bar.initBar(this.slider, scin);
+    this.helpR.initHelp(this.slider, scin, to);
     if (config.double) {
       this.runnerL = new Runner(this.viewChangedSubject, "runnerL");
       this.helpL = new Helper(this.viewChangedSubject);
-      this.runnerL.initRunner(this.slider, config.scin);
-      this.helpL.initHelp(this.slider, config.scin, config.from);
+      this.runnerL.initRunner(this.slider, scin);
+      this.helpL.initHelp(this.slider, scin, from);
       this.viewChangedSubject.notify("initView");
     }
     else {

@@ -139,6 +139,8 @@ class Model {
   updateSliderSizes({ sliderPosLeft, sliderWidth }) {
     this.slider.posLeft = sliderPosLeft;
     this.slider.width = sliderWidth;
+    this.slider.rightEdge = this.slider.width - this.runnerR.width;
+    this.initPositions();
     console.log("sds");
   }
 
