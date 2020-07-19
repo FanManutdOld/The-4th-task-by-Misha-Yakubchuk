@@ -45,13 +45,13 @@ class View {
   }
 
   updatePositions({ runnerRPos, helpRPos, barRight, runnerLPos, helpLPos, barLeft }) {
-    this.runnerR.setPosition(runnerRPos + "%");
-    this.helpR.setPosition(helpRPos + "%");
-    this.bar.setRight(barRight + "%");
+    this.runnerR.setPosition(this.toPerc(runnerRPos) + "%");
+    this.helpR.setPosition(this.toPerc(helpRPos) + "%");
+    this.bar.setRight(100 - this.toPerc(barRight) + "%");
     if (this.config.double) {
-      this.runnerL.setPosition(runnerLPos + "%");
-      this.helpL.setPosition(helpLPos + "%");
-      this.bar.setLeft(barLeft + "%");
+      this.runnerL.setPosition(this.toPerc(runnerLPos) + "%");
+      this.helpL.setPosition(this.toPerc(helpLPos) + "%");
+      this.bar.setLeft(this.toPerc(barLeft) + "%");
     }
   }
 
@@ -71,7 +71,7 @@ class View {
     if (this.config.double) {
       return {
         sliderPosLeft: this.slider.getBoundingClientRect().left,
-        sliderWidth: this.slider.offsetWidth,
+        sliderRightEdge: this.slider.offsetWidth - this.runnerR.getWidth(),
         runnerRWidth: this.runnerR.getWidth(),
         helpRWidth: this.helpR.getWidth(),
         runnerLWidth: this.runnerL.getWidth(),
@@ -80,7 +80,7 @@ class View {
     }
     return {
       sliderPosLeft: this.slider.getBoundingClientRect().left,
-      sliderWidth: this.slider.offsetWidth,
+      sliderRightEdge: this.slider.offsetWidth - this.runnerR.getWidth(),
       runnerRWidth: this.runnerR.getWidth(),
       helpRWidth: this.helpR.getWidth()
     }
@@ -89,8 +89,12 @@ class View {
   getSliderSizes() {
     return {
       sliderPosLeft: this.slider.getBoundingClientRect().left,
-      sliderWidth: this.slider.offsetWidth,
+      sliderRightEdge: this.slider.offsetWidth - this.runnerR.getWidth(),
     }
+  }
+
+  toPerc(value) {
+    return value / this.slider.offsetWidth * 100;
   }
 }
 

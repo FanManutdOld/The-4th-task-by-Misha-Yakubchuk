@@ -17,7 +17,6 @@ class Model {
   initData() {
     this.slider = {
       posLeft: 0,
-      width: 0,
       rightEdge: 0,
     };
     this.runnerR = {
@@ -57,12 +56,11 @@ class Model {
     }
   }
 
-  initModel({ sliderPosLeft, sliderWidth, runnerRWidth, helpRWidth, runnerLWidth, helpLWidth }) {
+  initModel({ sliderPosLeft, sliderRightEdge, runnerRWidth, helpRWidth, runnerLWidth, helpLWidth }) {
     this.slider.posLeft = sliderPosLeft;
-    this.slider.width = sliderWidth;
     this.runnerR.width = runnerRWidth;
     this.helpR.width = helpRWidth;
-    this.slider.rightEdge = this.slider.width - this.runnerR.width;
+    this.slider.rightEdge = sliderRightEdge;
     if (this.config.double) {
       this.runnerL.width = runnerLWidth;
       this.helpL.width = helpLWidth;
@@ -136,27 +134,24 @@ class Model {
     this.currentRunner === "runnerR" ? this.helpR.width = helpWidth : this.helpL.width = helpWidth;
   }
 
-  updateSliderSizes({ sliderPosLeft, sliderWidth }) {
+  updateSliderSizes({ sliderPosLeft, sliderRightEdge }) {
     this.slider.posLeft = sliderPosLeft;
-    this.slider.width = sliderWidth;
-    this.slider.rightEdge = this.slider.width - this.runnerR.width;
+    this.slider.rightEdge = sliderRightEdge;
     this.initPositions();
     console.log("sds");
   }
 
-  toPerc(value) {
-    return value / this.slider.width * 100;
-  }
+  
 
   getPositions() {
     const positions = {};
-    positions.runnerRPos = this.toPerc(this.runnerR.position);
-    positions.helpRPos = this.toPerc(this.helpR.position);
-    positions.barRight = 100 - this.toPerc(this.bar.right);
+    positions.runnerRPos = this.runnerR.position;
+    positions.helpRPos = this.helpR.position;
+    positions.barRight = this.bar.right;
     if (this.config.double) {
-      positions.runnerLPos = this.toPerc(this.runnerL.position);
-      positions.helpLPos = this.toPerc(this.helpL.position);
-      positions.barLeft = this.toPerc(this.bar.left);
+      positions.runnerLPos = this.runnerL.position;
+      positions.helpLPos =this.helpL.position;
+      positions.barLeft = this.bar.left;
     }
     return positions;
   }
