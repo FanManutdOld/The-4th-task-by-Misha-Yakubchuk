@@ -1,20 +1,23 @@
-class Runner {
+import Observer from '../Observer/Observer.js';
+
+class Runner  extends Observer{
   constructor(slider, scin, runnerSide) {
+    super();
     this.initRunner(slider, scin, runnerSide);
   }
 
   initRunner(slider, scin, runnerSide) {
     this.runner = document.createElement("div");
-    this.runner.className = `slider__${runnerSide} slider__${runnerSide}_${scin}`;
-    /* this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
-    this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this)); */
+    this.runner.className = `slider__runner slider__${runnerSide} slider__${runnerSide}_${scin}`;
+    this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
+    this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this));
     slider.appendChild(this.runner);
   }
 
-  /* handleRunnerMouseDown(event) {
+  handleRunnerMouseDown(event) {
     event.preventDefault();
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notify("mouseDown", posX);
+    let shiftX = posX - this.runner.getBoundingClientRect().left;
     //ссылки на eventListener, что бы удалить эти же eventListener
     this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
@@ -30,7 +33,7 @@ class Runner {
 
   handleDocumentMouseMove(event) {
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    this.viewChangedSubject.notify("mouseMove", posX);
+    this.notify("mouseMove", posX);
   }
 
   handleDocumentMouseUp(event) {
@@ -42,7 +45,7 @@ class Runner {
       document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
       document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
     }
-  } */
+  }
 
   getWidth() {
     return this.runner.offsetWidth;

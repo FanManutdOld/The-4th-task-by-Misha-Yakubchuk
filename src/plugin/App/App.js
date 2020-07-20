@@ -4,9 +4,9 @@ import Presenter from '../Presenter/Presenter.js';
 
 
 class App {
-  constructor(slider, userConfig) {
+  constructor(parent, userConfig) {
     let model = new Model(userConfig);
-    let view = new View(slider);
+    let view = new View(parent);
     let presenter = new Presenter(model, view);
   }
 }

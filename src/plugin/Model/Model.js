@@ -1,7 +1,8 @@
 import Observer from '../Observer/Observer.js';
 
-class Model extends Observer{
+class Model extends Observer {
   constructor(userConfig) {
+    super();
     this.config = {
       min: 0,
       max: 1000,
@@ -9,7 +10,7 @@ class Model extends Observer{
       from: 500,
       double: false,
       scin: "orange",
-    }
+    };
     this.updateConfig(userConfig);
   }
 
