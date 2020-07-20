@@ -85,22 +85,28 @@ handleSliderMouseDown(event) {
     if (this.isCorrect(target)) {
       const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
       let shiftX = this.getDefaultShiftX(posX);
-      if (target.classList.contains("slider__runner")) {
-        shiftX = posX - target.getBoundingClientRect().left;
-      }
       const position = (posX - shiftX - this.viewState.posLeft) / this.viewState.rightEdge;
       this.notify("changePosition", position);
-      //ссылки на eventListener, что бы удалить эти же eventListener
-      this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
-      this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
-      if (event.type == "mousedown") {
-        document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
-        document.addEventListener("mouseup", this.refHandleDocumentMouseUp);
-      }
-      else {
-        document.addEventListener("touchmove", this.refHandleDocumentMouseMove);
-        document.addEventListener("touchend", this.refHandleDocumentMouseUp);
-      }
+      this.bindDocumentMouseMove(shiftX);
+    }
+    if (target.classList.contains("slider__runner")) {
+      const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
+      let shiftX = posX - target.getBoundingClientRect().left;
+      this.bindDocumentMouseMove(shiftX);
+    }
+  }
+
+  bindDocumentMouseMove(shiftX) {
+    //ссылки на eventListener, что бы удалить эти же eventListener
+    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
+    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
+    if (event.type == "mousedown") {
+      document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
+      document.addEventListener("mouseup", this.refHandleDocumentMouseUp);
+    }
+    else {
+      document.addEventListener("touchmove", this.refHandleDocumentMouseMove);
+      document.addEventListener("touchend", this.refHandleDocumentMouseUp);
     }
   }
 
@@ -122,7 +128,7 @@ handleSliderMouseDown(event) {
   }
 
   isCorrect(target) {
-    return target.classList.contains("slider__track") || target.classList.contains("slider__bar") || target.classList.contains("slider__runner");
+    return target.classList.contains("slider__track") || target.classList.contains("slider__bar");
   }
 
   getDefaultShiftX(posX) {
