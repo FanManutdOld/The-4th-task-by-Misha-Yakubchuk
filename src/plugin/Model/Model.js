@@ -27,104 +27,48 @@ class Model extends Observer {
     }
   }
 
-  initModel({ sliderPosLeft, sliderRightEdge, runnerRWidth, helpRWidth, runnerLWidth, helpLWidth }) {
-    this.slider.posLeft = sliderPosLeft;
-    this.runnerR.width = runnerRWidth;
-    this.helpR.width = helpRWidth;
-    this.slider.rightEdge = sliderRightEdge;
-    if (this.config.double) {
-      this.runnerL.width = runnerLWidth;
-      this.helpL.width = helpLWidth;
-    }
-    this.initPositions();
-  }
+  calcValue(position) {
+    let {
+      min,
+      max,
+      to,
+      from,
+      double
+    } = this.config;
 
-  initPositions() {
-    this.runnerR.position = this.slider.rightEdge * (this.config.to - this.config.min) / (this.config.max - this.config.min);
-    this.bar.right = this.runnerR.position + this.runnerR.width / 2;
-    this.helpR.position = this.bar.right - this.helpR.width / 2;
-    if (this.config.double) {
-      this.runnerL.position = this.slider.rightEdge * (this.config.from - this.config.min) / (this.config.max - this.config.min);
-      this.bar.left = this.runnerL.position + this.runnerL.width / 2;
-      this.helpL.position = this.bar.left - this.helpL.width / 2;
-    }
-    this.notify("changePositions");
-  }
-
-  defineCurrentRunner(posX) {
-    let posClick = posX - this.slider.posLeft;
-    if (!this.config.double) {
-      this.currentRunner = "runnerR";
-      this.calcShiftX(posClick, this.runnerR);
-      return;
-    }
-    if (posClick >= this.bar.middle()) {
-      this.currentRunner = "runnerR";
-      this.calcShiftX(posClick, this.runnerR);
+    const current = this.getCurrent(position);
+    this.config[current] = Math.floor((max - min) * position + min);
+    if (current === "to") {
+      const leftEdge = double ? from : 0;
+      this.config.to = (this.config.to > max) ? max : (this.config.to < leftEdge) ? leftEdge : this.config.to;
     }
     else {
-      this.currentRunner = "runnerL"
-      this.calcShiftX(posClick, this.runnerL);
+      this.config.from = (this.config.from > to) ? to : (this.config.from < 0) ? 0 : this.config.from;
     }
+    this.notify("change");
   }
 
-  calcShiftX(posClick, runner) {
-    runner.shiftX = this.isInsideRunner(runner, posClick) ? posClick - runner.position : runner.width / 2 - 0.5;
-  }
+  getCurrent(position) {
+    const {
+      min,
+      max,
+      to,
+      from,
+      double
+    } = this.config;
 
-  isInsideRunner(runner, posClick) {
-    return (posClick >= runner.position && posClick <= runner.position + runner.width);
-  }
-
-  calcPositions(posX) {
-    if (this.currentRunner === "runnerR") {
-      this.runnerR.position = (posX - this.runnerR.shiftX - this.slider.posLeft);
-      let leftEdge = this.config.double ? this.runnerL.position : 0;
-      this.runnerR.position = (this.runnerR.position < leftEdge) ? leftEdge :
-        (this.runnerR.position > this.slider.rightEdge) ? this.slider.rightEdge : this.runnerR.position;
-
-      this.config.to = ((this.config.max - this.config.min) * this.runnerR.position / this.slider.rightEdge) + this.config.min;
-      this.modelChangedSubject.notify("changeValue", [this.currentRunner, this.config.to]);        //обновить значение слайдера, что бы изменилась ширина подсказки.
-      this.bar.right = this.runnerR.position + this.runnerR.width / 2;
-      this.helpR.position = this.bar.right - this.helpR.width / 2;
-      this.notify("changePositions");
+    if (!double) {
+      return "to";
     }
-    if (this.currentRunner === "runnerL") {
-      this.runnerL.position = (posX - this.runnerL.shiftX - this.slider.posLeft);
-      this.runnerL.position = (this.runnerL.position < 0) ? 0 :
-        (this.runnerL.position > this.runnerR.position) ? this.runnerR.position : this.runnerL.position;
-      this.config.from = ((this.config.max - this.config.min) * this.runnerL.position / this.slider.rightEdge) + this.config.min;
-      this.modelChangedSubject.notify("changeValue", [this.currentRunner, this.config.from]);        //обновить значение слайдера, что бы изменилась ширина подсказки.
-      this.bar.left = this.runnerL.position + this.runnerL.width / 2;
-      this.helpL.position = this.bar.left - this.helpL.width / 2;
-      this.notify("changePositions");
-    }
-  }
 
-  updateHelpWidth(helpWidth) {
-    this.currentRunner === "runnerR" ? this.helpR.width = helpWidth : this.helpL.width = helpWidth;
+    const middle = (Math.abs(from / (max - min)) + Math.abs(to / (max - min))) / 2;
+    return (position > middle) ? "to" : "from";
   }
 
   updateSliderSizes({ sliderPosLeft, sliderRightEdge }) {
     this.slider.posLeft = sliderPosLeft;
     this.slider.rightEdge = sliderRightEdge;
     this.initPositions();
-    console.log("sds");
-  }
-
-  
-
-  getPositions() {
-    const positions = {};
-    positions.runnerRPos = this.runnerR.position;
-    positions.helpRPos = this.helpR.position;
-    positions.barRight = this.bar.right;
-    if (this.config.double) {
-      positions.runnerLPos = this.runnerL.position;
-      positions.helpLPos =this.helpL.position;
-      positions.barLeft = this.bar.left;
-    }
-    return positions;
   }
 }
 

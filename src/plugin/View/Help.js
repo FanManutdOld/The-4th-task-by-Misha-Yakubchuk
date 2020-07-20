@@ -6,16 +6,11 @@ class Helper {
   initHelp(slider, scin, value, helpSide) {
     this.help = document.createElement("div");
     this.help.className = `slider__${helpSide} slider__${helpSide}_${scin}`;
-    this.help.textContent = value;
     slider.appendChild(this.help);
   }
 
   setValue(newValue) {
-    const helpWidth = this.getWidth();
-    this.help.textContent = Math.floor(newValue);
-    if (helpWidth != this.getWidth()) {
-      this.viewChangedSubject.notify("changeHelpWidth", this.help.offsetWidth);
-    }
+    this.help.textContent = newValue;
   }
 
   getWidth() {

@@ -15,13 +15,12 @@ class View extends Observer {
   }
 
   initView(config) {
-    this.config = config;
     const {
       to,
       from,
       double,
       scin
-    } = this.config;
+    } = config;
 
     this.track = new Track(this.slider, scin);
     this.bar = new Bar(this.slider, scin);
@@ -38,31 +37,32 @@ class View extends Observer {
       rightEdge: this.slider.offsetWidth - this.runnerR.getWidth(),
     };
 
-    this.runnerR.add("mouseMove", this.handleRunnerMove.bind(this, "runnerR"));
-    
 
-    this.initPositions();
-    //this.slider.addEventListener("mousedown", this.handleSliderMouseDown.bind(this));
-    //this.slider.addEventListener("touchstart", this.handleSliderMouseDown.bind(this));
+    this.update(config);
+    this.slider.addEventListener("mousedown", this.handleSliderMouseDown.bind(this));
+    this.slider.addEventListener("touchstart", this.handleSliderMouseDown.bind(this));
     //window.addEventListener("resize", this.handleWindowResize.bind(this));
   }
 
-  initPositions() {
+  update(config) {
+    this.config = config;
     const {
       min,
       max,
       to,
       from,
       double
-    } = this.config;
-    const rightEdge = this.slider.offsetWidth - this.runnerR.getWidth();
-    const runnerRPos = rightEdge * (to - min) / (max - min);
+    } = config;
+
+    this.helpR.setValue(to);
+    const runnerRPos = this.viewState.rightEdge * (to - min) / (max - min);
     let barRight = runnerRPos + this.runnerR.getWidth() / 2;
     const helpRPos = barRight - this.helpR.getWidth() / 2;
-    barRight = this.slider.offsetWidth - barRight;
+    barRight = this.viewState.width - barRight;
     this.updatePositions(runnerRPos, helpRPos, barRight);
     if (double) {
-      const runnerLPos = rightEdge * (from - min) / (max - min);
+      this.helpL.setValue(from);
+      const runnerLPos = this.viewState.rightEdge * (from - min) / (max - min);
       const barLeft = runnerLPos + this.runnerL.getWidth() / 2;
       const helpLPos = barLeft - this.helpL.getWidth() / 2;
       this.updatePositions(runnerRPos, helpRPos, barRight, runnerLPos, helpLPos, barLeft);
@@ -80,88 +80,61 @@ class View extends Observer {
     }
   }
 
-  handleRunnerMove(posX, currentRunner) {
-    debugger
-  }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  handleSliderMouseDown(event) {
+handleSliderMouseDown(event) {
     const target = event.target;
     if (this.isCorrect(target)) {
-      let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-
+      const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
+      let shiftX = this.getDefaultShiftX(posX);
+      if (target.classList.contains("slider__runner")) {
+        shiftX = posX - target.getBoundingClientRect().left;
+      }
+      const position = (posX - shiftX - this.viewState.posLeft) / this.viewState.rightEdge;
+      this.notify("changePosition", position);
+      //ссылки на eventListener, что бы удалить эти же eventListener
+      this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
+      this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
+      if (event.type == "mousedown") {
+        document.addEventListener("mousemove", this.refHandleDocumentMouseMove);
+        document.addEventListener("mouseup", this.refHandleDocumentMouseUp);
+      }
+      else {
+        document.addEventListener("touchmove", this.refHandleDocumentMouseMove);
+        document.addEventListener("touchend", this.refHandleDocumentMouseUp);
+      }
     }
   }
 
-  isCorrect (target) {
+  handleDocumentMouseMove(shiftX, event) {
+    const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
+    const position = (posX - shiftX - this.viewState.posLeft) / this.viewState.rightEdge;
+    this.notify("changePosition", position);
+  }
+
+  handleDocumentMouseUp(event) {
+    if (event.type == "mouseup") {
+      document.removeEventListener("mousemove", this.refHandleDocumentMouseMove);
+      document.removeEventListener("mouseup", this.refHandleDocumentMouseUp);
+    }
+    else {
+      document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
+      document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
+    }
+  }
+
+  isCorrect(target) {
     return target.classList.contains("slider__track") || target.classList.contains("slider__bar") || target.classList.contains("slider__runner");
   }
 
-  defineCurrentRunner(posX) {
-    let posClick = posX - this.slider.posLeft;
+  getDefaultShiftX(posX) {
     if (!this.config.double) {
-      this.currentRunner = "runnerR";
-      this.calcShiftX(posClick, this.runnerR);
-      return;
+      return this.runnerR.getWidth() / 2 - 0.5;
     }
-    if (posClick >= this.bar.middle()) {
-      this.currentRunner = "runnerR";
-      this.calcShiftX(posClick, this.runnerR);
-    }
-    else {
-      this.currentRunner = "runnerL"
-      this.calcShiftX(posClick, this.runnerL);
-    }
+    let middle = (this.runnerR.getPos() + this.runnerR.getWidth() / 2 + this.runnerL.getPos() + this.runnerL.getWidth() / 2) / 2;
+    return (posX > middle) ? this.runnerR.getWidth() / 2 - 0.5 : this.runnerL.getWidth() / 2 - 0.5;
   }
-  
-  setValue(runner, newValue) {
-    if (runner === "runnerR") {
-      this.helpR.setValue(newValue);
-    }
-    else {
-      this.helpL.setValue(newValue);
-    }
-  }
+
   handleWindowResize() {
     this.viewChangedSubject.notify("resize");
-  }
-
-  getWidths() {
-    if (this.config.double) {
-      return {
-        sliderPosLeft: this.slider.getBoundingClientRect().left,
-        sliderRightEdge: this.slider.offsetWidth - this.runnerR.getWidth(),
-        runnerRWidth: this.runnerR.getWidth(),
-        helpRWidth: this.helpR.getWidth(),
-        runnerLWidth: this.runnerL.getWidth(),
-        helpLWidth: this.helpL.getWidth()
-      }
-    }
-    return {
-      sliderPosLeft: this.slider.getBoundingClientRect().left,
-      sliderRightEdge: this.slider.offsetWidth - this.runnerR.getWidth(),
-      runnerRWidth: this.runnerR.getWidth(),
-      helpRWidth: this.helpR.getWidth()
-    }
-  }
-
-  getSliderSizes() {
-    return {
-      sliderPosLeft: this.slider.getBoundingClientRect().left,
-      sliderRightEdge: this.slider.offsetWidth - this.runnerR.getWidth(),
-    }
   }
 
   toPerc(value) {
