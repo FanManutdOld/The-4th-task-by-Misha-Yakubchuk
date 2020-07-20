@@ -1,47 +1,59 @@
 import Track from './Track.js';
 import Bar from './Bar.js';
 import Runner from './Runner.js';
-import Helper from './Help.js';
+import Help from './Help.js';
+import Observer from '../Observer/Observer.js';
 
 
-class View {
-  constructor(slider, observer) {
+class View extends Observer {
+  constructor(slider) {
     this.slider = slider;
-    this.viewChangedSubject = new observer();
-    this.createClassInstances();
-  }
-
-  createClassInstances() {
-    this.track = new Track(this.viewChangedSubject);
-    this.bar = new Bar(this.viewChangedSubject);
-    this.runnerR = new Runner(this.viewChangedSubject, "runnerR");
-    this.helpR = new Helper(this.viewChangedSubject);
+    this.slider.style.position = "relative";
   }
 
   initView(config) {
-    this.slider.style.position = "relative";
     this.config = config;
     const {
-      scin,
       to,
-      from
+      from,
+      double,
+      scin
     } = this.config;
 
-    this.runnerR.initRunner(this.slider, scin);
-    this.track.initTrack(this.slider, scin);
-    this.bar.initBar(this.slider, scin);
-    this.helpR.initHelp(this.slider, scin, to);
-    if (config.double) {
-      this.runnerL = new Runner(this.viewChangedSubject, "runnerL");
-      this.helpL = new Helper(this.viewChangedSubject);
-      this.runnerL.initRunner(this.slider, scin);
-      this.helpL.initHelp(this.slider, scin, from);
-      this.viewChangedSubject.notify("initView");
-    }
-    else {
-      this.viewChangedSubject.notify("initView");
+    this.track = new Track(this.slider, scin);
+    this.bar = new Bar(this.slider, scin);
+    this.helpR = new Help(this.slider, scin, to, "helpR");
+    this.runnerR = new Runner(this.slider, scin, "runnerR");
+    if (double) {
+      this.helpL = new Help(this.slider, scin, from, "helpL");
+      this.runnerL = new Runner(this.slider, scin, "runnerL");
     }
     window.addEventListener("resize", this.handleWindowResize.bind(this));
+  }
+
+  initPositions() {
+    const {
+      min,
+      max,
+      to,
+      from,
+      double
+    } = this.config;
+    const rightEdge = this.slider.offsetWidth - this.runnerR.getWidth();
+    let position = rightEdge * (to - min) / (max - min);
+    this.runnerR.setPos(this.toPerc(position));
+    position = position + this.runnerR.getWidth() / 2;
+    this.bar.setRight(this.toPerc(position));
+    position = position - this.helpR.getWidth() / 2;
+    this.helpR.setPos(this.toPerc(position));
+    if (double) {
+      position = rightEdge * (from - min) / (max - min);
+      this.runnerL.setPos(this.toPerc(position));
+      position = position + this.runnerL.getWidth() / 2;
+      this.bar.setLeft(this.toPerc(position));
+      position = position - this.helpL.getWidth() / 2;
+      this.helpRLsetPos(this.toPerc(position));
+    }
   }
 
   updatePositions({ runnerRPos, helpRPos, barRight, runnerLPos, helpLPos, barLeft }) {
@@ -94,7 +106,7 @@ class View {
   }
 
   toPerc(value) {
-    return value / this.slider.offsetWidth * 100;
+    return (value / this.slider.offsetWidth * 100) + "%";
   }
 }
 

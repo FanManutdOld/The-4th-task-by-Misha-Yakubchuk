@@ -7,32 +7,32 @@ class Presenter {
   }
 
   initPlugin() {
-    this.view.viewChangedSubject.addOnce("initView", () => {
+    /* this.view.addOnce("initView", () => {
       const widths = this.view.getWidths();
       this.model.initModel(widths);
     });
-    this.model.modelChangedSubject.add("changePositions", () => {
+    this.model.add("changePositions", () => {
       const positions = this.model.getPositions();
       this.view.updatePositions(positions);
-    });
-    this.view.initView(this.model.config);
+    }); */
+    this.view.initView(this.model.getConfig());
   }
 
   add() {
-    this.view.viewChangedSubject.add("mouseDown", (posX) => {
+    this.view.add("mouseDown", (posX) => {
       this.model.defineCurrentRunner(posX);
     });
-    this.view.viewChangedSubject.add("mouseMove", (posX) => {
+    this.view.add("mouseMove", (posX) => {
       this.model.calcPositions(posX);
     });
-    this.view.viewChangedSubject.add("changeHelpWidth", (helpWidth) => {
+    this.view.add("changeHelpWidth", (helpWidth) => {
       this.model.updateHelpWidth(helpWidth);
     });
-    this.view.viewChangedSubject.add("resize", () => {
+    this.view.add("resize", () => {
       const sizes = this.view.getSliderSizes();
       this.model.updateSliderSizes(sizes);
     });
-    this.model.modelChangedSubject.add("changeValue", ([runner, newValue] = data) => {
+    this.model.add("changeValue", ([runner, newValue] = data) => {
       this.view.setValue(runner, newValue);
     });
   }

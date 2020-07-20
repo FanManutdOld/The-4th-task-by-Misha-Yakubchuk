@@ -1,18 +1,17 @@
 class Runner {
-  constructor(observer, runnerSide) {
-    this.viewChangedSubject = observer;
-    this.runnerSide = runnerSide;
+  constructor(slider, scin, runnerSide) {
+    this.initRunner(slider, scin, runnerSide);
   }
 
-  initRunner(slider, scin) {
+  initRunner(slider, scin, runnerSide) {
     this.runner = document.createElement("div");
-    this.runner.className = `slider__${this.runnerSide} slider__${this.runnerSide}_${scin}`;
-    this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
-    this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this));
+    this.runner.className = `slider__${runnerSide} slider__${runnerSide}_${scin}`;
+    /* this.runner.addEventListener("mousedown", this.handleRunnerMouseDown.bind(this));
+    this.runner.addEventListener("touchstart", this.handleRunnerMouseDown.bind(this)); */
     slider.appendChild(this.runner);
   }
 
-  handleRunnerMouseDown(event) {
+  /* handleRunnerMouseDown(event) {
     event.preventDefault();
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
     this.viewChangedSubject.notify("mouseDown", posX);
@@ -43,14 +42,14 @@ class Runner {
       document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
       document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
     }
-  }
+  } */
 
   getWidth() {
     return this.runner.offsetWidth;
   }
 
-  setPosition(position) {
-    this.runner.style.left = position;
+  setPos(pos) {
+    this.runner.style.left = pos;
   }
 }
 

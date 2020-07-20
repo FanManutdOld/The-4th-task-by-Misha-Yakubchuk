@@ -1,5 +1,7 @@
-class Model {
-  constructor(userConfig, observer) {
+import Observer from '../Observer/Observer.js';
+
+class Model extends Observer{
+  constructor(userConfig) {
     this.config = {
       min: 0,
       max: 1000,
@@ -9,42 +11,10 @@ class Model {
       scin: "orange",
     }
     this.updateConfig(userConfig);
-    this.initData();
-    this.modelChangedSubject = new observer();
-    this.positions = {};
   }
 
-  initData() {
-    this.slider = {
-      posLeft: 0,
-      rightEdge: 0,
-    };
-    this.runnerR = {
-      width: 0,
-      position: 0,
-      shiftX: 0,
-    }
-    this.runnerL = {
-      width: 0,
-      position: 0,
-      shiftX: 0,
-    }
-    this.helpR = {
-      width: 0,
-      position: 0,
-    }
-    this.helpL = {
-      width: 0,
-      position: 0,
-    }
-    this.bar = {
-      left: 0,
-      right: 0,
-      middle() {
-        return this.left + (this.right - this.left) / 2;
-      }
-    }
-    this.currentRunner = "";
+  getConfig() {
+    return this.config;
   }
 
   updateConfig(newConfig) {
@@ -77,7 +47,7 @@ class Model {
       this.bar.left = this.runnerL.position + this.runnerL.width / 2;
       this.helpL.position = this.bar.left - this.helpL.width / 2;
     }
-    this.modelChangedSubject.notify("changePositions");
+    this.notify("changePositions");
   }
 
   defineCurrentRunner(posX) {
@@ -116,7 +86,7 @@ class Model {
       this.modelChangedSubject.notify("changeValue", [this.currentRunner, this.config.to]);        //обновить значение слайдера, что бы изменилась ширина подсказки.
       this.bar.right = this.runnerR.position + this.runnerR.width / 2;
       this.helpR.position = this.bar.right - this.helpR.width / 2;
-      this.modelChangedSubject.notify("changePositions");
+      this.notify("changePositions");
     }
     if (this.currentRunner === "runnerL") {
       this.runnerL.position = (posX - this.runnerL.shiftX - this.slider.posLeft);
@@ -126,7 +96,7 @@ class Model {
       this.modelChangedSubject.notify("changeValue", [this.currentRunner, this.config.from]);        //обновить значение слайдера, что бы изменилась ширина подсказки.
       this.bar.left = this.runnerL.position + this.runnerL.width / 2;
       this.helpL.position = this.bar.left - this.helpL.width / 2;
-      this.modelChangedSubject.notify("changePositions");
+      this.notify("changePositions");
     }
   }
 

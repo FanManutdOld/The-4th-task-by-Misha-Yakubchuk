@@ -1,12 +1,12 @@
 class Helper {
-  constructor(observer) {
-    this.viewChangedSubject = observer;
+  constructor(slider, scin, value, helpSide) {
+    this.initHelp(slider, scin, value, helpSide)
   }
 
-  initHelp(slider, scin, currentValue) {
+  initHelp(slider, scin, value, helpSide) {
     this.help = document.createElement("div");
-    this.help.className = "slider__helper slider__helper_" + scin;
-    this.help.textContent = Math.floor(currentValue);
+    this.help.className = `slider__${helpSide} slider__${helpSide}_${scin}`;
+    this.help.textContent = value;
     slider.appendChild(this.help);
   }
 
@@ -22,8 +22,8 @@ class Helper {
     return this.help.offsetWidth;
   }
 
-  setPosition(position) {
-    this.help.style.left = position;
+  setPos(pos) {
+    this.help.style.left = pos;
   }
 }
 

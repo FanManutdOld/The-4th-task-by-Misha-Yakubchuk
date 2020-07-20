@@ -1,18 +1,18 @@
 class Bar {
-  constructor(observer) {
-    this.viewChangedSubject = observer;
+  constructor(slider, scin) {
+    this.initBar(slider, scin);
   }
 
   initBar(slider, scin) {
     this.bar = document.createElement("div");
     this.bar.className = "slider__bar slider__bar_" + scin;
     this.bar.style.left = 0 + "%";
-    this.bar.addEventListener("mousedown", this.handleBarMouseDown.bind(this));
-    this.bar.addEventListener("touchstart", this.handleBarMouseDown.bind(this));
+    /* this.bar.addEventListener("mousedown", this.handleBarMouseDown.bind(this));
+    this.bar.addEventListener("touchstart", this.handleBarMouseDown.bind(this)); */
     slider.appendChild(this.bar);
   }
 
-  handleBarMouseDown(event) {
+  /* handleBarMouseDown(event) {
     event.preventDefault();
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
     this.viewChangedSubject.notify("mouseDown", posX);
@@ -44,7 +44,7 @@ class Bar {
       document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
       document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
     }
-  }
+  } */
 
   setLeft(value) {
     this.bar.style.left = value;

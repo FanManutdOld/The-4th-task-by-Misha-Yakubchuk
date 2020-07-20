@@ -1,17 +1,17 @@
 class Track {
-  constructor(observer) {
-    this.viewChangedSubject = observer;
+  constructor(slider, scin) {
+    this.initTrack(slider, scin);
   }
 
   initTrack(slider, scin) {
     this.track = document.createElement("div");
     this.track.className = "slider__track slider__track_" + scin;
-    this.track.addEventListener("mousedown", this.handleTrackMouseDown.bind(this));
-    this.track.addEventListener("touchstart", this.handleTrackMouseDown.bind(this));
+    /* this.track.addEventListener("mousedown", this.handleTrackMouseDown.bind(this));
+    this.track.addEventListener("touchstart", this.handleTrackMouseDown.bind(this)); */
     slider.appendChild(this.track);
   }
 
-  handleTrackMouseDown(event) {
+  /* handleTrackMouseDown(event) {
     event.preventDefault();
     let posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
     this.viewChangedSubject.notify("mouseDown", posX);
@@ -43,7 +43,7 @@ class Track {
       document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
       document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
     }
-  }
+  } */
 }
 
 export default Track;
