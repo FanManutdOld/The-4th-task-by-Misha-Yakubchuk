@@ -1,6 +1,9 @@
 import Observer from '../Observer/Observer.js';
 
 class Model extends Observer {
+
+  current;
+
   constructor(userConfig) {
     super();
     this.config = {
@@ -36,9 +39,8 @@ class Model extends Observer {
       double
     } = this.config;
 
-    const current = this.getCurrent(position);
-    this.config[current] = Math.floor((max - min) * position + min);
-    if (current === "to") {
+    this.config[this.current] = Math.floor((max - min) * position + min);
+    if (this.current === "to") {
       const leftEdge = double ? from : 0;
       this.config.to = (this.config.to > max) ? max : (this.config.to < leftEdge) ? leftEdge : this.config.to;
     }
@@ -48,7 +50,7 @@ class Model extends Observer {
     this.notify("change");
   }
 
-  getCurrent(position) {
+  setCurrent(position) {
     const {
       min,
       max,
@@ -58,11 +60,12 @@ class Model extends Observer {
     } = this.config;
 
     if (!double) {
-      return "to";
+      this.current = "to";
+      return;
     }
 
     const middle = (Math.abs(from / (max - min)) + Math.abs(to / (max - min))) / 2;
-    return (position > middle) ? "to" : "from";
+    this.current = (position > middle) ? "to" : "from";
   }
 
   updateSliderSizes({ sliderPosLeft, sliderRightEdge }) {

@@ -14,7 +14,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel test-page/test-page.pug --open",
-    "build": "parcel build src/ -d output/colors-type --public-url ./"
+    "build": "parcel build  test-page/test-page.pug -d output/test-page --public-url ./"
   },
   "repository": {
     "type": "git",

@@ -80,23 +80,28 @@ class View extends Observer {
     }
   }
 
-handleSliderMouseDown(event) {
+  handleSliderMouseDown(event) {
     const target = event.target;
     if (this.isCorrect(target)) {
+      console.log("down");
       const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
       let shiftX = this.getDefaultShiftX(posX);
-      const position = (posX - shiftX - this.viewState.posLeft) / this.viewState.rightEdge;
+      const position = this.getRelativePosition(posX, shiftX);
+      this.notify("mouseDown", position);
       this.notify("changePosition", position);
-      this.bindDocumentMouseMove(shiftX);
+      this.bindDocumentMouseMove(event, shiftX);
     }
     if (target.classList.contains("slider__runner")) {
+      console.log("down");
       const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
       let shiftX = posX - target.getBoundingClientRect().left;
-      this.bindDocumentMouseMove(shiftX);
+      const position = this.getRelativePosition(posX, shiftX);
+      this.notify("mouseDown", position);
+      this.bindDocumentMouseMove(event, shiftX);
     }
   }
 
-  bindDocumentMouseMove(shiftX) {
+  bindDocumentMouseMove(event, shiftX) {
     //ссылки на eventListener, что бы удалить эти же eventListener
     this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
@@ -111,17 +116,20 @@ handleSliderMouseDown(event) {
   }
 
   handleDocumentMouseMove(shiftX, event) {
+    console.log("move");
     const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
-    const position = (posX - shiftX - this.viewState.posLeft) / this.viewState.rightEdge;
+    const position = this.getRelativePosition(posX, shiftX);
     this.notify("changePosition", position);
   }
 
   handleDocumentMouseUp(event) {
     if (event.type == "mouseup") {
+      console.log("up");
       document.removeEventListener("mousemove", this.refHandleDocumentMouseMove);
       document.removeEventListener("mouseup", this.refHandleDocumentMouseUp);
     }
     else {
+      console.log("up");
       document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
       document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
     }
@@ -137,6 +145,10 @@ handleSliderMouseDown(event) {
     }
     let middle = (this.runnerR.getPos() + this.runnerR.getWidth() / 2 + this.runnerL.getPos() + this.runnerL.getWidth() / 2) / 2;
     return (posX > middle) ? this.runnerR.getWidth() / 2 - 0.5 : this.runnerL.getWidth() / 2 - 0.5;
+  }
+
+  getRelativePosition(posX, shiftX) {
+    return (posX - shiftX - this.viewState.posLeft) / this.viewState.rightEdge;
   }
 
   handleWindowResize() {

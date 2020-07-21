@@ -11,9 +11,14 @@ class Presenter {
   }
 
   add() {
+    this.view.add("mouseDown", (position) => {
+      this.model.setCurrent(position);
+    });
+
     this.view.add("changePosition", (position) => {
       this.model.calcValue(position);
     });
+
     this.model.add("change", () => {
       this.view.update(this.model.getConfig());
     });
