@@ -3,25 +3,29 @@ class Presenter {
     this.model = model;
     this.view = view;
     this.initPlugin();
-    this.add();
+    this.addListeners();
   }
 
   initPlugin() {
     this.view.initView(this.model.getConfig());
   }
 
-  add() {
-    this.view.add("mouseDown", (position) => {
-      this.model.setCurrent(position);
-    });
+  addListeners() {
+    this.view.add("mouseDown", this.handleMouseDown.bind(this));
+    this.view.add("changePosition",this.handleChangePosition.bind(this));
+    this.model.add("change", this.handleModelChange.bind(this));
+  }
 
-    this.view.add("changePosition", (position) => {
-      this.model.calcValue(position);
-    });
+  handleMouseDown(position) {
+    this.model.setCurrent(position);
+  }
 
-    this.model.add("change", () => {
-      this.view.update(this.model.getConfig());
-    });
+  handleChangePosition(position) {
+    this.model.calcValue(position);
+  }
+
+  handleModelChange() {
+    this.view.update(this.model.getConfig());
   }
 }
 

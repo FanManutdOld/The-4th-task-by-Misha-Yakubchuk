@@ -67,12 +67,6 @@ class Model extends Observer {
     const middle = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
     this.current = (position > middle) ? "to" : "from";
   }
-
-  updateSliderSizes({ sliderPosLeft, sliderRightEdge }) {
-    this.slider.posLeft = sliderPosLeft;
-    this.slider.rightEdge = sliderRightEdge;
-    this.initPositions();
-  }
 }
 
 export default Model;
