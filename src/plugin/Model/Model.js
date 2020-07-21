@@ -45,7 +45,7 @@ class Model extends Observer {
       this.config.to = (this.config.to > max) ? max : (this.config.to < leftEdge) ? leftEdge : this.config.to;
     }
     else {
-      this.config.from = (this.config.from > to) ? to : (this.config.from < 0) ? 0 : this.config.from;
+      this.config.from = (this.config.from > to) ? to : (this.config.from < min) ? min : this.config.from;
     }
     this.notify("change");
   }
@@ -64,7 +64,7 @@ class Model extends Observer {
       return;
     }
 
-    const middle = (Math.abs(from / (max - min)) + Math.abs(to / (max - min))) / 2;
+    const middle = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
     this.current = (position > middle) ? "to" : "from";
   }
 

@@ -14,7 +14,7 @@ class Helper {
   }
 
   getWidth() {
-    return this.help.offsetWidth;
+    return parseInt(getComputedStyle(this.help).width);
   }
 
   setPos(pos) {

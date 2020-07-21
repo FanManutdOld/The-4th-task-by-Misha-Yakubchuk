@@ -55,17 +55,20 @@ class View extends Observer {
     } = config;
 
     this.helpR.setValue(to);
+    console.log("offsetWidth: " + this.helpR.getWidth());
     const runnerRPos = this.viewState.rightEdge * (to - min) / (max - min);
     let barRight = runnerRPos + this.runnerR.getWidth() / 2;
     const helpRPos = barRight - this.helpR.getWidth() / 2;
     barRight = this.viewState.width - barRight;
-    this.updatePositions(runnerRPos, helpRPos, barRight);
     if (double) {
       this.helpL.setValue(from);
       const runnerLPos = this.viewState.rightEdge * (from - min) / (max - min);
       const barLeft = runnerLPos + this.runnerL.getWidth() / 2;
       const helpLPos = barLeft - this.helpL.getWidth() / 2;
       this.updatePositions(runnerRPos, helpRPos, barRight, runnerLPos, helpLPos, barLeft);
+    }
+    else {
+      this.updatePositions(runnerRPos, helpRPos, barRight);
     }
   }
 
@@ -83,25 +86,23 @@ class View extends Observer {
   handleSliderMouseDown(event) {
     const target = event.target;
     if (this.isCorrect(target)) {
-      console.log("down");
       const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
       let shiftX = this.getDefaultShiftX(posX);
       const position = this.getRelativePosition(posX, shiftX);
       this.notify("mouseDown", position);
       this.notify("changePosition", position);
-      this.bindDocumentMouseMove(event, shiftX);
+      this.bindDocumentMouseMove(shiftX);
     }
     if (target.classList.contains("slider__runner")) {
-      console.log("down");
       const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
       let shiftX = posX - target.getBoundingClientRect().left;
       const position = this.getRelativePosition(posX, shiftX);
       this.notify("mouseDown", position);
-      this.bindDocumentMouseMove(event, shiftX);
+      this.bindDocumentMouseMove(shiftX);
     }
   }
 
-  bindDocumentMouseMove(event, shiftX) {
+  bindDocumentMouseMove(shiftX) {
     //ссылки на eventListener, что бы удалить эти же eventListener
     this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
@@ -116,7 +117,6 @@ class View extends Observer {
   }
 
   handleDocumentMouseMove(shiftX, event) {
-    console.log("move");
     const posX = event.targetTouches ? event.targetTouches[0].clientX : event.clientX;
     const position = this.getRelativePosition(posX, shiftX);
     this.notify("changePosition", position);
@@ -124,12 +124,10 @@ class View extends Observer {
 
   handleDocumentMouseUp(event) {
     if (event.type == "mouseup") {
-      console.log("up");
       document.removeEventListener("mousemove", this.refHandleDocumentMouseMove);
       document.removeEventListener("mouseup", this.refHandleDocumentMouseUp);
     }
     else {
-      console.log("up");
       document.removeEventListener("touchmove", this.refHandleDocumentMouseMove);
       document.removeEventListener("touchend", this.refHandleDocumentMouseUp);
     }
