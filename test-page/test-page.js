@@ -1,5 +1,6 @@
-import App from '../src/plugin/App/App.js';
+import App from '../src/plugin/App/App.ts';
 
+// eslint-disable-next-line no-undef
 $(document).ready(() => {
   const slider1 = document.querySelector('.test-page__plugin1');
   new App(slider1, {

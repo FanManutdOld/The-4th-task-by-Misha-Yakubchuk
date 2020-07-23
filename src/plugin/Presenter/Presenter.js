@@ -11,9 +11,9 @@ class Presenter {
   }
 
   addListeners() {
-    this.view.add("mouseDown", this.handleMouseDown.bind(this));
-    this.view.add("changePosition",this.handleChangePosition.bind(this));
-    this.model.add("change", this.handleModelChange.bind(this));
+    this.view.add('mouseDown', this.handleMouseDown.bind(this));
+    this.view.add('changePosition', this.handleChangePosition.bind(this));
+    this.model.add('change', this.handleModelChange.bind(this));
   }
 
   handleMouseDown(position) {

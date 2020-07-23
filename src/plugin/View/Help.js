@@ -1,10 +1,10 @@
 class Helper {
   constructor(slider, scin, helpSide) {
-    this.initHelp(slider, scin, helpSide)
+    this.initHelp(slider, scin, helpSide);
   }
 
-  initHelp(slider, scin,helpSide) {
-    this.help = document.createElement("div");
+  initHelp(slider, scin, helpSide) {
+    this.help = document.createElement('div');
     this.help.className = `slider__${helpSide} slider__${helpSide}_${scin}`;
     slider.appendChild(this.help);
   }

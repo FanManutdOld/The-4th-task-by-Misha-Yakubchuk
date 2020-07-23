@@ -15,6 +15,9 @@
     "@typescript-eslint"
   ],
   "rules": {
-    "no-new": "off"
+    "no-new": "off",
+    "no-nested-ternary": "off",
+    "import/extensions": "off",
+    "radix": ["error", "as-needed"]
   }
 }

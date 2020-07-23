@@ -4,7 +4,7 @@ class Runner {
   }
 
   initRunner(slider, scin, runnerSide) {
-    this.runner = document.createElement("div");
+    this.runner = document.createElement('div');
     this.runner.className = `slider__runner slider__${runnerSide} slider__${runnerSide}_${scin}`;
     slider.appendChild(this.runner);
   }

@@ -4,9 +4,9 @@ class Bar {
   }
 
   initBar(slider, scin) {
-    this.bar = document.createElement("div");
-    this.bar.className = "slider__bar slider__bar_" + scin;
-    this.bar.style.left = 0 + "%";
+    this.bar = document.createElement('div');
+    this.bar.className = `slider__bar slider__bar_${scin}`;
+    this.bar.style.left = `${0}%`;
     slider.appendChild(this.bar);
   }
 
