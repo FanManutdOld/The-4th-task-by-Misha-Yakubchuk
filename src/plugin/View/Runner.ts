@@ -1,26 +1,38 @@
 class Runner {
-  runner: HTMLElement;
+  private runner: HTMLElement;
+
+  private width: number;
 
   constructor(slider: HTMLElement, scin: string, runnerSide: string) {
     this.initRunner(slider, scin, runnerSide);
+    this.width = this.runner.offsetWidth;
   }
 
-  initRunner(slider: HTMLElement, scin: string, runnerSide: string) {
-    this.runner = document.createElement('div');
-    this.runner.className = `slider__runner slider__${runnerSide} slider__${runnerSide}_${scin}`;
-    slider.appendChild(this.runner);
+  public get Width(): number {
+    return this.width;
   }
 
-  getWidth(): number {
-    return this.runner.offsetWidth;
-  }
-
-  getPos(): number {
+  public get posLeft(): number {
     return this.runner.getBoundingClientRect().left;
   }
 
-  setPos(pos: string) {
+  public setZIndex() {
+    this.runner.style.zIndex = '1';
+    console.log();
+  }
+
+  public removeZIndex() {
+    this.runner.style.zIndex = '0';
+  }
+
+  public setPos(pos: string) {
     this.runner.style.left = pos;
+  }
+
+  private initRunner(slider: HTMLElement, scin: string, runnerSide: string) {
+    this.runner = document.createElement('div');
+    this.runner.className = `slider__runner slider__${runnerSide} slider__${runnerSide}_${scin}`;
+    slider.appendChild(this.runner);
   }
 }
 

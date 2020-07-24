@@ -38,7 +38,8 @@ class Model extends Observer {
     }
 
     const middle = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
-    this.config.current = (position > middle) ? 'to' : 'from';
+    this.config.current = (position >= middle) ? 'to' : 'from';
+    this.notify('changeCurrent', this.config.current);
   }
 
   public calcValue(position: number) {
