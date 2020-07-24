@@ -1,6 +1,6 @@
-import Model from '../Model/Model.js';
-import View from '../View/MainView.js';
-import Presenter from '../Presenter/Presenter.js';
+import Model from '../Model/Model';
+import View from '../View/MainView';
+import Presenter from '../Presenter/Presenter';
 
 class App {
   constructor(parent: HTMLElement, userConfig: any) {

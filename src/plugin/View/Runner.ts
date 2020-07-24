@@ -1,23 +1,25 @@
 class Runner {
-  constructor(slider, scin, runnerSide) {
+  runner: HTMLElement;
+
+  constructor(slider: HTMLElement, scin: string, runnerSide: string) {
     this.initRunner(slider, scin, runnerSide);
   }
 
-  initRunner(slider, scin, runnerSide) {
+  initRunner(slider: HTMLElement, scin: string, runnerSide: string) {
     this.runner = document.createElement('div');
     this.runner.className = `slider__runner slider__${runnerSide} slider__${runnerSide}_${scin}`;
     slider.appendChild(this.runner);
   }
 
-  getWidth() {
+  getWidth(): number {
     return this.runner.offsetWidth;
   }
 
-  getPos() {
+  getPos(): number {
     return this.runner.getBoundingClientRect().left;
   }
 
-  setPos(pos) {
+  setPos(pos: string) {
     this.runner.style.left = pos;
   }
 }

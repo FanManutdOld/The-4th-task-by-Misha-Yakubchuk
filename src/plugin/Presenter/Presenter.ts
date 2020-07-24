@@ -1,30 +1,38 @@
+/* eslint-disable no-unused-vars */
+import Model from '../Model/Model';
+import View from '../View/MainView';
+
 class Presenter {
-  constructor(model, view) {
+  private model: Model;
+
+  private view: View;
+
+  constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
     this.initPlugin();
     this.addListeners();
   }
 
-  initPlugin() {
+  private initPlugin() {
     this.view.initView(this.model.getConfig());
   }
 
-  addListeners() {
+  private addListeners() {
     this.view.add('mouseDown', this.handleMouseDown.bind(this));
     this.view.add('changePosition', this.handleChangePosition.bind(this));
     this.model.add('change', this.handleModelChange.bind(this));
   }
 
-  handleMouseDown(position) {
+  private handleMouseDown(position) {
     this.model.setCurrent(position);
   }
 
-  handleChangePosition(position) {
+  private handleChangePosition(position) {
     this.model.calcValue(position);
   }
 
-  handleModelChange() {
+  private handleModelChange() {
     this.view.update(this.model.getConfig());
   }
 }

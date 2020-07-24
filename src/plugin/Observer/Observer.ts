@@ -1,15 +1,13 @@
 class Observer {
+  private observers;
+
   constructor() {
     this.observers = {};
   }
 
-  add(eventType, callback) {
-    if (typeof callback !== 'function') {
-      throw new Error('observer must be a function');
-    }
+  public add(eventType: string, callback: Function) {
     if (this.observers[eventType] === undefined) {
       this.observers[eventType] = {};
-
       this.observers[eventType].isAddOnce = false;
       this.observers[eventType].data = [];
     }
@@ -19,12 +17,12 @@ class Observer {
     this.observers[eventType].data.push(callback);
   }
 
-  addOnce(eventType, callback) {
+  public addObce(eventType: string, callback: Function) {
     this.add(eventType, callback);
     this.observers[eventType].isAddOnce = true;
   }
 
-  remove(eventType, callback) {
+  public remove(eventType: string, callback: Function) {
     if (this.observers[eventType]) {
       if (this.observers[eventType].data.includes(callback)) {
         this.observers[eventType].data = this.observers[eventType]
@@ -40,7 +38,7 @@ class Observer {
     throw new Error('could not find observer in list of observers');
   }
 
-  notify(eventType, data) {
+  protected notify(eventType: string, data?: any) {
     if (this.observers[eventType] === undefined || this.observers[eventType].data === undefined) {
       throw new Error('could not find callback or observer');
     }
@@ -50,7 +48,7 @@ class Observer {
     // Make a copy of observer list in case the list
     // is mutated during the notifications.
     const observersTemp = this.observers[eventType].data.slice();
-    observersTemp.forEach((observer) => {
+    observersTemp.forEach((observer: Function) => {
       if (that.observers[eventType].isAddOnce) {
         that.remove(eventType, that.observers[eventType].data[0]);
       }

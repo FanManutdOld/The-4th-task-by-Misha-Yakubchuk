@@ -18,6 +18,7 @@
     "no-new": "off",
     "no-nested-ternary": "off",
     "import/extensions": "off",
+    "import/no-unresolved": "off",
     "radix": ["error", "as-needed"]
   }
 }
