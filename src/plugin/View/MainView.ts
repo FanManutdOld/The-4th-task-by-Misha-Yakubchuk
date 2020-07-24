@@ -76,8 +76,10 @@ class View extends Observer {
       double,
       current,
     } = config;
+    const isUpdateR: boolean = current === 'to' || isInit;
+    const isUpdateL: boolean = current === 'from' || (isInit && double);
 
-    if (current === 'to' || isInit) {
+    if (isUpdateR) {
       this.helpR.setValue(to);
       const runnerRPos: number = (this.viewState.rightEdge * (to - min)) / (max - min);
       let barRight: number = runnerRPos + this.runnerR.Width / 2;
@@ -86,7 +88,7 @@ class View extends Observer {
 
       this.updatePositions({ runnerRPos, helpRPos, barRight });
     }
-    if (current === 'from' || (isInit && double)) {
+    if (isUpdateL) {
       this.helpL.setValue(from);
       const runnerLPos: number = (this.viewState.rightEdge * (from - min)) / (max - min);
       const barLeft: number = runnerLPos + this.runnerL.Width / 2;
@@ -96,11 +98,10 @@ class View extends Observer {
     }
   }
 
-  updateCurrent(current: string) {
+  public updateCurrent(current: string) {
     this.config.current = current;
   }
 
-  // ЧИТАЕМ ПРО ПЕРЕГРУЗКИ!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
   // eslint-disable-next-line object-curly-newline
   private updatePositions({ runnerRPos, helpRPos, barRight, runnerLPos, helpLPos, barLeft }: {
     runnerRPos?: number,
@@ -110,7 +111,7 @@ class View extends Observer {
     helpLPos?: number,
     barLeft?: number
   }) {
-    if (typeof(runnerRPos) === "number") {
+    if (typeof (runnerRPos) === 'number') {
       this.runnerR.setPos(this.toPerc(runnerRPos));
       this.helpR.setPos(this.toPerc(helpRPos));
       this.bar.setRight(this.toPerc(barRight));
@@ -148,6 +149,36 @@ class View extends Observer {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  private isTrack(target: HTMLElement): boolean {
+    return target.classList.contains('slider__track') || target.classList.contains('slider__bar');
+  }
+
+  private getDefaultShiftX(posX: number) {
+    if (!this.config.double) {
+      return this.runnerR.Width / 2 - 0.5;
+    }
+
+    // eslint-disable-next-line max-len
+    const middle = (this.runnerR.posLeft + this.runnerR.Width / 2 + this.runnerL.posLeft + this.runnerL.Width / 2) / 2;
+    return (posX > middle) ? this.runnerR.Width / 2 - 0.5 : this.runnerL.Width / 2 - 0.5;
+  }
+
+  private getRelativePosition(posX: number, shiftX: number): number {
+    return (posX - shiftX - this.viewState.posLeft) / this.viewState.rightEdge;
+  }
+
+  private updateZIndex() {
+    const { current } = this.config;
+    if (current === 'to') {
+      this.runnerR.setZIndex();
+      this.helpR.setZIndex();
+    } else {
+      this.runnerR.removeZIndex();
+      this.helpR.removeZIndex();
+    }
+  }
+
   private bindDocumentMouseMove(event: MouseEvent | TouchEvent, shiftX: number) {
     // ссылки на eventListener, что бы удалить эти же eventListener
     this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
@@ -179,34 +210,6 @@ class View extends Observer {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private isTrack(target: HTMLElement): boolean {
-    return target.classList.contains('slider__track') || target.classList.contains('slider__bar');
-  }
-
-  private getDefaultShiftX(posX: number) {
-    if (!this.config.double) {
-      return this.runnerR.Width / 2 - 0.5;
-    }
-    
-    const middle = (this.runnerR.posLeft + this.runnerR.Width / 2 + this.runnerL.posLeft + this.runnerL.Width / 2) / 2;
-    return (posX > middle) ? this.runnerR.Width / 2 - 0.5 : this.runnerL.Width / 2 - 0.5;
-  }
-
-  private getRelativePosition(posX: number, shiftX: number): number {
-    return (posX - shiftX - this.viewState.posLeft) / this.viewState.rightEdge;
-  }
-
-  private updateZIndex() {
-    const { current } = this.config;
-    if (current === 'to') {
-      this.runnerR.setZIndex();
-      this.helpR.setZIndex();
-    } else {
-      this.runnerR.removeZIndex();
-      this.helpR.removeZIndex();
-    }
-  }
   private handleWindowResize() {
     this.viewState = {
       posLeft: this.slider.getBoundingClientRect().left,

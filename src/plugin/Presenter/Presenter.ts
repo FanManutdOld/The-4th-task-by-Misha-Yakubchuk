@@ -34,9 +34,9 @@ class Presenter {
   }
 
   private handleChangeCurrent(current: string) {
-
+    this.view.updateCurrent(current);
   }
-  
+
   private handleModelChange() {
     this.view.update(this.model.getConfig());
   }

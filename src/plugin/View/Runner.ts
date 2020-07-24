@@ -18,7 +18,6 @@ class Runner {
 
   public setZIndex() {
     this.runner.style.zIndex = '1';
-    console.log();
   }
 
   public removeZIndex() {

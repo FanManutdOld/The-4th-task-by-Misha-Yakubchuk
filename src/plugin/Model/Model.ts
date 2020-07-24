@@ -37,8 +37,11 @@ class Model extends Observer {
       return;
     }
 
+    const posRound = Math.round(position * 1000) / 1000;
+
     const middle = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
-    this.config.current = (position >= middle) ? 'to' : 'from';
+    const isLastCurrentFrom: boolean = posRound === middle && this.config.current === 'from';
+    this.config.current = (posRound < middle) ? 'from' : (isLastCurrentFrom) ? 'from' : 'to';
     this.notify('changeCurrent', this.config.current);
   }
 
