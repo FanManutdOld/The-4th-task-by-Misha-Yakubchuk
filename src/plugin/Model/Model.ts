@@ -5,6 +5,10 @@ import Observer from '../Observer/Observer';
 class Model extends Observer {
   private config: IConfig;
 
+  private isFractional: boolean;
+
+  private numOfSymbols: number; // после запятой
+
   constructor(userConfig: any) {
     super();
     this.config = {
@@ -12,11 +16,16 @@ class Model extends Observer {
       max: 1000,
       to: 700,
       from: 500,
+      step: 0,
       double: false,
       scin: 'orange',
       current: 'to',
     };
     this.updateConfig(userConfig);
+
+    const { min, max } = this.config;
+    this.isFractional = min.toString().includes('.') || max.toString().includes('.');
+    this.numOfSymbols = Math.max(min.toString().split('.').pop().length, max.toString().split('.').pop().length);
   }
 
   public getConfig(): IConfig {
@@ -37,9 +46,10 @@ class Model extends Observer {
       return;
     }
 
-    const posRound = Math.round(position * 1000) / 1000;
+    const posRound = this.roundFractional(position, 3);
 
-    const middle = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
+    let middle = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
+    middle = this.roundFractional(middle, 3);
     const isLastCurrentFrom: boolean = posRound === middle && this.config.current === 'from';
     this.config.current = (posRound < middle) ? 'from' : (isLastCurrentFrom) ? 'from' : 'to';
     this.notify('changeCurrent', this.config.current);
@@ -55,9 +65,15 @@ class Model extends Observer {
       current,
     } = this.config;
 
-    this.config[current] = Math.floor((max - min) * position + min);
+    const newValue = (max - min) * position + min;
+    if (this.isFractional) {
+      this.config[current] = this.roundFractional(newValue, this.numOfSymbols);
+    } else {
+      this.config[current] = Math.round(newValue);
+    }
+
     if (current === 'to') {
-      const leftEdge = double ? from : 0;
+      const leftEdge = double ? from : min;
       this.config.to = (this.config.to > max) ? max
         : (this.config.to < leftEdge) ? leftEdge : this.config.to;
     } else {
@@ -75,6 +91,12 @@ class Model extends Observer {
       }
       this.config[key] = value;
     }
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  private roundFractional(num: number, decimalPlaces: number): number {
+    const numPowerConverter = 10 ** decimalPlaces;
+    return Math.round(num * numPowerConverter) / numPowerConverter;
   }
 }
 

@@ -12,9 +12,9 @@ $(document).ready(() => {
   });
   const slider2 = document.querySelector('.test-page__plugin2');
   new App(slider2, {
-    min: 0,
-    max: 1000,
-    to: 700,
+    min: 0.0001,
+    max: 2,
+    to: 0.3,
     from: 300,
   });
   const slider3 = document.querySelector('.test-page__plugin3');
