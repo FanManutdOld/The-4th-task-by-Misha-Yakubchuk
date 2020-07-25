@@ -54,16 +54,11 @@ class View extends Observer {
       this.helpL = new Help(this.slider, scin, 'helpL');
     }
 
-    this.viewState = {
-      posLeft: this.slider.getBoundingClientRect().left,
-      width: this.slider.offsetWidth,
-      rightEdge: this.slider.offsetWidth - this.runnerR.Width,
-    };
-
+    this.updateViewState();
     this.update(config, true);
-    this.slider.addEventListener('mousedown', this.handleSliderMouseDown.bind(this));
-    this.slider.addEventListener('touchstart', this.handleSliderMouseDown.bind(this));
-    window.addEventListener('resize', this.handleWindowResize.bind(this));
+    this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
+    this.slider.addEventListener('touchstart', this.handleSliderMouseDown);
+    window.addEventListener('resize', this.handleWindowResize);
   }
 
   public update(config: IConfig, isInit?: boolean) {
@@ -122,9 +117,11 @@ class View extends Observer {
     }
   }
 
-  private handleSliderMouseDown(event: MouseEvent | TouchEvent) {
+  private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
     const target: HTMLElement = event.target as HTMLElement;
-    if (this.isTrack(target)) {
+    const isTrack: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar');
+
+    if (isTrack) {
       const posX: number = (event instanceof TouchEvent)
         ? event.targetTouches[0].clientX : event.clientX;
 
@@ -149,12 +146,7 @@ class View extends Observer {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  private isTrack(target: HTMLElement): boolean {
-    return target.classList.contains('slider__track') || target.classList.contains('slider__bar');
-  }
-
-  private getDefaultShiftX(posX: number) {
+  private getDefaultShiftX(posX: number): number {
     if (!this.config.double) {
       return this.runnerR.Width / 2 - 0.5;
     }
@@ -182,7 +174,7 @@ class View extends Observer {
   private bindDocumentMouseMove(event: MouseEvent | TouchEvent, shiftX: number) {
     // ссылки на eventListener, что бы удалить эти же eventListener
     this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
-    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp.bind(this);
+    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp;
     if (event.type === 'mousedown') {
       document.addEventListener('mousemove', this.refHandleDocumentMouseMove);
       document.addEventListener('mouseup', this.refHandleDocumentMouseUp);
@@ -200,7 +192,7 @@ class View extends Observer {
     this.notify('changePosition', position);
   }
 
-  private handleDocumentMouseUp(event: MouseEvent | TouchEvent) {
+  private handleDocumentMouseUp = (event: MouseEvent | TouchEvent) => {
     if (event.type === 'mouseup') {
       document.removeEventListener('mousemove', this.refHandleDocumentMouseMove);
       document.removeEventListener('mouseup', this.refHandleDocumentMouseUp);
@@ -210,13 +202,17 @@ class View extends Observer {
     }
   }
 
-  private handleWindowResize() {
+  private handleWindowResize = () => {
+    this.updateViewState();
+    this.update(this.config, true);
+  }
+
+  private updateViewState() {
     this.viewState = {
       posLeft: this.slider.getBoundingClientRect().left,
       width: this.slider.offsetWidth,
       rightEdge: this.slider.offsetWidth - this.runnerR.Width,
     };
-    this.update(this.config);
   }
 
   private toPerc(value: number): string {

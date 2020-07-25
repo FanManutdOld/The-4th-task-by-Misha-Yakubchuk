@@ -19,25 +19,25 @@ class Presenter {
   }
 
   private addListeners() {
-    this.view.add('mouseDown', this.handleMouseDown.bind(this));
-    this.view.add('changePosition', this.handleChangePosition.bind(this));
-    this.model.add('changeCurrent', this.handleChangeCurrent.bind(this));
-    this.model.add('change', this.handleModelChange.bind(this));
+    this.view.add('mouseDown', this.handleMouseDown);
+    this.view.add('changePosition', this.handleChangePosition);
+    this.model.add('changeCurrent', this.handleChangeCurrent);
+    this.model.add('change', this.handleModelChange);
   }
 
-  private handleMouseDown(position: number) {
+  private handleMouseDown = (position: number) => {
     this.model.setCurrent(position);
   }
 
-  private handleChangePosition(position: number) {
+  private handleChangePosition = (position: number) => {
     this.model.calcValue(position);
   }
 
-  private handleChangeCurrent(current: string) {
+  private handleChangeCurrent = (current: string) => {
     this.view.updateCurrent(current);
   }
 
-  private handleModelChange() {
+  private handleModelChange = () => {
     this.view.update(this.model.getConfig());
   }
 }
