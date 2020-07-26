@@ -5,7 +5,7 @@ import IViewState from './IViewState';
 import Track from './Track';
 import Bar from './Bar';
 import Runner from './Runner';
-import Help from './Help';
+import Tip from './Tip';
 import Observer from '../Observer/Observer';
 
 class View extends Observer {
@@ -21,11 +21,11 @@ class View extends Observer {
 
   private runnerR: Runner;
 
-  private helpR: Help;
+  private tipR: Tip;
 
   private runnerL: Runner;
 
-  private helpL: Help;
+  private tipL: Tip;
 
   private refHandleDocumentMouseMove: EventListener;
 
@@ -48,10 +48,10 @@ class View extends Observer {
     this.track = new Track(this.slider, scin);
     this.bar = new Bar(this.slider, scin);
     this.runnerR = new Runner(this.slider, scin, 'runnerR');
-    this.helpR = new Help(this.slider, scin, 'helpR');
+    this.tipR = new Tip(this.slider, scin, 'tipR');
     if (double) {
       this.runnerL = new Runner(this.slider, scin, 'runnerL');
-      this.helpL = new Help(this.slider, scin, 'helpL');
+      this.tipL = new Tip(this.slider, scin, 'tipL');
     }
 
     this.updateViewState();
@@ -75,21 +75,21 @@ class View extends Observer {
     const isUpdateL: boolean = current === 'from' || (isInit && double);
 
     if (isUpdateR) {
-      this.helpR.setValue(to);
+      this.tipR.setValue(to);
       const runnerRPos: number = (this.viewState.rightEdge * (to - min)) / (max - min);
       let barRight: number = runnerRPos + this.runnerR.Width / 2;
-      const helpRPos: number = barRight - this.helpR.Width / 2;
+      const tipRPos: number = barRight - this.tipR.Width / 2;
       barRight = this.viewState.width - barRight;
 
-      this.updatePositions({ runnerRPos, helpRPos, barRight });
+      this.updatePositions({ runnerRPos, tipRPos, barRight });
     }
     if (isUpdateL) {
-      this.helpL.setValue(from);
+      this.tipL.setValue(from);
       const runnerLPos: number = (this.viewState.rightEdge * (from - min)) / (max - min);
       const barLeft: number = runnerLPos + this.runnerL.Width / 2;
-      const helpLPos: number = barLeft - this.helpL.Width / 2;
+      const tipLPos: number = barLeft - this.tipL.Width / 2;
 
-      this.updatePositions({ runnerLPos, helpLPos, barLeft });
+      this.updatePositions({ runnerLPos, tipLPos, barLeft });
     }
   }
 
@@ -98,21 +98,21 @@ class View extends Observer {
   }
 
   // eslint-disable-next-line object-curly-newline
-  private updatePositions({ runnerRPos, helpRPos, barRight, runnerLPos, helpLPos, barLeft }: {
+  private updatePositions({ runnerRPos, tipRPos, barRight, runnerLPos, tipLPos, barLeft }: {
     runnerRPos?: number,
-    helpRPos?: number,
+    tipRPos?: number,
     barRight?: number,
     runnerLPos?: number,
-    helpLPos?: number,
+    tipLPos?: number,
     barLeft?: number
   }) {
     if (typeof (runnerRPos) === 'number') {
       this.runnerR.setPos(this.toPerc(runnerRPos));
-      this.helpR.setPos(this.toPerc(helpRPos));
+      this.tipR.setPos(this.toPerc(tipRPos));
       this.bar.setRight(this.toPerc(barRight));
     } else {
       this.runnerL.setPos(this.toPerc(runnerLPos));
-      this.helpL.setPos(this.toPerc(helpLPos));
+      this.tipL.setPos(this.toPerc(tipLPos));
       this.bar.setLeft(this.toPerc(barLeft));
     }
   }
@@ -164,10 +164,10 @@ class View extends Observer {
     const { current } = this.config;
     if (current === 'to') {
       this.runnerR.setZIndex();
-      this.helpR.setZIndex();
+      this.tipR.setZIndex();
     } else {
       this.runnerR.removeZIndex();
-      this.helpR.removeZIndex();
+      this.tipR.removeZIndex();
     }
   }
 
