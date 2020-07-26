@@ -9,6 +9,7 @@ $(document).ready(() => {
     to: 700,
     from: 300,
     double: true,
+    isTips: false,
   });
   const slider2 = document.querySelector('.test-page__plugin2');
   new App(slider2, {
@@ -17,6 +18,7 @@ $(document).ready(() => {
     to: 3,
     from: 300,
     step: 0.5,
+    isTips: false,
   });
   const slider3 = document.querySelector('.test-page__plugin3');
   new App(slider3, {

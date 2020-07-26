@@ -31,7 +31,7 @@ class Runner {
   private initRunner(slider: HTMLElement, scin: string, runnerSide: string) {
     this.runner = document.createElement('div');
     this.runner.className = `slider__runner slider__${runnerSide} slider__${runnerSide}_${scin}`;
-    slider.appendChild(this.runner);
+    slider.append(this.runner);
   }
 }
 

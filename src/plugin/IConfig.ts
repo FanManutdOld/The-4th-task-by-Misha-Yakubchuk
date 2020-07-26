@@ -5,6 +5,7 @@ interface IConfig {
   from: number,
   step: number,
   double: boolean,
+  isTips: boolean,
   scin: string,
   current: string,
 }

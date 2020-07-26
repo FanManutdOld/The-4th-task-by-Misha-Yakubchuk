@@ -36,22 +36,29 @@ class View extends Observer {
     this.slider = document.createElement('div');
     this.slider.className = 'slider';
     this.slider.style.position = 'relative';
-    parent.appendChild(this.slider);
+    parent.append(this.slider);
   }
 
   public initView(config: IConfig) {
     const {
       double,
       scin,
+      isTips,
     } = config;
 
     this.track = new Track(this.slider, scin);
     this.bar = new Bar(this.slider, scin);
     this.runnerR = new Runner(this.slider, scin, 'runnerR');
     this.tipR = new Tip(this.slider, scin, 'tipR');
+    if (!isTips) {
+      this.tipR.hide();
+    }
     if (double) {
       this.runnerL = new Runner(this.slider, scin, 'runnerL');
       this.tipL = new Tip(this.slider, scin, 'tipL');
+      if (!isTips) {
+        this.tipL.hide();
+      }
     }
 
     this.updateViewState();

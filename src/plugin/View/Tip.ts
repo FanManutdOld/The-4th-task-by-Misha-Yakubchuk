@@ -28,10 +28,14 @@ class Tip {
     this.tip.style.left = pos;
   }
 
+  public hide() {
+    this.tip.style.display = 'none';
+  }
+
   private initHelp(slider: HTMLElement, scin: string, tipSide: string) {
     this.tip = document.createElement('div');
     this.tip.className = `slider__${tipSide} slider__${tipSide}_${scin}`;
-    slider.appendChild(this.tip);
+    slider.append(this.tip);
   }
 }
 

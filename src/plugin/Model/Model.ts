@@ -18,6 +18,7 @@ class Model extends Observer {
       from: 500,
       step: NaN,
       double: false,
+      isTips: true,
       scin: 'orange',
       current: 'to',
     };
