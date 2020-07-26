@@ -3,6 +3,7 @@ interface IConfig {
   max: number,
   to: number,
   from: number,
+  step: number,
   double: boolean,
   scin: string,
   current: string,

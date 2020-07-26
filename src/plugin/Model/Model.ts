@@ -16,16 +16,24 @@ class Model extends Observer {
       max: 1000,
       to: 700,
       from: 500,
-      step: 0,
+      step: NaN,
       double: false,
       scin: 'orange',
       current: 'to',
     };
+
     this.updateConfig(userConfig);
 
-    const { min, max } = this.config;
-    this.isFractional = min.toString().includes('.') || max.toString().includes('.');
-    this.numOfSymbols = Math.max(min.toString().split('.').pop().length, max.toString().split('.').pop().length);
+    if (!this.config.step) {
+      const { min, max } = this.config;
+      this.isFractional = min.toString().includes('.') || max.toString().includes('.');
+      if (this.isFractional) {
+        this.numOfSymbols = Math.max(min.toString().split('.').pop().length, max.toString().split('.').pop().length);
+      } else {
+        this.numOfSymbols = 0;
+      }
+      this.config.step = this.roundFractional(10 ** (-this.numOfSymbols), this.numOfSymbols);
+    }
   }
 
   public getConfig(): IConfig {
@@ -50,6 +58,7 @@ class Model extends Observer {
 
     let middle = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
     middle = this.roundFractional(middle, 3);
+
     const isLastCurrentFrom: boolean = posRound === middle && this.config.current === 'from';
     this.config.current = (posRound < middle) ? 'from' : (isLastCurrentFrom) ? 'from' : 'to';
     this.notify('changeCurrent', this.config.current);
@@ -61,15 +70,18 @@ class Model extends Observer {
       max,
       to,
       from,
+      step,
       double,
       current,
     } = this.config;
 
-    const newValue = (max - min) * position + min;
+    let newValue = (max - min) * position + min;
+    newValue = Math.round((newValue - min) / step) * step + min;
+
     if (this.isFractional) {
       this.config[current] = this.roundFractional(newValue, this.numOfSymbols);
     } else {
-      this.config[current] = Math.round(newValue);
+      this.config[current] = newValue;
     }
 
     if (current === 'to') {
@@ -87,7 +99,7 @@ class Model extends Observer {
     // eslint-disable-next-line no-restricted-syntax
     for (const [key, value] of Object.entries(newConfig)) {
       if (!(key in this.config)) {
-        throw new Error(`Invalid user property - ${key}`);
+        throw new Error(`Invalid config property - ${key}`);
       }
       this.config[key] = value;
     }
@@ -95,8 +107,8 @@ class Model extends Observer {
 
   // eslint-disable-next-line class-methods-use-this
   private roundFractional(num: number, decimalPlaces: number): number {
-    const numPowerConverter = 10 ** decimalPlaces;
-    return Math.round(num * numPowerConverter) / numPowerConverter;
+    const numPower = 10 ** decimalPlaces;
+    return Math.round(num * numPower) / numPower;
   }
 }
 
