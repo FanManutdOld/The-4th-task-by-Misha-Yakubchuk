@@ -5,6 +5,14 @@ class Bar {
     this.initBar(slider, scin);
   }
 
+  public get posLeft(): number {
+    return this.bar.getBoundingClientRect().left;
+  }
+
+  public get posRight(): number {
+    return this.bar.getBoundingClientRect().right;
+  }
+
   public setLeft(value: string) {
     this.bar.style.left = value;
   }

@@ -7,8 +7,8 @@ class Tip {
     this.initHelp(slider, scin, tipSide);
   }
 
-  public setValue(newValue: number) {
-    this.tip.textContent = `${newValue}`;
+  public setValue(newValue: number | string) {
+    this.tip.textContent = (typeof newValue === 'string') ? newValue : `${newValue}`;
     this.width = parseInt(getComputedStyle(this.tip).width);
   }
 
@@ -16,12 +16,12 @@ class Tip {
     return this.width;
   }
 
-  public setZIndex() {
-    this.tip.style.zIndex = '1';
+  public get posLeft(): number {
+    return this.tip.getBoundingClientRect().left;
   }
 
-  public removeZIndex() {
-    this.tip.style.zIndex = '0';
+  public get posRight(): number {
+    return this.tip.getBoundingClientRect().right;
   }
 
   public setPos(pos: string) {
@@ -29,7 +29,11 @@ class Tip {
   }
 
   public hide() {
-    this.tip.style.display = 'none';
+    this.tip.style.visibility = 'hidden';
+  }
+
+  public show() {
+    this.tip.style.visibility = 'visible';
   }
 
   private initHelp(slider: HTMLElement, scin: string, tipSide: string) {

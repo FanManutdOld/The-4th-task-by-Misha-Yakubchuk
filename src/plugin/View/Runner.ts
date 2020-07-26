@@ -12,10 +12,6 @@ class Runner {
     return this.width;
   }
 
-  public get posLeft(): number {
-    return this.runner.getBoundingClientRect().left;
-  }
-
   public setZIndex() {
     this.runner.style.zIndex = '1';
   }

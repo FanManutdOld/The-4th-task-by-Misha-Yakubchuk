@@ -31,6 +31,8 @@ class View extends Observer {
 
   private refHandleDocumentMouseUp: EventListener;
 
+  private connectionTip: boolean;
+
   constructor(parent: HTMLElement) {
     super();
     this.slider = document.createElement('div');
@@ -82,7 +84,9 @@ class View extends Observer {
     const isUpdateL: boolean = current === 'from' || (isInit && double);
 
     if (isUpdateR) {
-      this.tipR.setValue(to);
+      if (!this.connectionTip) {
+        this.tipR.setValue(to);
+      }
       const runnerRPos: number = (this.viewState.rightEdge * (to - min)) / (max - min);
       let barRight: number = runnerRPos + this.runnerR.Width / 2;
       const tipRPos: number = barRight - this.tipR.Width / 2;
@@ -98,10 +102,39 @@ class View extends Observer {
 
       this.updatePositions({ runnerLPos, tipLPos, barLeft });
     }
+    if (double) {
+      this.checkConnectionTips();
+    }
   }
 
   public updateCurrent(current: string) {
     this.config.current = current;
+  }
+
+  private checkConnectionTips() {
+    const {
+      from,
+      to,
+    } = this.config;
+    let { posLeft } = this.tipR;
+    const { posRight } = this.tipL;
+
+    if (posLeft <= posRight) {
+      if (!this.connectionTip) {
+        this.tipL.hide();
+        this.connectionTip = true;
+      }
+      this.tipR.setValue(`${from} — ${to}`);
+      this.tipR.setPos(`${(this.bar.posLeft + this.bar.posRight) / 2 - this.viewState.posLeft - this.tipR.Width / 2}px`);
+      posLeft = this.tipR.posLeft;
+      if ((posLeft + this.tipR.Width / 2) >= posRight) {
+        this.tipL.show();
+        this.tipR.setValue(`${to}`);
+        const tipRPos = (this.bar.posRight - this.tipR.Width / 2) - this.viewState.posLeft;
+        this.tipR.setPos(this.toPerc(tipRPos));
+        this.connectionTip = false;
+      }
+    }
   }
 
   // eslint-disable-next-line object-curly-newline
@@ -158,8 +191,7 @@ class View extends Observer {
       return this.runnerR.Width / 2 - 0.5;
     }
 
-    // eslint-disable-next-line max-len
-    const middle = (this.runnerR.posLeft + this.runnerR.Width / 2 + this.runnerL.posLeft + this.runnerL.Width / 2) / 2;
+    const middle = (this.bar.posLeft + this.bar.posRight) / 2;
     return (posX > middle) ? this.runnerR.Width / 2 - 0.5 : this.runnerL.Width / 2 - 0.5;
   }
 
@@ -171,10 +203,8 @@ class View extends Observer {
     const { current } = this.config;
     if (current === 'to') {
       this.runnerR.setZIndex();
-      this.tipR.setZIndex();
     } else {
       this.runnerR.removeZIndex();
-      this.tipR.removeZIndex();
     }
   }
 
