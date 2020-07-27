@@ -1,8 +1,8 @@
 interface IConfig {
   min: number,
   max: number,
-  to: number,
   from: number,
+  to: number,
   step: number,
   double: boolean,
   isTips: boolean,

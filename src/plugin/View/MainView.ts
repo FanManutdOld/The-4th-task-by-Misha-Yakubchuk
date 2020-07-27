@@ -31,7 +31,7 @@ class View extends Observer {
 
   private refHandleDocumentMouseUp: EventListener;
 
-  private connectionTip: boolean;
+  private connectedTip: boolean;
 
   constructor(parent: HTMLElement) {
     super();
@@ -75,8 +75,8 @@ class View extends Observer {
     const {
       min,
       max,
-      to,
       from,
+      to,
       double,
       current,
     } = config;
@@ -84,7 +84,7 @@ class View extends Observer {
     const isUpdateL: boolean = current === 'from' || (isInit && double);
 
     if (isUpdateR) {
-      if (!this.connectionTip) {
+      if (!this.connectedTip) {
         this.tipR.setValue(to);
       }
       const runnerRPos: number = (this.viewState.rightEdge * (to - min)) / (max - min);
@@ -111,32 +111,6 @@ class View extends Observer {
     this.config.current = current;
   }
 
-  private checkConnectionTips() {
-    const {
-      from,
-      to,
-    } = this.config;
-    let { posLeft } = this.tipR;
-    const { posRight } = this.tipL;
-
-    if (posLeft <= posRight) {
-      if (!this.connectionTip) {
-        this.tipL.hide();
-        this.connectionTip = true;
-      }
-      this.tipR.setValue(`${from} — ${to}`);
-      this.tipR.setPos(`${(this.bar.posLeft + this.bar.posRight) / 2 - this.viewState.posLeft - this.tipR.Width / 2}px`);
-      posLeft = this.tipR.posLeft;
-      if ((posLeft + this.tipR.Width / 2) >= posRight) {
-        this.tipL.show();
-        this.tipR.setValue(`${to}`);
-        const tipRPos = (this.bar.posRight - this.tipR.Width / 2) - this.viewState.posLeft;
-        this.tipR.setPos(this.toPerc(tipRPos));
-        this.connectionTip = false;
-      }
-    }
-  }
-
   // eslint-disable-next-line object-curly-newline
   private updatePositions({ runnerRPos, tipRPos, barRight, runnerLPos, tipLPos, barLeft }: {
     runnerRPos?: number,
@@ -154,6 +128,38 @@ class View extends Observer {
       this.runnerL.setPos(this.toPerc(runnerLPos));
       this.tipL.setPos(this.toPerc(tipLPos));
       this.bar.setLeft(this.toPerc(barLeft));
+    }
+  }
+
+  private checkConnectionTips() {
+    const {
+      from,
+      to,
+    } = this.config;
+    let { posLeft } = this.tipR;
+    const { posRight } = this.tipL;
+
+    if (posLeft <= posRight) {
+      if (!this.connectedTip) {
+        this.tipL.hide();
+        this.connectedTip = true;
+      }
+      this.tipR.setValue(`${from}\u00A0—\u00A0${to}`);
+      this.tipR.setPos(`${(this.bar.posLeft + this.bar.posRight) / 2 - this.viewState.posLeft - this.tipR.Width / 2}px`);
+      posLeft = this.tipR.posLeft;
+      if ((posLeft + this.tipR.Width / 2) >= posRight) {
+        this.tipL.show();
+        this.tipR.setValue(to);
+        const tipRPos = (this.bar.posRight - this.tipR.Width / 2) - this.viewState.posLeft;
+        this.tipR.setPos(this.toPerc(tipRPos));
+        this.connectedTip = false;
+      }
+    } else if (this.connectedTip) {
+      this.tipL.show();
+      this.tipR.setValue(to);
+      const tipRPos = (this.bar.posRight - this.tipR.Width / 2) - this.viewState.posLeft;
+      this.tipR.setPos(this.toPerc(tipRPos));
+      this.connectedTip = false;
     }
   }
 

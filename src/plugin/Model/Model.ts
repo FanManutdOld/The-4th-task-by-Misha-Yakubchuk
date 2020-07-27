@@ -1,6 +1,7 @@
 // eslint-disable-next-line no-unused-vars
 import IConfig from '../IConfig';
 import Observer from '../Observer/Observer';
+import Validator from './Validator';
 
 class Model extends Observer {
   private config: IConfig;
@@ -14,8 +15,8 @@ class Model extends Observer {
     this.config = {
       min: 0,
       max: 1000,
-      to: 700,
       from: 500,
+      to: 700,
       step: NaN,
       double: false,
       isTips: true,
@@ -24,16 +25,9 @@ class Model extends Observer {
     };
 
     this.updateConfig(userConfig);
-
+    Validator.validateAll(this.config);
     if (!this.config.step) {
-      const { min, max } = this.config;
-      this.isFractional = min.toString().includes('.') || max.toString().includes('.');
-      if (this.isFractional) {
-        this.numOfSymbols = Math.max(min.toString().split('.').pop().length, max.toString().split('.').pop().length);
-      } else {
-        this.numOfSymbols = 0;
-      }
-      this.config.step = this.roundFractional(10 ** (-this.numOfSymbols), this.numOfSymbols);
+      this.getDefaultStep();
     }
   }
 
@@ -45,8 +39,8 @@ class Model extends Observer {
     const {
       min,
       max,
-      to,
       from,
+      to,
       double,
     } = this.config;
 
@@ -69,8 +63,8 @@ class Model extends Observer {
     const {
       min,
       max,
-      to,
       from,
+      to,
       step,
       double,
       current,
@@ -104,6 +98,17 @@ class Model extends Observer {
       }
       this.config[key] = value;
     }
+  }
+
+  private getDefaultStep() {
+    const { min, max } = this.config;
+    this.isFractional = min.toString().includes('.') || max.toString().includes('.');
+    if (this.isFractional) {
+      this.numOfSymbols = Math.max(min.toString().split('.').pop().length, max.toString().split('.').pop().length);
+    } else {
+      this.numOfSymbols = 0;
+    }
+    this.config.step = this.roundFractional(10 ** (-this.numOfSymbols), this.numOfSymbols);
   }
 
   // eslint-disable-next-line class-methods-use-this
