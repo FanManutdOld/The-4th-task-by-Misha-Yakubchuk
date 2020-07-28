@@ -12,8 +12,8 @@ class Track {
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
     this.track.className = vertical
-      ? `slider__track slider__track_${this.scin}_vertical`
-      : `slider__track slider__track_${this.scin}_horizontal`;
+      ? `s__track s__track_${this.scin} s__track_${this.scin}_ver`
+      : `s__track s__track_${this.scin} s__track_${this.scin}_hor`;
   }
 
   private initTrack(slider: HTMLElement, scin: string) {

@@ -16,8 +16,8 @@ class Tip {
   public setValue(newValue: number | string) {
     this.tip.textContent = (typeof newValue === 'string') ? newValue : `${newValue}`;
     this.halfWidth = this.vertical
-      ? parseInt(getComputedStyle(this.tip).width) / 2
-      : parseInt(getComputedStyle(this.tip).height) / 2;
+      ? parseInt(getComputedStyle(this.tip).height) / 2
+      : parseInt(getComputedStyle(this.tip).width) / 2;
   }
 
   public get posLeft(): number {
@@ -51,8 +51,8 @@ class Tip {
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
     this.tip.className = vertical
-      ? `slider__${this.tipSide} slider__${this.tipSide}_${this.scin}_vertical`
-      : `slider__${this.tipSide} slider__${this.tipSide}_${this.scin}_horizontal`;
+      ? `s__tip s__${this.tipSide}_${this.scin} s__${this.tipSide}_${this.scin}_ver`
+      : `s__tip s__${this.tipSide}_${this.scin} s__${this.tipSide}_${this.scin}_hor`;
   }
 
   private initHelp(slider: HTMLElement, scin: string, tipSide: string) {

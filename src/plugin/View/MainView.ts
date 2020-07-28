@@ -167,45 +167,62 @@ class View extends Observer {
   }
 
   private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
+    const { vertical } = this.config;
+    let posClick: number; let shift: number; let position: number;
     const target: HTMLElement = event.target as HTMLElement;
-    const isTrack: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar');
+    const isTrack: boolean = target.classList.contains('s__track') || target.classList.contains('s__bar');
 
     if (isTrack) {
-      const posX: number = (event instanceof TouchEvent)
-        ? event.targetTouches[0].clientX : event.clientX;
-
-      const shiftX: number = this.getDefaultShiftX(posX);
-      const position: number = this.getRelativePosition(posX, shiftX);
+      if (vertical) {
+        posClick = (event instanceof TouchEvent)
+          ? event.targetTouches[0].clientY : event.clientY;
+      } else {
+        posClick = (event instanceof TouchEvent)
+          ? event.targetTouches[0].clientX : event.clientX;
+      }
+      shift = this.getDefaultShiftX(posClick);
+      position = this.getRelativePosition(posClick, shift);
 
       this.notify('mouseDown', position);
       this.updateZIndex();
       this.notify('changePosition', position);
-      this.bindDocumentMouseMove(event, shiftX);
+      this.bindDocumentMouseMove(event, shift);
     }
-    if (target.classList.contains('slider__runner')) {
-      const posX: number = (event instanceof TouchEvent)
-        ? event.targetTouches[0].clientX : event.clientX;
+    if (target.classList.contains('s__runner')) {
+      if (vertical) {
+        posClick = (event instanceof TouchEvent)
+          ? event.targetTouches[0].clientY : event.clientY;
+      } else {
+        posClick = (event instanceof TouchEvent)
+          ? event.targetTouches[0].clientX : event.clientX;
+      }
 
-      const shiftX: number = posX - target.getBoundingClientRect().left;
-      const position: number = this.getRelativePosition(posX, shiftX);
+      shift = vertical
+        ? posClick - target.getBoundingClientRect().top
+        : posClick - target.getBoundingClientRect().left;
+      position = this.getRelativePosition(posClick, shift);
 
       this.notify('mouseDown', position);
       this.updateZIndex();
-      this.bindDocumentMouseMove(event, shiftX);
+      this.bindDocumentMouseMove(event, shift);
     }
   }
 
-  private getDefaultShiftX(posX: number): number {
+  private getDefaultShiftX(posClick: number): number {
     if (!this.config.double) {
       return this.runnerR.halfWidth - 0.5;
     }
 
     const middle = (this.bar.posLeft + this.bar.posRight) / 2;
-    return (posX > middle) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
+    return (posClick > middle) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
   }
 
-  private getRelativePosition(posX: number, shiftX: number): number {
-    return (posX - shiftX - this.viewState.posLeft) / this.viewState.rightEdge;
+  private getRelativePosition(posClick: number, shift: number): number {
+    console.log(this.viewState.posLeft);
+    if (this.config.vertical) {
+      return 1 - (posClick - shift - this.slider.getBoundingClientRect().top) / this.viewState.rightEdge;
+    }
+    return (posClick - shift - this.viewState.posLeft) / this.viewState.rightEdge;
   }
 
   private updateZIndex() {
@@ -217,9 +234,9 @@ class View extends Observer {
     }
   }
 
-  private bindDocumentMouseMove(event: MouseEvent | TouchEvent, shiftX: number) {
+  private bindDocumentMouseMove(event: MouseEvent | TouchEvent, shift: number) {
     // ссылки на eventListener, что бы удалить эти же eventListener
-    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shiftX);
+    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shift);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp;
     if (event.type === 'mousedown') {
       document.addEventListener('mousemove', this.refHandleDocumentMouseMove);
@@ -230,11 +247,18 @@ class View extends Observer {
     }
   }
 
-  private handleDocumentMouseMove(shiftX: number, event: MouseEvent | TouchEvent) {
-    const posX: number = (event instanceof TouchEvent)
-      ? event.targetTouches[0].clientX : event.clientX;
+  private handleDocumentMouseMove(shift: number, event: MouseEvent | TouchEvent) {
+    const { vertical } = this.config;
+    let posClick: number;
+    if (vertical) {
+      posClick = (event instanceof TouchEvent)
+        ? event.targetTouches[0].clientY : event.clientY;
+    } else {
+      posClick = (event instanceof TouchEvent)
+        ? event.targetTouches[0].clientX : event.clientX;
+    }
 
-    const position = this.getRelativePosition(posX, shiftX);
+    const position = this.getRelativePosition(posClick, shift);
     this.notify('changePosition', position);
   }
 
@@ -257,7 +281,7 @@ class View extends Observer {
     const { vertical } = this.config;
     if (vertical) {
       this.viewState = {
-        posLeft: this.slider.getBoundingClientRect().bottom,
+        posLeft: this.slider.getBoundingClientRect().top,
         width: this.slider.offsetHeight,
         rightEdge: this.slider.offsetHeight - this.runnerR.halfWidth * 2,
       };
@@ -282,7 +306,7 @@ class View extends Observer {
   }
 
   private toPerc(value: number): string {
-    return `${(value / this.slider.offsetWidth) * 100}%`;
+    return `${(value / this.viewState.width) * 100}%`;
   }
 }
 

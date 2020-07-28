@@ -40,14 +40,13 @@ class Bar {
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
     this.bar.className = vertical
-      ? `slider__bar slider__bar_${this.scin}_vertical`
-      : `slider__bar slider__bar_${this.scin}_horizontal`;
+      ? `s__bar s__bar_${this.scin} s__bar_${this.scin}_ver`
+      : `s__bar s__bar_${this.scin} s__bar_${this.scin}_hor`;
   }
 
   private initBar(slider: HTMLElement, scin: string) {
     this.bar = document.createElement('div');
     this.scin = scin;
-    this.bar.style.left = `${0}%`;
     slider.append(this.bar);
   }
 }

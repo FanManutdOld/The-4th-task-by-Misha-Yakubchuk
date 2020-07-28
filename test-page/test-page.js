@@ -12,14 +12,23 @@ $(document).ready(() => {
   });
   const slider2 = document.querySelector('.test-page__plugin2');
   new App(slider2, {
+    min: 0,
+    max: 1000,
+    from: 300,
+    to: 700,
+    double: true,
+    vertical: true,
+  });
+  const slider3 = document.querySelector('.test-page__plugin3');
+  new App(slider3, {
     min: 2,
     max: 5,
     from: 300,
     to: 3,
     step: 0.5,
   });
-  const slider3 = document.querySelector('.test-page__plugin3');
-  new App(slider3, {
+  const slider4 = document.querySelector('.test-page__plugin4');
+  new App(slider4, {
     min: -1000,
     max: 1000,
     double: true,

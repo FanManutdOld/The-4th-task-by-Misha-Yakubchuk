@@ -11,7 +11,6 @@ class Runner {
 
   constructor(slider: HTMLElement, scin: string, runnerSide: string) {
     this.initRunner(slider, scin, runnerSide);
-    this.halfWidth = this.runner.offsetWidth / 2;
   }
 
   public setZIndex() {
@@ -32,9 +31,13 @@ class Runner {
 
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
-    this.runner.className = vertical
-      ? `slider__runner slider__${this.runnerSide} slider__${this.runnerSide}_${this.scin}_vertical`
-      : `slider__runner slider__${this.runnerSide} slider__${this.runnerSide}_${this.scin}_horizontal`;
+    if (vertical) {
+      this.runner.className = `s__runner s__${this.runnerSide}_${this.scin} s__${this.runnerSide}_${this.scin}_ver`;
+      this.halfWidth = this.runner.offsetHeight / 2;
+    } else {
+      this.runner.className = `s__runner s__${this.runnerSide}_${this.scin} s__${this.runnerSide}_${this.scin}_hor`;
+      this.halfWidth = this.runner.offsetWidth / 2;
+    }
   }
 
   private initRunner(slider: HTMLElement, scin: string, runnerSide: string) {
