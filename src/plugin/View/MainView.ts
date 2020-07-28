@@ -88,8 +88,8 @@ class View extends Observer {
         this.tipR.setValue(to);
       }
       const runnerRPos: number = (this.viewState.rightEdge * (to - min)) / (max - min);
-      let barRight: number = runnerRPos + this.runnerR.Width / 2;
-      const tipRPos: number = barRight - this.tipR.Width / 2;
+      let barRight: number = runnerRPos + this.runnerR.halfWidth;
+      const tipRPos: number = barRight - this.tipR.halfWidth;
       barRight = this.viewState.width - barRight;
 
       this.updatePositions({ runnerRPos, tipRPos, barRight });
@@ -97,8 +97,8 @@ class View extends Observer {
     if (isUpdateL) {
       this.tipL.setValue(from);
       const runnerLPos: number = (this.viewState.rightEdge * (from - min)) / (max - min);
-      const barLeft: number = runnerLPos + this.runnerL.Width / 2;
-      const tipLPos: number = barLeft - this.tipL.Width / 2;
+      const barLeft: number = runnerLPos + this.runnerL.halfWidth;
+      const tipLPos: number = barLeft - this.tipL.halfWidth;
 
       this.updatePositions({ runnerLPos, tipLPos, barLeft });
     }
@@ -145,19 +145,19 @@ class View extends Observer {
         this.connectedTip = true;
       }
       this.tipR.setValue(`${from}\u00A0—\u00A0${to}`);
-      this.tipR.setPos(`${(this.bar.posLeft + this.bar.posRight) / 2 - this.viewState.posLeft - this.tipR.Width / 2}px`);
+      this.tipR.setPos(`${(this.bar.posLeft + this.bar.posRight) / 2 - this.viewState.posLeft - this.tipR.halfWidth}px`);
       posLeft = this.tipR.posLeft;
-      if ((posLeft + this.tipR.Width / 2) >= posRight) {
+      if ((posLeft + this.tipR.halfWidth) >= posRight) {
         this.tipL.show();
         this.tipR.setValue(to);
-        const tipRPos = (this.bar.posRight - this.tipR.Width / 2) - this.viewState.posLeft;
+        const tipRPos = (this.bar.posRight - this.tipR.halfWidth) - this.viewState.posLeft;
         this.tipR.setPos(this.toPerc(tipRPos));
         this.connectedTip = false;
       }
     } else if (this.connectedTip) {
       this.tipL.show();
       this.tipR.setValue(to);
-      const tipRPos = (this.bar.posRight - this.tipR.Width / 2) - this.viewState.posLeft;
+      const tipRPos = (this.bar.posRight - this.tipR.halfWidth) - this.viewState.posLeft;
       this.tipR.setPos(this.toPerc(tipRPos));
       this.connectedTip = false;
     }
@@ -194,11 +194,11 @@ class View extends Observer {
 
   private getDefaultShiftX(posX: number): number {
     if (!this.config.double) {
-      return this.runnerR.Width / 2 - 0.5;
+      return this.runnerR.halfWidth - 0.5;
     }
 
     const middle = (this.bar.posLeft + this.bar.posRight) / 2;
-    return (posX > middle) ? this.runnerR.Width / 2 - 0.5 : this.runnerL.Width / 2 - 0.5;
+    return (posX > middle) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
   }
 
   private getRelativePosition(posX: number, shiftX: number): number {
@@ -254,7 +254,7 @@ class View extends Observer {
     this.viewState = {
       posLeft: this.slider.getBoundingClientRect().left,
       width: this.slider.offsetWidth,
-      rightEdge: this.slider.offsetWidth - this.runnerR.Width,
+      rightEdge: this.slider.offsetWidth - this.runnerR.halfWidth * 2,
     };
   }
 

@@ -1,7 +1,7 @@
 class Tip {
   private tip: HTMLElement;
 
-  private width: number;
+  public halfWidth: number;
 
   constructor(slider: HTMLElement, scin: string, tipSide: string) {
     this.initHelp(slider, scin, tipSide);
@@ -9,11 +9,7 @@ class Tip {
 
   public setValue(newValue: number | string) {
     this.tip.textContent = (typeof newValue === 'string') ? newValue : `${newValue}`;
-    this.width = parseInt(getComputedStyle(this.tip).width);
-  }
-
-  public get Width(): number {
-    return this.width;
+    this.halfWidth = parseInt(getComputedStyle(this.tip).width) / 2;
   }
 
   public get posLeft(): number {

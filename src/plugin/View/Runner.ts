@@ -1,15 +1,11 @@
 class Runner {
   private runner: HTMLElement;
 
-  private width: number;
+  public halfWidth: number;
 
   constructor(slider: HTMLElement, scin: string, runnerSide: string) {
     this.initRunner(slider, scin, runnerSide);
-    this.width = this.runner.offsetWidth;
-  }
-
-  public get Width(): number {
-    return this.width;
+    this.halfWidth = this.runner.offsetWidth / 2;
   }
 
   public setZIndex() {

@@ -5,9 +5,9 @@ $(document).ready(() => {
   const slider1 = document.querySelector('.test-page__plugin1');
   new App(slider1, {
     min: 0,
-    max: 100000,
-    from: 700,
-    to: 300,
+    max: 1000,
+    from: 300,
+    to: 700,
     double: true,
   });
   const slider2 = document.querySelector('.test-page__plugin2');
