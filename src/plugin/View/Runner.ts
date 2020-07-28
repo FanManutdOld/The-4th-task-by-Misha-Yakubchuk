@@ -1,7 +1,13 @@
 class Runner {
   private runner: HTMLElement;
 
+  private scin: string;
+
+  private runnerSide: string;
+
   public halfWidth: number;
+
+  public vertical: boolean;
 
   constructor(slider: HTMLElement, scin: string, runnerSide: string) {
     this.initRunner(slider, scin, runnerSide);
@@ -17,12 +23,24 @@ class Runner {
   }
 
   public setPos(pos: string) {
-    this.runner.style.left = pos;
+    if (this.vertical) {
+      this.runner.style.bottom = pos;
+    } else {
+      this.runner.style.left = pos;
+    }
+  }
+
+  public setOrientation(vertical: boolean) {
+    this.vertical = vertical;
+    this.runner.className = vertical
+      ? `slider__runner slider__${this.runnerSide} slider__${this.runnerSide}_${this.scin}_vertical`
+      : `slider__runner slider__${this.runnerSide} slider__${this.runnerSide}_${this.scin}_horizontal`;
   }
 
   private initRunner(slider: HTMLElement, scin: string, runnerSide: string) {
     this.runner = document.createElement('div');
-    this.runner.className = `slider__runner slider__${runnerSide} slider__${runnerSide}_${scin}`;
+    this.scin = scin;
+    this.runnerSide = runnerSide;
     slider.append(this.runner);
   }
 }

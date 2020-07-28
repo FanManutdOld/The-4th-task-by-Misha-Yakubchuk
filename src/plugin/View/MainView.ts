@@ -42,8 +42,10 @@ class View extends Observer {
   }
 
   public initView(config: IConfig) {
+    this.config = config;
     const {
       double,
+      vertical,
       scin,
       isTips,
     } = config;
@@ -63,6 +65,7 @@ class View extends Observer {
       }
     }
 
+    this.updateVertical(vertical);
     this.updateViewState();
     this.update(config, true);
     this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
@@ -251,11 +254,31 @@ class View extends Observer {
   }
 
   private updateViewState() {
-    this.viewState = {
-      posLeft: this.slider.getBoundingClientRect().left,
-      width: this.slider.offsetWidth,
-      rightEdge: this.slider.offsetWidth - this.runnerR.halfWidth * 2,
-    };
+    const { vertical } = this.config;
+    if (vertical) {
+      this.viewState = {
+        posLeft: this.slider.getBoundingClientRect().bottom,
+        width: this.slider.offsetHeight,
+        rightEdge: this.slider.offsetHeight - this.runnerR.halfWidth * 2,
+      };
+    } else {
+      this.viewState = {
+        posLeft: this.slider.getBoundingClientRect().left,
+        width: this.slider.offsetWidth,
+        rightEdge: this.slider.offsetWidth - this.runnerR.halfWidth * 2,
+      };
+    }
+  }
+
+  private updateVertical(vertical: boolean) {
+    this.track.setOrientation(vertical);
+    this.bar.setOrientation(vertical);
+    this.runnerR.setOrientation(vertical);
+    this.tipR.setOrientation(vertical);
+    if (this.config.double) {
+      this.runnerL.setOrientation(vertical);
+      this.tipL.setOrientation(vertical);
+    }
   }
 
   private toPerc(value: number): string {
