@@ -1,7 +1,5 @@
 // eslint-disable-next-line no-unused-vars
 import IConfig from '../IConfig';
-// eslint-disable-next-line no-unused-vars
-import IViewState from './IViewState';
 import Track from './Track';
 import Bar from './Bar';
 import Runner from './Runner';
@@ -11,9 +9,9 @@ import Observer from '../Observer/Observer';
 class View extends Observer {
   private config: IConfig;
 
-  private viewState: IViewState;
-
   private slider: HTMLElement;
+
+  private rightEdge: number;
 
   private track: Track;
 
@@ -65,16 +63,19 @@ class View extends Observer {
       }
     }
 
-    this.updateVertical(vertical);
-    this.updateViewState();
-    this.update(config, true);
+    this.updateOrientation(vertical);
+    this.rightEdge = vertical
+      ? this.slider.offsetHeight - this.runnerR.halfWidth * 2
+      : this.slider.offsetWidth - this.runnerR.halfWidth * 2;
+    this.updateView(config, true);
     this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
     this.slider.addEventListener('touchstart', this.handleSliderMouseDown);
     window.addEventListener('resize', this.handleWindowResize);
   }
 
-  public update(config: IConfig, isInit?: boolean) {
+  public updateView(config: IConfig, isInit?: boolean) {
     this.config = config;
+    let newPos: number;
     const {
       min,
       max,
@@ -89,49 +90,39 @@ class View extends Observer {
     if (isUpdateR) {
       if (!this.connectedTip) {
         this.tipR.setValue(to);
+        newPos = (this.rightEdge * (to - min)) / (max - min);
+        this.updateR(newPos);
       }
-      const runnerRPos: number = (this.viewState.rightEdge * (to - min)) / (max - min);
-      let barRight: number = runnerRPos + this.runnerR.halfWidth;
-      const tipRPos: number = barRight - this.tipR.halfWidth;
-      barRight = this.viewState.width - barRight;
-
-      this.updatePositions({ runnerRPos, tipRPos, barRight });
     }
     if (isUpdateL) {
       this.tipL.setValue(from);
-      const runnerLPos: number = (this.viewState.rightEdge * (from - min)) / (max - min);
-      const barLeft: number = runnerLPos + this.runnerL.halfWidth;
-      const tipLPos: number = barLeft - this.tipL.halfWidth;
-
-      this.updatePositions({ runnerLPos, tipLPos, barLeft });
+      newPos = (this.rightEdge * (from - min)) / (max - min);
+      this.updateL(newPos);
     }
     if (double) {
-      this.checkConnectionTips();
+      // this.checkConnectionTips();
     }
   }
 
   public updateCurrent(current: string) {
     this.config.current = current;
+    if (current === 'to') {
+      this.runnerR.setZIndex();
+    } else {
+      this.runnerR.removeZIndex();
+    }
   }
 
-  // eslint-disable-next-line object-curly-newline
-  private updatePositions({ runnerRPos, tipRPos, barRight, runnerLPos, tipLPos, barLeft }: {
-    runnerRPos?: number,
-    tipRPos?: number,
-    barRight?: number,
-    runnerLPos?: number,
-    tipLPos?: number,
-    barLeft?: number
-  }) {
-    if (typeof (runnerRPos) === 'number') {
-      this.runnerR.setPos(this.toPerc(runnerRPos));
-      this.tipR.setPos(this.toPerc(tipRPos));
-      this.bar.setRight(this.toPerc(barRight));
-    } else {
-      this.runnerL.setPos(this.toPerc(runnerLPos));
-      this.tipL.setPos(this.toPerc(tipLPos));
-      this.bar.setLeft(this.toPerc(barLeft));
-    }
+  private updateR(newPos: number) {
+    this.runnerR.setPos(newPos);
+    this.bar.setRight(newPos, this.runnerR.halfWidth);
+    this.tipR.setPos(newPos, this.runnerR.halfWidth);
+  }
+
+  private updateL(newPos: number) {
+    this.runnerL.setPos(newPos);
+    this.bar.setLeft(newPos, this.runnerL.halfWidth);
+    this.tipL.setPos(newPos, this.runnerL.halfWidth);
   }
 
   private checkConnectionTips() {
@@ -184,7 +175,6 @@ class View extends Observer {
       position = this.getRelativePosition(posClick, shift);
 
       this.notify('mouseDown', position);
-      this.updateZIndex();
       this.notify('changePosition', position);
       this.bindDocumentMouseMove(event, shift);
     }
@@ -203,7 +193,6 @@ class View extends Observer {
       position = this.getRelativePosition(posClick, shift);
 
       this.notify('mouseDown', position);
-      this.updateZIndex();
       this.bindDocumentMouseMove(event, shift);
     }
   }
@@ -212,32 +201,23 @@ class View extends Observer {
     if (!this.config.double) {
       return this.runnerR.halfWidth - 0.5;
     }
-
-    const middle = (this.bar.posLeft + this.bar.posRight) / 2;
+    const middle = this.bar.getMiddle();
     return (posClick > middle) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
   }
 
   private getRelativePosition(posClick: number, shift: number): number {
-    console.log(this.viewState.posLeft);
+    const rect = this.slider.getBoundingClientRect();
     if (this.config.vertical) {
-      return 1 - (posClick - shift - this.slider.getBoundingClientRect().top) / this.viewState.rightEdge;
+      return 1 - (posClick - shift - rect.top) / this.rightEdge;
     }
-    return (posClick - shift - this.viewState.posLeft) / this.viewState.rightEdge;
-  }
-
-  private updateZIndex() {
-    const { current } = this.config;
-    if (current === 'to') {
-      this.runnerR.setZIndex();
-    } else {
-      this.runnerR.removeZIndex();
-    }
+    return (posClick - shift - rect.left) / this.rightEdge;
   }
 
   private bindDocumentMouseMove(event: MouseEvent | TouchEvent, shift: number) {
     // ссылки на eventListener, что бы удалить эти же eventListener
     this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shift);
     this.refHandleDocumentMouseUp = this.handleDocumentMouseUp;
+
     if (event.type === 'mousedown') {
       document.addEventListener('mousemove', this.refHandleDocumentMouseMove);
       document.addEventListener('mouseup', this.refHandleDocumentMouseUp);
@@ -248,9 +228,8 @@ class View extends Observer {
   }
 
   private handleDocumentMouseMove(shift: number, event: MouseEvent | TouchEvent) {
-    const { vertical } = this.config;
     let posClick: number;
-    if (vertical) {
+    if (this.config.vertical) {
       posClick = (event instanceof TouchEvent)
         ? event.targetTouches[0].clientY : event.clientY;
     } else {
@@ -273,28 +252,13 @@ class View extends Observer {
   }
 
   private handleWindowResize = () => {
-    this.updateViewState();
-    this.update(this.config, true);
+    this.rightEdge = this.config.vertical
+      ? this.slider.offsetHeight - this.runnerR.halfWidth * 2
+      : this.slider.offsetWidth - this.runnerR.halfWidth * 2;
+    this.updateView(this.config, true);
   }
 
-  private updateViewState() {
-    const { vertical } = this.config;
-    if (vertical) {
-      this.viewState = {
-        posLeft: this.slider.getBoundingClientRect().top,
-        width: this.slider.offsetHeight,
-        rightEdge: this.slider.offsetHeight - this.runnerR.halfWidth * 2,
-      };
-    } else {
-      this.viewState = {
-        posLeft: this.slider.getBoundingClientRect().left,
-        width: this.slider.offsetWidth,
-        rightEdge: this.slider.offsetWidth - this.runnerR.halfWidth * 2,
-      };
-    }
-  }
-
-  private updateVertical(vertical: boolean) {
+  private updateOrientation(vertical: boolean) {
     this.track.setOrientation(vertical);
     this.bar.setOrientation(vertical);
     this.runnerR.setOrientation(vertical);
@@ -303,10 +267,6 @@ class View extends Observer {
       this.runnerL.setOrientation(vertical);
       this.tipL.setOrientation(vertical);
     }
-  }
-
-  private toPerc(value: number): string {
-    return `${(value / this.viewState.width) * 100}%`;
   }
 }
 

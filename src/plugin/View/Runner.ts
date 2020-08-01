@@ -1,6 +1,8 @@
 class Runner {
   private runner: HTMLElement;
 
+  private slider: HTMLElement;
+
   private scin: string;
 
   private runnerSide: string;
@@ -10,7 +12,8 @@ class Runner {
   public vertical: boolean;
 
   constructor(slider: HTMLElement, scin: string, runnerSide: string) {
-    this.initRunner(slider, scin, runnerSide);
+    this.slider = slider;
+    this.initRunner(scin, runnerSide);
   }
 
   public setZIndex() {
@@ -21,11 +24,11 @@ class Runner {
     this.runner.style.zIndex = '0';
   }
 
-  public setPos(pos: string) {
+  public setPos(pos: number) {
     if (this.vertical) {
-      this.runner.style.bottom = pos;
+      this.runner.style.bottom = `${(pos / this.slider.offsetHeight) * 100}%`;
     } else {
-      this.runner.style.left = pos;
+      this.runner.style.left = `${(pos / this.slider.offsetWidth) * 100}%`;
     }
   }
 
@@ -40,11 +43,11 @@ class Runner {
     }
   }
 
-  private initRunner(slider: HTMLElement, scin: string, runnerSide: string) {
+  private initRunner(scin: string, runnerSide: string) {
     this.runner = document.createElement('div');
     this.scin = scin;
     this.runnerSide = runnerSide;
-    slider.append(this.runner);
+    this.slider.append(this.runner);
   }
 }
 

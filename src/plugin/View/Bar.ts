@@ -1,39 +1,38 @@
 class Bar {
   private bar: HTMLElement;
 
+  private slider: HTMLElement;
+
   private scin: string;
 
   public vertical: boolean;
 
   constructor(slider: HTMLElement, scin: string) {
-    this.initBar(slider, scin);
+    this.slider = slider;
+    this.initBar(scin);
   }
 
-  public get posLeft(): number {
-    return this.vertical
-      ? this.bar.getBoundingClientRect().bottom
-      : this.bar.getBoundingClientRect().left;
-  }
-
-  public get posRight(): number {
-    return this.vertical
-      ? this.bar.getBoundingClientRect().top
-      : this.bar.getBoundingClientRect().right;
-  }
-
-  public setLeft(value: string) {
+  public getMiddle(): number {
+    const rect = this.bar.getBoundingClientRect();
     if (this.vertical) {
-      this.bar.style.bottom = value;
+      return (rect.bottom - rect.top) / 2;
+    }
+    return (rect.left - rect.right) / 2;
+  }
+
+  public setLeft(pos: number, shift: number) {
+    if (this.vertical) {
+      this.bar.style.bottom = `${((pos + shift) / this.slider.offsetHeight) * 100}%`;
     } else {
-      this.bar.style.left = value;
+      this.bar.style.left = `${((pos + shift) / this.slider.offsetWidth) * 100}%`;
     }
   }
 
-  public setRight(value: string) {
+  public setRight(pos: number, shift: number) {
     if (this.vertical) {
-      this.bar.style.top = value;
+      this.bar.style.top = `${(1 - (pos + shift) / this.slider.offsetHeight) * 100}%`;
     } else {
-      this.bar.style.right = value;
+      this.bar.style.right = `${(1 - (pos + shift) / this.slider.offsetWidth) * 100}%`;
     }
   }
 
@@ -44,10 +43,10 @@ class Bar {
       : `s__bar s__bar_${this.scin} s__bar_${this.scin}_hor`;
   }
 
-  private initBar(slider: HTMLElement, scin: string) {
+  private initBar(scin: string) {
     this.bar = document.createElement('div');
     this.scin = scin;
-    slider.append(this.bar);
+    this.slider.append(this.bar);
   }
 }
 

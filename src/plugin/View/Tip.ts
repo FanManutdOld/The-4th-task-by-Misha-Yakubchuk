@@ -1,6 +1,8 @@
 class Tip {
   private tip: HTMLElement;
 
+  private slider: HTMLElement;
+
   private scin: string;
 
   private tipSide: string;
@@ -10,7 +12,8 @@ class Tip {
   public vertical: boolean;
 
   constructor(slider: HTMLElement, scin: string, tipSide: string) {
-    this.initHelp(slider, scin, tipSide);
+    this.slider = slider;
+    this.initHelp(scin, tipSide);
   }
 
   public setValue(newValue: number | string) {
@@ -32,11 +35,11 @@ class Tip {
       : this.tip.getBoundingClientRect().right;
   }
 
-  public setPos(pos: string) {
+  public setPos(pos: number, shift: number) {
     if (this.vertical) {
-      this.tip.style.bottom = pos;
+      this.tip.style.bottom = `${((pos + shift - this.halfWidth) / this.slider.offsetHeight) * 100}%`;
     } else {
-      this.tip.style.left = pos;
+      this.tip.style.left = `${((pos + shift - this.halfWidth) / this.slider.offsetWidth) * 100}%`;
     }
   }
 
@@ -55,11 +58,11 @@ class Tip {
       : `s__tip s__${this.tipSide}_${this.scin} s__${this.tipSide}_${this.scin}_hor`;
   }
 
-  private initHelp(slider: HTMLElement, scin: string, tipSide: string) {
+  private initHelp(scin: string, tipSide: string) {
     this.tip = document.createElement('div');
     this.scin = scin;
     this.tipSide = tipSide;
-    slider.append(this.tip);
+    this.slider.append(this.tip);
   }
 }
 

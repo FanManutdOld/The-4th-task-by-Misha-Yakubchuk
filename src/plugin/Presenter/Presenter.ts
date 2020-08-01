@@ -10,12 +10,8 @@ class Presenter {
   constructor(model: Model, view: View) {
     this.model = model;
     this.view = view;
-    this.initPlugin();
-    this.addListeners();
-  }
-
-  private initPlugin() {
     this.view.initView(this.model.getConfig());
+    this.addListeners();
   }
 
   private addListeners() {
@@ -38,7 +34,7 @@ class Presenter {
   }
 
   private handleModelChange = () => {
-    this.view.update(this.model.getConfig());
+    this.view.updateView(this.model.getConfig());
   }
 }
 
