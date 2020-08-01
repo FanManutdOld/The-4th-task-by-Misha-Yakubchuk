@@ -23,24 +23,38 @@ class Tip {
       : parseInt(getComputedStyle(this.tip).width) / 2;
   }
 
-  public get posLeft(): number {
-    return this.vertical
-      ? this.tip.getBoundingClientRect().bottom
-      : this.tip.getBoundingClientRect().left;
-  }
-
-  public get posRight(): number {
-    return this.vertical
-      ? this.tip.getBoundingClientRect().top
-      : this.tip.getBoundingClientRect().right;
-  }
-
   public setPos(pos: number, shift: number) {
     if (this.vertical) {
       this.tip.style.bottom = `${((pos + shift - this.halfWidth) / this.slider.offsetHeight) * 100}%`;
     } else {
       this.tip.style.left = `${((pos + shift - this.halfWidth) / this.slider.offsetWidth) * 100}%`;
     }
+  }
+
+  public setUnitedPos(pos: number) {
+    if (this.vertical) {
+      this.tip.style.bottom = `${pos - this.halfWidth}px`;
+    } else {
+      this.tip.style.left = `${pos - this.halfWidth}px`;
+    }
+  }
+
+  public isConnected(tipL: Tip): boolean {
+    const rectR = this.tip.getBoundingClientRect();
+    const rectL = tipL.tip.getBoundingClientRect();
+    if (this.vertical) {
+      return (rectR.bottom >= rectL.top);
+    }
+    return (rectL.right >= rectR.left);
+  }
+
+  public isDisconnected(tipL: Tip): boolean {
+    const rectR = this.tip.getBoundingClientRect();
+    const rectL = tipL.tip.getBoundingClientRect();
+    if (this.vertical) {
+      return (rectR.bottom <= rectL.top + this.halfWidth);
+    }
+    return (rectL.right <= rectR.left + this.halfWidth);
   }
 
   public hide() {

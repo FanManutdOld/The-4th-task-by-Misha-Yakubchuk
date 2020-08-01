@@ -15,9 +15,9 @@ class Bar {
   public getMiddle(): number {
     const rect = this.bar.getBoundingClientRect();
     if (this.vertical) {
-      return (rect.bottom - rect.top) / 2;
+      return rect.top + (rect.bottom - rect.top) / 2;
     }
-    return (rect.left - rect.right) / 2;
+    return rect.left + (rect.right - rect.left) / 2;
   }
 
   public setLeft(pos: number, shift: number) {

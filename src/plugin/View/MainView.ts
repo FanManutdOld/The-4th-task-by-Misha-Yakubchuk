@@ -90,9 +90,9 @@ class View extends Observer {
     if (isUpdateR) {
       if (!this.connectedTip) {
         this.tipR.setValue(to);
-        newPos = (this.rightEdge * (to - min)) / (max - min);
-        this.updateR(newPos);
       }
+      newPos = (this.rightEdge * (to - min)) / (max - min);
+      this.updateR(newPos);
     }
     if (isUpdateL) {
       this.tipL.setValue(from);
@@ -100,7 +100,7 @@ class View extends Observer {
       this.updateL(newPos);
     }
     if (double) {
-      // this.checkConnectionTips();
+      this.checkConnectionTips();
     }
   }
 
@@ -116,44 +116,48 @@ class View extends Observer {
   private updateR(newPos: number) {
     this.runnerR.setPos(newPos);
     this.bar.setRight(newPos, this.runnerR.halfWidth);
-    this.tipR.setPos(newPos, this.runnerR.halfWidth);
+    if (this.connectedTip) {
+      this.updateConnectedTips();
+    } else {
+      this.tipR.setPos(newPos, this.runnerR.halfWidth);
+    }
   }
 
   private updateL(newPos: number) {
     this.runnerL.setPos(newPos);
     this.bar.setLeft(newPos, this.runnerL.halfWidth);
-    this.tipL.setPos(newPos, this.runnerL.halfWidth);
+    if (this.connectedTip) {
+      this.updateConnectedTips();
+    }
+    this.tipL.setPos(newPos, this.runnerR.halfWidth);
   }
 
-  private checkConnectionTips() {
+  private updateConnectedTips() {
     const {
       from,
       to,
     } = this.config;
-    let { posLeft } = this.tipR;
-    const { posRight } = this.tipL;
+    this.tipR.setValue(`${from}\u00A0—\u00A0${to}`);
+    const rect = this.slider.getBoundingClientRect();
+    const temp = this.config.vertical
+      ? rect.bottom - this.bar.getMiddle()
+      : this.bar.getMiddle() - rect.left;
+    this.tipR.setUnitedPos(temp);
+  }
 
-    if (posLeft <= posRight) {
-      if (!this.connectedTip) {
-        this.tipL.hide();
+  private checkConnectionTips() {
+    if (!this.connectedTip) {
+      if (this.tipR.isConnected(this.tipL)) {
         this.connectedTip = true;
-      }
-      this.tipR.setValue(`${from}\u00A0—\u00A0${to}`);
-      this.tipR.setPos(`${(this.bar.posLeft + this.bar.posRight) / 2 - this.viewState.posLeft - this.tipR.halfWidth}px`);
-      posLeft = this.tipR.posLeft;
-      if ((posLeft + this.tipR.halfWidth) >= posRight) {
-        this.tipL.show();
-        this.tipR.setValue(to);
-        const tipRPos = (this.bar.posRight - this.tipR.halfWidth) - this.viewState.posLeft;
-        this.tipR.setPos(this.toPerc(tipRPos));
-        this.connectedTip = false;
+        this.tipL.hide();
+        this.updateConnectedTips();
       }
     } else if (this.connectedTip) {
-      this.tipL.show();
-      this.tipR.setValue(to);
-      const tipRPos = (this.bar.posRight - this.tipR.halfWidth) - this.viewState.posLeft;
-      this.tipR.setPos(this.toPerc(tipRPos));
-      this.connectedTip = false;
+      if (this.tipR.isDisconnected(this.tipL)) {
+        this.connectedTip = false;
+        this.tipL.show();
+        this.updateView(this.config, true);
+      }
     }
   }
 
