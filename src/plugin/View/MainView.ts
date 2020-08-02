@@ -129,7 +129,7 @@ class View extends Observer {
     if (this.connectedTip) {
       this.updateConnectedTips();
     }
-    this.tipL.setPos(newPos, this.runnerR.halfWidth);
+    this.tipL.setPos(newPos, this.runnerL.halfWidth);
   }
 
   private updateConnectedTips() {
@@ -203,10 +203,18 @@ class View extends Observer {
   }
 
   private getDefaultShiftX(posClick: number): number {
-    if (!this.config.double) {
+    const {
+      double,
+      vertical,
+    } = this.config;
+
+    if (!double) {
       return this.runnerR.halfWidth - 0.5;
     }
     const middle = this.bar.getMiddle();
+    if (vertical) {
+      return (posClick < middle) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
+    }
     return (posClick > middle) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
   }
 
