@@ -34,8 +34,6 @@ class View extends Observer {
   constructor(parent: HTMLElement) {
     super();
     this.slider = document.createElement('div');
-    this.slider.className = 'slider';
-    this.slider.style.position = 'relative';
     parent.append(this.slider);
   }
 
@@ -48,16 +46,19 @@ class View extends Observer {
       isTips,
     } = config;
 
-    this.track = new Track(this.slider, scin);
-    this.bar = new Bar(this.slider, scin);
-    this.runnerR = new Runner(this.slider, scin, 'runnerR');
-    this.tipR = new Tip(this.slider, scin, 'tipR');
+    this.slider.className = vertical
+      ? `slider slider_${scin} slider_${scin}_ver`
+      : `slider slider_${scin} slider_${scin}_hor`;
+    this.track = new Track(this.slider);
+    this.bar = new Bar(this.slider);
+    this.runnerR = new Runner(this.slider, 'runnerR');
+    this.tipR = new Tip(this.slider, 'tipR');
     if (!isTips) {
       this.tipR.hide();
     }
     if (double) {
-      this.runnerL = new Runner(this.slider, scin, 'runnerL');
-      this.tipL = new Tip(this.slider, scin, 'tipL');
+      this.runnerL = new Runner(this.slider, 'runnerL');
+      this.tipL = new Tip(this.slider, 'tipL');
       if (!isTips) {
         this.tipL.hide();
       }
@@ -81,9 +82,11 @@ class View extends Observer {
       to,
       double,
       current,
+      isTips,
     } = config;
     const isUpdateR: boolean = current === 'to' || isInit;
     const isUpdateL: boolean = current === 'from' || (isInit && double);
+    const isCheckTips: boolean = double && isTips;
 
     if (isUpdateR) {
       if (!this.connectedTip) {
@@ -97,7 +100,7 @@ class View extends Observer {
       newPos = (this.rightEdge * (from - min)) / (max - min);
       this.updateL(newPos);
     }
-    if (double) {
+    if (isCheckTips) {
       this.checkConnectionTips();
     }
   }
@@ -130,19 +133,6 @@ class View extends Observer {
     this.tipL.setPos(newPos, this.runnerL.halfWidth);
   }
 
-  private updateConnectedTips() {
-    const {
-      from,
-      to,
-    } = this.config;
-    this.tipR.setValue(`${from}\u00A0—\u00A0${to}`);
-    const rect = this.slider.getBoundingClientRect();
-    const temp = this.config.vertical
-      ? rect.bottom - this.bar.getMiddle()
-      : this.bar.getMiddle() - rect.left;
-    this.tipR.setUnitedPos(temp);
-  }
-
   private checkConnectionTips() {
     if (!this.connectedTip) {
       if (this.tipR.isConnected(this.tipL)) {
@@ -159,12 +149,25 @@ class View extends Observer {
     }
   }
 
+  private updateConnectedTips() {
+    const {
+      from,
+      to,
+    } = this.config;
+    this.tipR.setValue(`${from}\u00A0—\u00A0${to}`);
+    const rect = this.slider.getBoundingClientRect();
+    const temp = this.config.vertical
+      ? rect.bottom - this.bar.getMiddle()
+      : this.bar.getMiddle() - rect.left;
+    this.tipR.setUnitedPos(temp);
+  }
+
   private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
     const { vertical } = this.config;
     let posClick: number; let shift: number; let position: number;
     const target: HTMLElement = event.target as HTMLElement;
-    const isTrack: boolean = target.classList.contains('s__track') || target.classList.contains('s__bar');
+    const isTrack: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar');
 
     if (isTrack) {
       if (vertical) {
@@ -181,7 +184,7 @@ class View extends Observer {
       this.notify('changePosition', position);
       this.bindDocumentMouseMove(event, shift);
     }
-    if (target.classList.contains('s__runner')) {
+    if (target.classList.contains('slider__runner')) {
       if (vertical) {
         posClick = (event instanceof TouchEvent)
           ? event.targetTouches[0].clientY : event.clientY;

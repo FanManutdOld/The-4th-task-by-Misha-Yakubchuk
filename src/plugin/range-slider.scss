@@ -1,124 +1,127 @@
 .slider {
+  position: relative;
   height: 100%;
   user-select: none;
-}
-
-.s {
   &__track {
     position: absolute;
     box-sizing: border-box;
     cursor: pointer;
-    &_orange {
-      border-radius: 10px;
-      border: 1px solid rgba(0, 0, 0, 0.29);
-      background-image: linear-gradient(to top, #262626 0%, #504f4f 100%);
-      &_hor {
-        width: 100%;
-        height: 10px;
-        bottom: 10px;
-      }
-      &_ver {
-        height: 100%;
-        width: 10px;
-        left: 10px;
-      }
-    }
-  }
-  &__runner {
-    position: absolute;
-    cursor: pointer;
-    box-sizing: border-box;
-  }
-  &__runnerL {
-    &_orange {
-      border-radius: 30px;
-      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
-      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
-      &_hor {
-        width: 30px;
-        height: 30px;
-        bottom: 0px;
-      }
-      &_ver {
-        width: 30px;
-        height: 70px;
-        left: 0px;
-      }
-    }
-  }
-  &__runnerR {
-    &_orange {
-      border-radius: 30px;
-      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
-      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
-      &_hor {
-        width: 30px;
-        height: 30px;
-        bottom: 0px;
-      }
-      &_ver {
-        width: 30px;
-        height: 30px;
-        left: 0px;
-      }
-    }
   }
   &__bar {
     position: absolute;
     box-sizing: border-box;
     cursor: pointer;
-    &_orange {
+  }
+  &__runner{
+    position: absolute;
+    cursor: pointer;
+    box-sizing: border-box;
+  }
+  &__tip{
+    position: absolute;
+    box-sizing: border-box;
+  }
+}
+
+.slider_orange {
+  & .slider {
+    &__track{
+      border-radius: 10px;
+      border: 1px solid rgba(0, 0, 0, 0.29);
+      background-image: linear-gradient(to top, #262626 0%, #504f4f 100%);
+    }
+    &__bar{
       border-radius: 10px;
       box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
       background-image: linear-gradient(to top, #ec8135 0%, #ef9554 100%);
-      &_hor {
+    }
+    &__runnerR {
+      border-radius: 30px;
+      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
+      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
+    }
+    &__runnerL {
+      border-radius: 30px;
+      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
+      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
+    }
+    &__tipR {
+      color: #323232;
+      font-family: "Times New Roman", Helvetica, sans-serif;
+      font-size: 10px;
+      line-height: 1.333;
+      padding: 1px 4px;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
+      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
+    }
+    &__tipL {
+      color: #323232;
+      font-family: "Times New Roman", Helvetica, sans-serif;
+      font-size: 10px;
+      line-height: 1.333;
+      padding: 1px 4px;
+      border-radius: 4px;
+      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
+      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
+    }
+  }
+  &_hor {
+    & .slider {
+      &__track{
+        width: 100%;
+        height: 10px;
+        bottom: 10px;
+      }
+      &__bar{
         left: 0;
         height: 10px;
         bottom: 10px;
       }
-      &_ver {
+      &__runnerR {
+        width: 30px;
+        height: 30px;
+        bottom: 0px;
+      }
+      &__runnerL {
+        width: 30px;
+        height: 30px;
+        bottom: 0px;
+      }
+      &__tipR {
+        bottom: 35px;
+      }
+      &__tipL {
+        bottom: 35px;
+      }
+    }
+  }
+  &_ver {
+    & .slider {
+      &__track{
+        height: 100%;
+        width: 10px;
+        left: 10px;
+      }
+      &__bar{
         left: 10px;
         width: 10px;
         bottom: 0;
       }
-    }
-  }
-  &__tip {
-    position: absolute;
-    box-sizing: border-box;
-  }
-  &__tipR {
-    &_orange {
-      color: #323232;
-      font-family: "Times New Roman", Helvetica, sans-serif;
-      font-size: 10px;
-      line-height: 1.333;
-      padding: 1px 4px;
-      border-radius: 4px;
-      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
-      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
-      &_hor {
-        bottom: 35px;
+      &__runnerR {
+        width: 30px;
+        height: 30px;
+        left: 0px;
       }
-      &_ver {
+      &__runnerL {
+        width: 30px;
+        height: 30px;
+        left: 0px;
+      }
+      &__tipR {
         left: 35px;
       }
-    }
-  }
-  &__tipL {
-    &_orange {
-      color: #323232;
-      font-family: "Times New Roman", Helvetica, sans-serif;
-      font-size: 10px;
-      line-height: 1.333;
-      padding: 1px 4px;
-      border-radius: 4px;
-      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
-      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
-      &_hor {
-        bottom: 35px;
-      }
-      &_ver {
+      &__tipL {
         left: 35px;
       }
     }

@@ -1,24 +1,19 @@
 class Track {
   private track: HTMLElement;
 
-  private scin: string;
-
   public vertical: boolean;
 
-  constructor(slider: HTMLElement, scin: string) {
-    this.initTrack(slider, scin);
+  constructor(slider: HTMLElement) {
+    this.initTrack(slider);
   }
 
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
-    this.track.className = vertical
-      ? `s__track s__track_${this.scin} s__track_${this.scin}_ver`
-      : `s__track s__track_${this.scin} s__track_${this.scin}_hor`;
   }
 
-  private initTrack(slider: HTMLElement, scin: string) {
+  private initTrack(slider: HTMLElement) {
     this.track = document.createElement('div');
-    this.scin = scin;
+    this.track.className = 'slider__track';
     slider.append(this.track);
   }
 }

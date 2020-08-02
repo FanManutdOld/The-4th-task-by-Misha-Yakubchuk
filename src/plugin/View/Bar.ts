@@ -3,13 +3,11 @@ class Bar {
 
   private slider: HTMLElement;
 
-  private scin: string;
-
   public vertical: boolean;
 
-  constructor(slider: HTMLElement, scin: string) {
+  constructor(slider: HTMLElement) {
     this.slider = slider;
-    this.initBar(scin);
+    this.initBar();
   }
 
   public getMiddle(): number {
@@ -38,14 +36,11 @@ class Bar {
 
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
-    this.bar.className = vertical
-      ? `s__bar s__bar_${this.scin} s__bar_${this.scin}_ver`
-      : `s__bar s__bar_${this.scin} s__bar_${this.scin}_hor`;
   }
 
-  private initBar(scin: string) {
+  private initBar() {
     this.bar = document.createElement('div');
-    this.scin = scin;
+    this.bar.className = 'slider__bar';
     this.slider.append(this.bar);
   }
 }
