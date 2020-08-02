@@ -64,9 +64,7 @@ class View extends Observer {
     }
 
     this.updateOrientation(vertical);
-    this.rightEdge = vertical
-      ? this.slider.offsetHeight - this.runnerR.halfWidth * 2
-      : this.slider.offsetWidth - this.runnerR.halfWidth * 2;
+    this.updateRightEdge();
     this.updateView(config, true);
     this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
     this.slider.addEventListener('touchstart', this.handleSliderMouseDown);
@@ -193,10 +191,9 @@ class View extends Observer {
       }
 
       shift = vertical
-        ? posClick - target.getBoundingClientRect().top
+        ? target.getBoundingClientRect().bottom - posClick
         : posClick - target.getBoundingClientRect().left;
       position = this.getRelativePosition(posClick, shift);
-
       this.notify('mouseDown', position);
       this.bindDocumentMouseMove(event, shift);
     }
@@ -221,7 +218,7 @@ class View extends Observer {
   private getRelativePosition(posClick: number, shift: number): number {
     const rect = this.slider.getBoundingClientRect();
     if (this.config.vertical) {
-      return 1 - (posClick - shift - rect.top) / this.rightEdge;
+      return (rect.bottom - posClick - shift) / this.rightEdge;
     }
     return (posClick - shift - rect.left) / this.rightEdge;
   }
@@ -250,7 +247,6 @@ class View extends Observer {
       posClick = (event instanceof TouchEvent)
         ? event.targetTouches[0].clientX : event.clientX;
     }
-
     const position = this.getRelativePosition(posClick, shift);
     this.notify('changePosition', position);
   }
@@ -266,10 +262,14 @@ class View extends Observer {
   }
 
   private handleWindowResize = () => {
+    this.updateRightEdge();
+    this.updateView(this.config, true);
+  }
+
+  private updateRightEdge() {
     this.rightEdge = this.config.vertical
       ? this.slider.offsetHeight - this.runnerR.halfWidth * 2
       : this.slider.offsetWidth - this.runnerR.halfWidth * 2;
-    this.updateView(this.config, true);
   }
 
   private updateOrientation(vertical: boolean) {
