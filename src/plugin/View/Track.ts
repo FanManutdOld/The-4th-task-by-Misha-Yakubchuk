@@ -1,7 +1,7 @@
 class Track {
   private track: HTMLElement;
 
-  public vertical: boolean;
+  private vertical: boolean;
 
   constructor(slider: HTMLElement) {
     this.initTrack(slider);

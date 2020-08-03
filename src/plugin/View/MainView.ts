@@ -2,6 +2,7 @@
 import IConfig from '../IConfig';
 import Track from './Track';
 import Bar from './Bar';
+import MinMax from './MinMax';
 import Runner from './Runner';
 import Tip from './Tip';
 import Observer from '../Observer/Observer';
@@ -16,6 +17,8 @@ class View extends Observer {
   private track: Track;
 
   private bar: Bar;
+
+  private minMax: MinMax;
 
   private runnerR: Runner;
 
@@ -44,6 +47,7 @@ class View extends Observer {
       vertical,
       scin,
       isTips,
+      isMinMax,
     } = config;
 
     this.slider.className = vertical
@@ -62,6 +66,10 @@ class View extends Observer {
       if (!isTips) {
         this.tipL.hide();
       }
+    }
+    this.minMax = new MinMax(this.slider);
+    if (!isMinMax) {
+      this.minMax.hide();
     }
 
     this.updateOrientation(vertical);
@@ -99,6 +107,13 @@ class View extends Observer {
       this.tipL.setValue(from);
       newPos = (this.rightEdge * (from - min)) / (max - min);
       this.updateL(newPos);
+    }
+    if (isInit) {
+      if (double) {
+        this.minMax.update(min, max, this.runnerR.halfWidth, this.runnerL.halfWidth);
+      } else {
+        this.minMax.update(min, max, this.runnerR.halfWidth);
+      }
     }
     if (isCheckTips) {
       this.checkConnectionTips();
@@ -156,10 +171,10 @@ class View extends Observer {
     } = this.config;
     this.tipR.setValue(`${from}\u00A0—\u00A0${to}`);
     const rect = this.slider.getBoundingClientRect();
-    const temp = this.config.vertical
+    const pos = this.config.vertical
       ? rect.bottom - this.bar.getMiddle()
       : this.bar.getMiddle() - rect.left;
-    this.tipR.setUnitedPos(temp);
+    this.tipR.setUnitedPos(pos);
   }
 
   private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
@@ -278,6 +293,7 @@ class View extends Observer {
   private updateOrientation(vertical: boolean) {
     this.track.setOrientation(vertical);
     this.bar.setOrientation(vertical);
+    this.minMax.setOrientation(vertical);
     this.runnerR.setOrientation(vertical);
     this.tipR.setOrientation(vertical);
     if (this.config.double) {

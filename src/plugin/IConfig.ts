@@ -6,6 +6,7 @@ interface IConfig {
   step: number,
   double: boolean,
   isTips: boolean,
+  isMinMax: boolean,
   vertical: boolean,
   scin: string,
   current: string,

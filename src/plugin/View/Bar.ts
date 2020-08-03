@@ -3,7 +3,7 @@ class Bar {
 
   private slider: HTMLElement;
 
-  public vertical: boolean;
+  private vertical: boolean;
 
   constructor(slider: HTMLElement) {
     this.slider = slider;

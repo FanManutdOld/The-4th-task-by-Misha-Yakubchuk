@@ -5,7 +5,7 @@ class Runner {
 
   public halfWidth: number;
 
-  public vertical: boolean;
+  private vertical: boolean;
 
   constructor(slider: HTMLElement, runnerSide: string) {
     this.slider = slider;

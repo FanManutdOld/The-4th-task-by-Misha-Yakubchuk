@@ -5,7 +5,7 @@ class Tip {
 
   public halfWidth: number;
 
-  public vertical: boolean;
+  private vertical: boolean;
 
   constructor(slider: HTMLElement, tipSide: string) {
     this.slider = slider;

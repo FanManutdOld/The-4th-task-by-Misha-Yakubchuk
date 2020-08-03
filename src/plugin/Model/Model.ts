@@ -20,6 +20,7 @@ class Model extends Observer {
       step: NaN,
       double: false,
       isTips: true,
+      isMinMax: true,
       vertical: false,
       scin: 'orange',
       current: 'to',
