@@ -10,11 +10,19 @@
   }
   &__plugin1{
   }
+  &__wrapper{
+    display: flex;
+    justify-content: space-between;
+  }
   &__plugin2{
     height: 320px;
     width: 50px;
   }
   &__plugin3{
+    height: 320px;
+    width: 50px;
+  }
+  &__plugin4{
 
   }
   &__plugin4{

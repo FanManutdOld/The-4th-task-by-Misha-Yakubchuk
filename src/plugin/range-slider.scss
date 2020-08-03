@@ -12,116 +12,250 @@
     box-sizing: border-box;
     cursor: pointer;
   }
-  &__runner{
+  &__runner {
     position: absolute;
     cursor: pointer;
     box-sizing: border-box;
   }
-  &__tip{
+  &__tip {
     position: absolute;
     box-sizing: border-box;
+  }
+  &__range {
+    position: absolute;
+    z-index: -2;
   }
 }
 
 .slider_orange {
+  color: #323232;
+  font-family: "Times New Roman", Helvetica, sans-serif;
+  font-size: 10px;
+  line-height: 1.333;
   & .slider {
-    &__track{
+    &__track {
       border-radius: 10px;
       border: 1px solid rgba(0, 0, 0, 0.29);
       background-image: linear-gradient(to top, #262626 0%, #504f4f 100%);
     }
-    &__bar{
+    &__bar {
       border-radius: 10px;
       box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
       background-image: linear-gradient(to top, #ec8135 0%, #ef9554 100%);
     }
-    &__runnerR {
+    &__runner {
       border-radius: 30px;
       box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
       background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
     }
-    &__runnerL {
-      border-radius: 30px;
-      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
-      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
-    }
-    &__tipR {
-      color: #323232;
-      font-family: "Times New Roman", Helvetica, sans-serif;
-      font-size: 10px;
-      line-height: 1.333;
+    &__tip {
       padding: 1px 4px;
       border-radius: 4px;
       box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
       background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
     }
-    &__tipL {
-      color: #323232;
-      font-family: "Times New Roman", Helvetica, sans-serif;
-      font-size: 10px;
-      line-height: 1.333;
+    &__range {
       padding: 1px 4px;
       border-radius: 4px;
-      box-shadow: 0 1px 2px #242424, inset 0 1px 0 rgba(255, 255, 255, 0.33);
-      background-image: linear-gradient(to top, #ec8135 0%, #f39958 100%);
+      background: #fbe5d5;
     }
   }
   &_hor {
     & .slider {
-      &__track{
+      &__track {
         width: 100%;
         height: 10px;
         bottom: 10px;
       }
-      &__bar{
+      &__bar {
         left: 0;
         height: 10px;
         bottom: 10px;
       }
-      &__runnerR {
+      &__runner {
         width: 30px;
         height: 30px;
         bottom: 0px;
       }
-      &__runnerL {
-        width: 30px;
-        height: 30px;
-        bottom: 0px;
-      }
-      &__tipR {
+      &__tip {
         bottom: 35px;
       }
-      &__tipL {
+      &__range {
         bottom: 35px;
       }
     }
   }
   &_ver {
     & .slider {
-      &__track{
+      &__track {
         height: 100%;
         width: 10px;
         left: 10px;
       }
-      &__bar{
+      &__bar {
         left: 10px;
         width: 10px;
         bottom: 0;
       }
-      &__runnerR {
+      &__runner {
         width: 30px;
         height: 30px;
         left: 0px;
       }
-      &__runnerL {
-        width: 30px;
-        height: 30px;
-        left: 0px;
-      }
-      &__tipR {
+      &__tip {
         left: 35px;
       }
-      &__tipL {
+      &__range {
+        left: 35px;
+      }
+    }
+  }
+}
+
+.slider_caramel {
+  color: #fff7b2;
+  font-family: "PT Sans", sans-serif;
+  font-size: 12px;
+  line-height: 1.5;
+  & .slider {
+    &__track {
+      border-radius: 15px;
+      background: linear-gradient(to top, #a1655e 0%, #140d0e 100%);
+      box-shadow: inset 0 -5px 5px rgba(255, 255, 255, 0.55);
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        margin: 10px;
+        border-radius: inherit;
+        background: linear-gradient(to top, #4b3032 0%, #090606 100%);
+        box-shadow: 0 1px 1px rgba(255, 255, 255, 0.75), inset 0 6px 5px rgba(0, 0, 0, 0.75);
+      }
+    }
+    &__bar {
+      border-radius: 10px;
+      box-shadow: 0 2px 5px #000000, inset 0 3px 2px 1px #ffc53d, inset 0 -5px 3px -2px#000000, 0 0 5px 4px #c56d02;
+      background-image: linear-gradient(to top, #ca5019 0%, #fc8522 62%, #ffcb38 100%);
+    }
+    &__runner {
+      border-radius: 30px;
+      box-sizing: content-box;
+      background-image: linear-gradient(to top, #191011 0%, #67433f 61%, #cfb3b0 100%);
+      box-shadow: 0 0px 2px 2px rgba(103, 67, 63, 0.5), inset 0 -4px 2px 1px #191011, inset 0 1px 2px 0px #cfb3b0;
+    }
+    &__tip {
+      border: 2px solid transparent;
+      //background-image: linear-gradient(to top, #fc8522 0%, #f9641a 100%);
+      padding: 1px 4px;
+      border-radius: 1px;
+      background: #482e30;
+      box-shadow: 0 2px 4px 1px rgba(103, 67, 63, 0.5), inset 0px 3px 5px 0 #191011;
+      background-clip: padding-box;
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        z-index: -1;
+        margin: -2px;
+        border-radius: inherit;
+        background: linear-gradient(to bottom, #fc8522 0%, #f9641a 100%);
+        box-shadow: inset 0 1px 1px #fff247;
+      }
+      &::after {
+        content: "";
+        position: absolute;
+        width: 3px;
+        height: 3px;
+        top: 95%;
+        left: 50%;
+        margin-left: -2.5px;
+        background: #482e30;
+        border-top: 2px solid #f9641a;
+        border-right: 2px solid #f9641a;
+        transform: rotate(135deg);
+      }
+    }
+    &__range {
+      padding: 2px 4px;
+      border-radius: 2px;
+      background: #d5bec0;
+      box-shadow: inset 0px 10px 10px 0 #8d8384;
+      color: #fdf6b7;
+    }
+  }
+  &_hor {
+    & .slider {
+      &__track {
+        width: 100%;
+        height: 30px;
+        bottom: 0px;
+      }
+      &__bar {
+        left: 10px;
+        height: 10px;
+        bottom: 10px;
+      }
+      &__runner {
+        width: 30px;
+        height: 30px;
+        bottom: 0px;
+      }
+      &__tip {
+        bottom: 40px;
+      }
+      &__range {
+        bottom: 40px;
+      }
+    }
+  }
+  &_ver {
+    & .slider {
+      &__track {
+        height: 100%;
+        width: 30px;
+        left: 0px;
+        background: linear-gradient(to left, #a1655e 0%, #140d0e 100%);
+        box-shadow: inset -5px 0 5px rgba(255, 255, 255, 0.55);
+        &::before {
+          background: linear-gradient(to left, #4b3032 0%, #090606 100%);
+          box-shadow: 1px 0 1px rgba(255, 255, 255, 0.75), inset 0 6px 5px rgba(0, 0, 0, 0.75);
+        }
+      }
+      &__bar {
+        left: 10px;
+        width: 10px;
+        bottom: 10px;
+        box-shadow: 2px 0 5px #000000, inset 3px 0 2px 1px #ffc53d, inset -5px 0 3px -2px#000000, 0 0 5px 4px #c56d02;
+        background-image: linear-gradient(to left, #ca5019 0%, #fc8522 62%, #ffcb38 100%);
+      }
+      &__runner {
+        width: 30px;
+        height: 30px;
+        left: 0px;
+        background-image: linear-gradient(to top, #181010 0%, #452c2f 61%, #b88a81 100%),
+          linear-gradient(to top, #181010 0%, #452c2f 61%, #b88a81 100%);
+      }
+      &__tip {
+        left: 35px;
+        &::after {
+          left: initial;
+          right: 96%;
+          top: 50%;
+          margin-left: 0;
+          margin-top: -2.5px;
+          background: #482e30;
+          border-top: 2px solid #f9641a;
+          border-right: 2px solid #f9641a;
+          transform: rotate(-135deg);
+        }
+      }
+      &__range {
         left: 35px;
       }
     }

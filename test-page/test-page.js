@@ -8,6 +8,8 @@ $(document).ready(() => {
     max: 1000,
     from: 300,
     to: 700,
+    scin: 'caramel',
+    // isMinMax: false,
     double: true,
   });
   const slider2 = document.querySelector('.test-page__plugin2');
@@ -16,23 +18,35 @@ $(document).ready(() => {
     max: 1000,
     from: 300,
     to: 700,
+    scin: 'caramel',
     double: true,
     vertical: true,
   });
   const slider3 = document.querySelector('.test-page__plugin3');
   new App(slider3, {
+    min: 0,
+    max: 1000,
+    from: 300,
+    to: 700,
+    scin: 'caramel',
+    vertical: true,
+  });
+  const slider4 = document.querySelector('.test-page__plugin4');
+  new App(slider4, {
     min: 2,
     max: 5,
     from: 300,
     to: 3,
     step: 0.5,
+    scin: 'caramel',
   });
-  const slider4 = document.querySelector('.test-page__plugin4');
-  new App(slider4, {
+  const slider5 = document.querySelector('.test-page__plugin5');
+  new App(slider5, {
     min: -1000,
     max: 1000,
     double: true,
     from: 300,
     to: 700,
+    scin: 'caramel',
   });
 });
