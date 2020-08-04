@@ -8,7 +8,7 @@ $(document).ready(() => {
     max: 1000,
     from: 300,
     to: 700,
-    scin: 'caramel',
+    scin: 'whitered',
     // isMinMax: false,
     double: true,
   });
@@ -18,7 +18,7 @@ $(document).ready(() => {
     max: 1000,
     from: 300,
     to: 700,
-    scin: 'caramel',
+    scin: 'whitered',
     double: true,
     vertical: true,
   });
@@ -28,7 +28,7 @@ $(document).ready(() => {
     max: 1000,
     from: 300,
     to: 700,
-    scin: 'caramel',
+    scin: 'whitered',
     vertical: true,
   });
   const slider4 = document.querySelector('.test-page__plugin4');
@@ -38,7 +38,7 @@ $(document).ready(() => {
     from: 300,
     to: 3,
     step: 0.5,
-    scin: 'caramel',
+    scin: 'whitered',
   });
   const slider5 = document.querySelector('.test-page__plugin5');
   new App(slider5, {
@@ -47,6 +47,6 @@ $(document).ready(() => {
     double: true,
     from: 300,
     to: 700,
-    scin: 'caramel',
+    scin: 'whitered',
   });
 });

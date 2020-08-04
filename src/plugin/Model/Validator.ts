@@ -116,7 +116,7 @@ class Validator {
       return 'orange';
     }
 
-    const isWrong = scin !== 'orange' && scin !== 'caramel';
+    const isWrong = scin !== 'orange' && scin !== 'darkcongo' && scin !== 'whitered';
 
     if (isWrong) {
       console.warn('scin invalid');
