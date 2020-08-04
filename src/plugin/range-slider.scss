@@ -499,3 +499,89 @@
     }
   }
 }
+
+/* ----------------------------------------------------------------------------------------- */
+/* -----------------------------------------INDIGO------------------------------------------ */
+/* ----------------------------------------------------------------------------------------- */
+
+.slider_indigo {
+  color: #4136f1;
+  font-family: 'Poppins', sans-serif;
+  font-size: 12px;
+  line-height: 1.333;
+  & .slider {
+    &__track {
+      border-radius: 5px;
+      background: #e2e2e2;
+    }
+    &__bar {
+      border-radius: 10px;
+      background-image: linear-gradient(to right, #4136f1 0%, #8743ff 100%);
+    }
+    &__runner {
+      border-radius: 30px;
+      background: #8743ff;
+    }
+    &__runnerL {
+      background: #4136f1;
+    }
+    &__tip {
+      background: white;
+      border: 4px solid white;
+    }
+    &__range {
+      color: rgba(65, 54, 241, 0.3);
+    }
+  }
+  &_hor {
+    & .slider {
+      &__track {
+        width: 100%;
+        height: 6px;
+        bottom: 3px;
+      }
+      &__bar {
+        left: 0;
+        height: 6px;
+        bottom: 3px;
+      }
+      &__runner {
+        width: 12px;
+        height: 12px;
+        bottom: 0px;
+      }
+      &__tip {
+        bottom: 16px;
+      }
+      &__range {
+        bottom: 20px;
+      }
+    }
+  }
+  &_ver {
+    & .slider {
+      &__track {
+        height: 100%;
+        width: 6px;
+        left: 3px;
+      }
+      &__bar {
+        left: 3px;
+        width: 6px;
+        bottom: 0;
+        background-image: linear-gradient(to top, #4136f1 0%, #8743ff 100%);
+      }
+      &__runner {
+        width: 12px;
+        height: 12px;
+        left: 0px;
+      }
+      &__tip {
+        left: 16px;
+      }
+      &__range {
+        left: 20px;
+      }
+    }
+  }
+}
