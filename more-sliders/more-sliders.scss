@@ -1,0 +1,36 @@
+@import "../src/plugin/range-slider.scss";
+
+.more-sliders {
+  margin: 0 auto;
+  max-width: 1920px;
+  &__flex {
+    display: flex;
+    justify-content: space-evenly;
+  }
+  &__column {
+    width: 320px;
+    margin-right: 40px;
+    &:last-child {
+      margin-right: 0;
+    }
+  }
+  &__text {
+    height: 100px;
+    line-height: 100px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    text-transform: uppercase;
+  }
+  &__plugin {
+    margin-bottom: 100px;
+    height: 50px;
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+  &__ver {
+    height: 320px;
+    width: 50px;
+  }
+}
