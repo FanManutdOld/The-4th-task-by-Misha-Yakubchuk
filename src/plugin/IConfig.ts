@@ -10,6 +10,7 @@ interface IConfig {
   vertical: boolean,
   scin: string,
   current: string,
+  onChange: (data: IConfig) => void;
 }
 
 // eslint-disable-next-line no-undef

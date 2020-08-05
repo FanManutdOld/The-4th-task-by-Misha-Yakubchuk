@@ -1,9 +1,8 @@
-import App from '../src/plugin/App/App.ts';
+/* eslint-disable no-undef */
+import '../src/plugin/mySlider.ts';
 
-// eslint-disable-next-line no-undef
 $(document).ready(() => {
-  const slider1 = document.querySelector('.test-page__plugin1');
-  new App(slider1, {
+  const plugin1 = $('.test-page__plugin1').mySlider({
     min: 0,
     max: 1000,
     from: 300,
@@ -11,9 +10,12 @@ $(document).ready(() => {
     scin: 'orange',
     // isMinMax: false,
     double: true,
-  });
-  const slider2 = document.querySelector('.test-page__plugin2');
-  new App(slider2, {
+    onChange(data) {
+      console.log(data);
+    },
+  }).data('mySlider');
+  plugin1.test();
+  $('.test-page__plugin2').mySlider({
     min: 0,
     max: 1000,
     from: 300,
@@ -22,8 +24,7 @@ $(document).ready(() => {
     double: true,
     vertical: true,
   });
-  const slider3 = document.querySelector('.test-page__plugin3');
-  new App(slider3, {
+  $('.test-page__plugin3').mySlider({
     min: 0,
     max: 1000,
     from: 300,
@@ -31,8 +32,7 @@ $(document).ready(() => {
     scin: 'whitered',
     vertical: true,
   });
-  const slider4 = document.querySelector('.test-page__plugin4');
-  new App(slider4, {
+  $('.test-page__plugin4').mySlider({
     min: 2,
     max: 5,
     from: 300,
@@ -40,8 +40,7 @@ $(document).ready(() => {
     step: 0.5,
     scin: 'azure',
   });
-  const slider5 = document.querySelector('.test-page__plugin5');
-  new App(slider5, {
+  $('.test-page__plugin5').mySlider({
     min: -1000,
     max: 1000,
     double: true,

@@ -4,7 +4,20 @@ import Observer from '../Observer/Observer';
 import Validator from './Validator';
 
 class Model extends Observer {
-  private config: IConfig;
+  private config: IConfig = {
+    min: 0,
+    max: 1000,
+    from: 500,
+    to: 700,
+    step: NaN,
+    double: false,
+    isTips: true,
+    isMinMax: true,
+    vertical: false,
+    scin: 'orange',
+    current: 'to',
+    onChange: () => {},
+  };
 
   private isFractional: boolean;
 
@@ -12,19 +25,6 @@ class Model extends Observer {
 
   constructor(userConfig: any) {
     super();
-    this.config = {
-      min: 0,
-      max: 1000,
-      from: 500,
-      to: 700,
-      step: NaN,
-      double: false,
-      isTips: true,
-      isMinMax: true,
-      vertical: false,
-      scin: 'orange',
-      current: 'to',
-    };
 
     this.updateConfig(userConfig);
     Validator.validateAll(this.config);
@@ -90,6 +90,13 @@ class Model extends Observer {
         : (this.config.from < min) ? min : this.config.from;
     }
     this.notify('change');
+    this.callOnChange();
+  }
+
+  private callOnChange() {
+    if (this.config.onChange && typeof this.config.onChange === 'function') {
+      this.config.onChange(this.config);
+    }
   }
 
   private updateConfig(newConfig: any) {
