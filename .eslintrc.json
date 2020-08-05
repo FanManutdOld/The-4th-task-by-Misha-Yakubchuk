@@ -15,6 +15,7 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "linebreak-style": "off",
     "no-new": "off",
     "no-nested-ternary": "off",
     "import/extensions": "off",

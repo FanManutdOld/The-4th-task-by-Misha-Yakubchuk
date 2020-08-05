@@ -156,7 +156,6 @@
     }
     &__tip {
       border: 2px solid transparent;
-      //background-image: linear-gradient(to top, #fc8522 0%, #f9641a 100%);
       padding: 1px 4px;
       border-radius: 1px;
       background: #482e30;
@@ -252,8 +251,7 @@
       &__tip {
         left: 35px;
         &::after {
-          left: initial;
-          right: 96%;
+          left: -4px;
           top: 50%;
           margin-left: 0;
           margin-top: -2.5px;
