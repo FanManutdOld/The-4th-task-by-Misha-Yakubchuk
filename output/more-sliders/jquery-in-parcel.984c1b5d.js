@@ -9,4 +9,4 @@ var e,t=arguments[3],n=require("process");!function(e,t){"use strict";"object"==
 },{"process":"pBGv"}],"GaEz":[function(require,module,exports) {
 var e=require("../node_modules/jquery/dist/jquery.js");window.$=window.jQuery=e;
 },{"../node_modules/jquery/dist/jquery.js":"juYr"}]},{},["GaEz"], null)
-//# sourceMappingURL=jquery-in-parcel.4a9f2e55.js.map
+//# sourceMappingURL=jquery-in-parcel.984c1b5d.js.map
