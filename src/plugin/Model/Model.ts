@@ -7,7 +7,7 @@ class Model extends Observer {
   private config: IConfig = {
     min: 0,
     max: 1000,
-    from: 500,
+    from: 400,
     to: 700,
     step: NaN,
     double: false,
@@ -105,7 +105,9 @@ class Model extends Observer {
       if (!(key in this.config)) {
         throw new Error(`Invalid config property - ${key}`);
       }
-      this.config[key] = value;
+      if (value) {
+        this.config[key] = value;
+      }
     }
   }
 
