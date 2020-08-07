@@ -25,13 +25,13 @@ import Presenter from './Presenter/Presenter';
 
   mySlider.prototype = {
     init: function (el: HTMLElement, userConfig) {
-      const model = new Model(userConfig);
+      this.model = new Model(userConfig);
       const view = new View(el);
-      new Presenter(model, view);
+      new Presenter(this.model, view);
     },
 
-    test: function () {
-      console.log('hello');
+    update: function (newConfig) {
+      this.model.update(newConfig);
     },
   }
 

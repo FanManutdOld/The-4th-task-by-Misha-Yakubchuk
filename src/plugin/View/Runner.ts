@@ -30,10 +30,29 @@ class Runner {
 
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
+    this.runner.style.bottom = '';
+    this.runner.style.left = '';
     if (vertical) {
       this.halfWidth = this.runner.offsetHeight / 2;
     } else {
       this.halfWidth = this.runner.offsetWidth / 2;
+    }
+  }
+
+  public append() {
+    if (!this.slider.contains(this.runner)) {
+      this.slider.append(this.runner);
+      if (this.vertical) {
+        this.halfWidth = this.runner.offsetHeight / 2;
+      } else {
+        this.halfWidth = this.runner.offsetWidth / 2;
+      }
+    }
+  }
+
+  public remove() {
+    if (this.slider.contains(this.runner)) {
+      this.slider.removeChild(this.runner);
     }
   }
 

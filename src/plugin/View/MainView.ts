@@ -42,38 +42,15 @@ class View extends Observer {
 
   public initView(config: IConfig) {
     this.config = config;
-    const {
-      double,
-      vertical,
-      scin,
-      isTips,
-      isMinMax,
-    } = config;
 
-    this.slider.className = vertical
-      ? `slider slider_${scin} slider_${scin}_ver`
-      : `slider slider_${scin} slider_${scin}_hor`;
     this.track = new Track(this.slider);
     this.bar = new Bar(this.slider);
     this.runnerR = new Runner(this.slider, 'runnerR');
     this.tipR = new Tip(this.slider, 'tipR');
-    if (!isTips) {
-      this.tipR.hide();
-    }
-    if (double) {
-      this.runnerL = new Runner(this.slider, 'runnerL');
-      this.tipL = new Tip(this.slider, 'tipL');
-      if (!isTips) {
-        this.tipL.hide();
-      }
-    }
+    this.runnerL = new Runner(this.slider, 'runnerL');
+    this.tipL = new Tip(this.slider, 'tipL');
     this.minMax = new MinMax(this.slider);
-    if (!isMinMax) {
-      this.minMax.hide();
-    }
 
-    this.updateOrientation(vertical);
-    this.updateRightEdge();
     this.updateView(config, true);
     this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
     this.slider.addEventListener('touchstart', this.handleSliderMouseDown);
@@ -91,11 +68,27 @@ class View extends Observer {
       double,
       current,
       isTips,
+      isMinMax,
     } = config;
     const isUpdateR: boolean = current === 'to' || isInit;
     const isUpdateL: boolean = current === 'from' || (isInit && double);
     const isCheckTips: boolean = double && isTips;
 
+    if (isInit) {
+      this.tipR.updateVisibility(isTips);
+      this.updateOrientation();
+      this.updateRightEdge();
+      if (double) {
+        this.runnerL.append();
+        this.tipL.append();
+        this.tipL.updateVisibility(isTips);
+        this.minMax.update(isMinMax, min, max, this.runnerR.halfWidth, this.runnerL.halfWidth);
+      } else {
+        this.runnerL.remove();
+        this.tipL.remove();
+        this.minMax.update(isMinMax, min, max, this.runnerR.halfWidth);
+      }
+    }
     if (isUpdateR) {
       if (!this.connectedTip) {
         this.tipR.setValue(to);
@@ -107,13 +100,6 @@ class View extends Observer {
       this.tipL.setValue(from);
       newPos = (this.rightEdge * (from - min)) / (max - min);
       this.updateL(newPos);
-    }
-    if (isInit) {
-      if (double) {
-        this.minMax.update(min, max, this.runnerR.halfWidth, this.runnerL.halfWidth);
-      } else {
-        this.minMax.update(min, max, this.runnerR.halfWidth);
-      }
     }
     if (isCheckTips) {
       this.checkConnectionTips();
@@ -152,13 +138,13 @@ class View extends Observer {
     if (!this.connectedTip) {
       if (this.tipR.isConnected(this.tipL)) {
         this.connectedTip = true;
-        this.tipL.hide();
+        this.tipL.updateVisibility(false);
         this.updateConnectedTips();
       }
     } else if (this.connectedTip) {
       if (this.tipR.isDisconnected(this.tipL)) {
         this.connectedTip = false;
-        this.tipL.show();
+        this.tipL.updateVisibility(true);
         this.updateView(this.config, true);
       }
     }
@@ -185,6 +171,7 @@ class View extends Observer {
     const isTrack: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar');
 
     if (isTrack) {
+      this.callOnStart();
       if (vertical) {
         posClick = (event instanceof TouchEvent)
           ? event.targetTouches[0].clientY : event.clientY;
@@ -200,6 +187,7 @@ class View extends Observer {
       this.bindDocumentMouseMove(event, shift);
     }
     if (target.classList.contains('slider__runner')) {
+      this.callOnStart();
       if (vertical) {
         posClick = (event instanceof TouchEvent)
           ? event.targetTouches[0].clientY : event.clientY;
@@ -277,6 +265,7 @@ class View extends Observer {
       document.removeEventListener('touchmove', this.refHandleDocumentMouseMove);
       document.removeEventListener('touchend', this.refHandleDocumentMouseUp);
     }
+    this.callOnFinish();
   }
 
   private handleWindowResize = () => {
@@ -290,8 +279,15 @@ class View extends Observer {
       : this.slider.offsetWidth - this.runnerR.halfWidth * 2;
   }
 
-  private updateOrientation(vertical: boolean) {
-    this.track.setOrientation(vertical);
+  private updateOrientation() {
+    const {
+      scin,
+      vertical,
+    } = this.config;
+
+    this.slider.className = vertical
+      ? `slider slider_${scin} slider_${scin}_ver`
+      : `slider slider_${scin} slider_${scin}_hor`;
     this.bar.setOrientation(vertical);
     this.minMax.setOrientation(vertical);
     this.runnerR.setOrientation(vertical);
@@ -299,6 +295,18 @@ class View extends Observer {
     if (this.config.double) {
       this.runnerL.setOrientation(vertical);
       this.tipL.setOrientation(vertical);
+    }
+  }
+
+  private callOnStart() {
+    if (this.config.onStart && typeof this.config.onStart === 'function') {
+      this.config.onStart(this.config);
+    }
+  }
+
+  private callOnFinish() {
+    if (this.config.onFinish && typeof this.config.onFinish === 'function') {
+      this.config.onFinish(this.config);
     }
   }
 }

@@ -14,32 +14,33 @@ class MinMax {
     this.init();
   }
 
-  public update(min: number, max: number, shiftR: number, shiftL?: number) {
-    if (!shiftL) {
-      // eslint-disable-next-line no-param-reassign
-      shiftL = shiftR;
-    }
-    this.minEl.textContent = `${min}`;
-    this.maxEl.textContent = `${max}`;
-    if (this.vertical) {
-      this.minEl.style.top = `${this.slider.offsetHeight - shiftL - this.maxEl.offsetHeight / 2}px`;
-      this.maxEl.style.top = `${shiftR - this.minEl.offsetHeight / 2}px`;
+  public update(isMinMax: boolean, min: number, max: number, shiftR: number, shiftL?: number) {
+    if (isMinMax) {
+      this.minMax.style.visibility = 'visible';
+      if (!shiftL) {
+        // eslint-disable-next-line no-param-reassign
+        shiftL = shiftR;
+      }
+      this.minEl.textContent = `${min}`;
+      this.maxEl.textContent = `${max}`;
+      if (this.vertical) {
+        this.minEl.style.top = `${this.slider.offsetHeight - shiftL - this.maxEl.offsetHeight / 2}px`;
+        this.maxEl.style.top = `${shiftR - this.minEl.offsetHeight / 2}px`;
+      } else {
+        this.minEl.style.left = `${shiftL - this.minEl.offsetWidth / 2}px`;
+        this.maxEl.style.left = `${this.slider.offsetWidth - shiftR - this.maxEl.offsetWidth / 2}px`;
+      }
     } else {
-      this.minEl.style.left = `${shiftL - this.minEl.offsetWidth / 2}px`;
-      this.maxEl.style.left = `${this.slider.offsetWidth - shiftR - this.maxEl.offsetWidth / 2}px`;
+      this.minMax.style.visibility = 'hidden';
     }
   }
 
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
-  }
-
-  public hide() {
-    this.minMax.style.visibility = 'hidden';
-  }
-
-  public show() {
-    this.minMax.style.visibility = 'visible';
+    this.minEl.style.top = '';
+    this.minEl.style.left = '';
+    this.maxEl.style.top = '';
+    this.maxEl.style.left = '';
   }
 
   private init() {

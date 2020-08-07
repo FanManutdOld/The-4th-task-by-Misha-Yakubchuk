@@ -18,7 +18,8 @@ class Presenter {
     this.view.add('mouseDown', this.handleMouseDown);
     this.view.add('changePosition', this.handleChangePosition);
     this.model.add('changeCurrent', this.handleChangeCurrent);
-    this.model.add('change', this.handleModelChange);
+    this.model.add('changeValue', this.handleChangeValue);
+    this.model.add('changeConfig', this.handleChangeConfig);
   }
 
   private handleMouseDown = (position: number) => {
@@ -33,8 +34,12 @@ class Presenter {
     this.view.updateCurrent(current);
   }
 
-  private handleModelChange = () => {
+  private handleChangeValue = () => {
     this.view.updateView(this.model.getConfig());
+  }
+
+  private handleChangeConfig = () => {
+    this.view.updateView(this.model.getConfig(), true);
   }
 }
 

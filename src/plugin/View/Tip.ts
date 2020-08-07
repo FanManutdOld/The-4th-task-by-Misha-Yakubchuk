@@ -53,16 +53,30 @@ class Tip {
     return (rectL.right <= rectR.left + this.halfWidth);
   }
 
-  public hide() {
-    this.tip.style.visibility = 'hidden';
-  }
-
-  public show() {
-    this.tip.style.visibility = 'visible';
+  public updateVisibility(isVisible: boolean) {
+    if (isVisible) {
+      this.tip.style.visibility = 'visible';
+    } else {
+      this.tip.style.visibility = 'hidden';
+    }
   }
 
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
+    this.tip.style.bottom = '';
+    this.tip.style.left = '';
+  }
+
+  public append() {
+    if (!this.slider.contains(this.tip)) {
+      this.slider.append(this.tip);
+    }
+  }
+
+  public remove() {
+    if (this.slider.contains(this.tip)) {
+      this.slider.removeChild(this.tip);
+    }
   }
 
   private initHelp(tipSide: string) {

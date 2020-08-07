@@ -10,11 +10,22 @@ $(document).ready(() => {
     scin: 'orange',
     // isMinMax: false,
     double: true,
-    onChange(data) {
-      console.log(data);
+    onStart() {
+      console.log('start');
+    },
+    onChange() {
+      console.log('change');
+    },
+    onFinish() {
+      console.log('finish');
     },
   }).data('mySlider');
-  plugin1.test();
+  plugin1.update({
+    double: false,
+  });
+  plugin1.update({
+    double: true,
+  });
   $('.test-page__plugin2').mySlider({
     min: 0,
     max: 1000,

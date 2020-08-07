@@ -16,7 +16,9 @@ class Model extends Observer {
     vertical: false,
     scin: 'orange',
     current: 'to',
+    onStart: () => {},
     onChange: () => {},
+    onFinish: () => {},
   };
 
   private isFractional: boolean;
@@ -31,6 +33,12 @@ class Model extends Observer {
     if (!this.config.step) {
       this.getDefaultStep();
     }
+  }
+
+  public update(userConfig: any) {
+    this.updateConfig(userConfig);
+    Validator.validateAll(this.config);
+    this.notify('changeConfig');
   }
 
   public getConfig(): IConfig {
@@ -89,14 +97,8 @@ class Model extends Observer {
       this.config.from = (this.config.from > to) ? to
         : (this.config.from < min) ? min : this.config.from;
     }
-    this.notify('change');
+    this.notify('changeValue');
     this.callOnChange();
-  }
-
-  private callOnChange() {
-    if (this.config.onChange && typeof this.config.onChange === 'function') {
-      this.config.onChange(this.config);
-    }
   }
 
   private updateConfig(newConfig: any) {
@@ -105,7 +107,7 @@ class Model extends Observer {
       if (!(key in this.config)) {
         throw new Error(`Invalid config property - ${key}`);
       }
-      if (value) {
+      if (typeof value !== 'undefined') {
         this.config[key] = value;
       }
     }
@@ -120,6 +122,12 @@ class Model extends Observer {
       this.numOfSymbols = 0;
     }
     this.config.step = this.roundFractional(10 ** (-this.numOfSymbols), this.numOfSymbols);
+  }
+
+  private callOnChange() {
+    if (this.config.onChange && typeof this.config.onChange === 'function') {
+      this.config.onChange(this.config);
+    }
   }
 
   // eslint-disable-next-line class-methods-use-this

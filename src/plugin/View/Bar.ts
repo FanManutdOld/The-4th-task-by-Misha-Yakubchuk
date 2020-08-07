@@ -36,6 +36,10 @@ class Bar {
 
   public setOrientation(vertical: boolean) {
     this.vertical = vertical;
+    this.bar.style.top = '';
+    this.bar.style.right = '';
+    this.bar.style.bottom = '';
+    this.bar.style.left = '';
   }
 
   private initBar() {
