@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import '../src/plugin/mySlider.ts';
+import '../plugin/mySlider.ts';
 
 $(document).ready(() => {
   const plugin1 = $('.test-page__plugin1').mySlider({

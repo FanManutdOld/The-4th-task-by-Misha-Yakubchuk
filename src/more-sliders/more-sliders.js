@@ -1,4 +1,4 @@
-import App from '../src/plugin/App/App.ts';
+import App from '../plugin/App/App.ts';
 
 // eslint-disable-next-line no-undef
 $(document).ready(() => {
