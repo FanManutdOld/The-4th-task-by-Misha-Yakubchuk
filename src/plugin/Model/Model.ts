@@ -16,9 +16,9 @@ class Model extends Observer {
     vertical: false,
     scin: 'orange',
     current: 'to',
-    onStart: () => {},
-    onChange: () => {},
-    onFinish: () => {},
+    onStart: () => { },
+    onChange: () => { },
+    onFinish: () => { },
   };
 
   private isFractional: boolean;
@@ -32,13 +32,23 @@ class Model extends Observer {
     Validator.validateAll(this.config);
     if (!this.config.step) {
       this.getDefaultStep();
+    } else if (this.config.step.toString().includes('.')) {
+      this.isFractional = true;
+      this.numOfSymbols = this.config.step.toString().split('.').pop().length;
     }
   }
 
   public update(userConfig: any) {
     this.updateConfig(userConfig);
     Validator.validateAll(this.config);
+    if (this.config.step.toString().includes('.')) {
+      this.isFractional = true;
+      this.numOfSymbols = this.config.step.toString().split('.').pop().length;
+    } else {
+      this.isFractional = false;
+    }
     this.notify('changeConfig');
+    this.callOnChange();
   }
 
   public getConfig(): IConfig {

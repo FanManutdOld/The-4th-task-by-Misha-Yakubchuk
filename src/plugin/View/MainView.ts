@@ -32,7 +32,7 @@ class View extends Observer {
 
   private refHandleDocumentMouseUp: EventListener;
 
-  private connectedTip: boolean;
+  private connectedTips: boolean;
 
   constructor(parent: HTMLElement) {
     super();
@@ -81,7 +81,9 @@ class View extends Observer {
       if (double) {
         this.runnerL.append();
         this.tipL.append();
-        this.tipL.updateVisibility(tips);
+        if (!this.connectedTips) {
+          this.tipL.updateVisibility(tips);
+        }
         this.minMax.update(minMax, min, max, this.runnerR.halfWidth, this.runnerL.halfWidth);
       } else {
         this.runnerL.remove();
@@ -90,7 +92,7 @@ class View extends Observer {
       }
     }
     if (isUpdateR) {
-      if (!this.connectedTip) {
+      if (!this.connectedTips) {
         this.tipR.setValue(to);
       }
       newPos = (this.rightEdge * (to - min)) / (max - min);
@@ -118,7 +120,7 @@ class View extends Observer {
   private updateR(newPos: number) {
     this.runnerR.setPos(newPos);
     this.bar.setRight(newPos, this.runnerR.halfWidth);
-    if (this.connectedTip) {
+    if (this.connectedTips) {
       this.updateConnectedTips();
     } else {
       this.tipR.setPos(newPos, this.runnerR.halfWidth);
@@ -128,22 +130,22 @@ class View extends Observer {
   private updateL(newPos: number) {
     this.runnerL.setPos(newPos);
     this.bar.setLeft(newPos, this.runnerL.halfWidth);
-    if (this.connectedTip) {
+    if (this.connectedTips) {
       this.updateConnectedTips();
     }
     this.tipL.setPos(newPos, this.runnerL.halfWidth);
   }
 
   private checkConnectionTips() {
-    if (!this.connectedTip) {
+    if (!this.connectedTips) {
       if (this.tipR.isConnected(this.tipL)) {
-        this.connectedTip = true;
+        this.connectedTips = true;
         this.tipL.updateVisibility(false);
         this.updateConnectedTips();
       }
-    } else if (this.connectedTip) {
+    } else if (this.connectedTips) {
       if (this.tipR.isDisconnected(this.tipL)) {
-        this.connectedTip = false;
+        this.connectedTips = false;
         this.tipL.updateVisibility(true);
         this.updateView(this.config, true);
       }
