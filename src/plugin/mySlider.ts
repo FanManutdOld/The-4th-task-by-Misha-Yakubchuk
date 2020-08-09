@@ -1,7 +1,9 @@
 /* eslint-disable */
+import './jQueryInterface';
 import Model from './Model/Model';
 import View from './View/MainView';
 import Presenter from './Presenter/Presenter';
+
 
 (function ($) {
 
@@ -13,8 +15,8 @@ import Presenter from './Presenter/Presenter';
       to: $(el).data('to'),
       step: $(el).data('step'),
       double: $(el).data('double'),
-      isTips: $(el).data('tips'),
-      isMinMax: $(el).data('minMax'),
+      tips: $(el).data('tips'),
+      minMax: $(el).data('minMax'),
       vertical: $(el).data('vertical'),
       scin: $(el).data('scin'),
     };
@@ -33,6 +35,10 @@ import Presenter from './Presenter/Presenter';
     update: function (newConfig) {
       this.model.update(newConfig);
     },
+
+    getData: function() {
+      return this.model.getConfig();
+    }
   }
 
   $.fn.mySlider = function (userConfig) {
