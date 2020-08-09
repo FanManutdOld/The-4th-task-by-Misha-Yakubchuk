@@ -1,32 +1,19 @@
 /* eslint-disable no-undef */
 import '../plugin/mySlider.ts';
+import DemoSlider from './demo-slider/demo-slider';
 
 $(document).ready(() => {
-  const plugin1 = $('.test-page__plugin1').mySlider({
+  const config1 = {
     min: 0,
     max: 1000,
     from: 300,
-    to: 700,
+    step: 0.1,
     scin: 'orange',
-    // isMinMax: false,
     double: true,
-    onStart() {
-      console.log('start');
-    },
-    onChange() {
-      console.log('change');
-    },
-    onFinish() {
-      console.log('finish');
-    },
-  }).data('mySlider');
-  plugin1.update({
-    double: false,
-  });
-  plugin1.update({
-    double: true,
-  });
-  $('.test-page__plugin2').mySlider({
+  };
+  const demo1 = document.querySelector('.js-slider1') as HTMLElement;
+  new DemoSlider(demo1, config1);
+  /* $('.test-page__plugin2').mySlider({
     min: 0,
     max: 1000,
     from: 300,
@@ -58,5 +45,5 @@ $(document).ready(() => {
     from: 300,
     to: 700,
     scin: 'indigo',
-  });
+  }); */
 });

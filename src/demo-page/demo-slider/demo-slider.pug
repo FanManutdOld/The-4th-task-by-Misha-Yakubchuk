@@ -1,0 +1,39 @@
+include ./checkbox/checkbox.pug
+
+mixin demo-slider({callBacks, data}={})
+
+  .demo-slider
+    .demo-slider__panel
+      .demo-slider__column
+        .demo-slider__text Min:
+          input.demo-slider__input.js-min(type="number")
+        .demo-slider__text From:
+          input.demo-slider__input.js-from(type="number")
+        .demo-slider__text Scin:
+          input.demo-slider__input.js-scin(type="text")
+        .demo-slider__checkbox
+          +checkbox({label: "Double", js: "double"})
+        .demo-slider__checkbox
+          +checkbox({label: "Tips", js: "tips"})
+      .demo-slider__column
+        .demo-slider__text Max:
+          input.demo-slider__input.js-max(type="number")
+        .demo-slider__text To:
+          input.demo-slider__input.js-to(type="number")
+        .demo-slider__text Step:
+          input.demo-slider__input.js-step(type="number")
+        .demo-slider__checkbox
+          +checkbox({label: "Vertical", js: "vertical"})
+        .demo-slider__checkbox
+          +checkbox({label: "MinMax", js: "minMax"})
+        .demo-slider__checkbox
+          +checkbox({label: "Scale", js: "scale"})
+    .demo-slider__plugin.js-plugin
+      .demo-slider__callbacks
+        .demo-slider__callback.js-start onStart
+        .demo-slider__callback.js-change onChange
+        .demo-slider__callback.js-finish onFinish
+      if (data)
+        .demo-slider__slider.js-slider(data-min="0", data-max="1000", data-to="78")
+      else
+        .demo-slider__slider.js-slider

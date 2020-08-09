@@ -1,3 +1,5 @@
+include ./demo-slider/demo-slider.pug
+
 doctype html
 html(lang="ru")
   head
@@ -10,11 +12,7 @@ html(lang="ru")
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     title Test plugin
   body
-    .test-page
-      .test-page__plugin.test-page__plugin1
-      .test-page__wrapper
-        .test-page__plugin.test-page__plugin2
-        .test-page__plugin.test-page__plugin3
-      .test-page__plugin.test-page__plugin4
-      .test-page__plugin.test-page__plugin5
-  script(src="./demo-page.js")
+    .demo-page
+      .demo-page__slider1.js-slider1
+        +demo-slider({})
+  script(src="./demo-page.ts")

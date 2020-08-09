@@ -1,31 +1,9 @@
 @import "../plugin/range-slider.scss";
+@import "./demo-slider/demo-slider.scss";
 
-.test-page{
+.demo-page {
+  max-width: 1000px;
   margin: 0 auto;
-  max-width: 320px;
-  &__plugin {
-    margin-top: 100px;
-    height: 50px;
-    //background-color: rgba(21,69,225,0.05);
-  }
-  &__plugin1{
-  }
-  &__wrapper{
-    display: flex;
-    justify-content: space-between;
-  }
-  &__plugin2{
-    height: 320px;
-    width: 50px;
-  }
-  &__plugin3{
-    height: 320px;
-    width: 50px;
-  }
-  &__plugin4{
-
-  }
-  &__plugin4{
-
+  &__slider1 {
   }
 }

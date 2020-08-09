@@ -1,0 +1,7 @@
+mixin checkbox({label, js})
+
+  .checkbox
+    label.checkbox__label
+      input(class="checkbox__input js-" + js, type="checkbox", name= label)
+      = label
+      span.checkbox__box
