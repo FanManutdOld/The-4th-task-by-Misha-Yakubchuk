@@ -67,26 +67,26 @@ class View extends Observer {
       to,
       double,
       current,
-      isTips,
-      isMinMax,
+      tips,
+      minMax,
     } = config;
     const isUpdateR: boolean = current === 'to' || isInit;
     const isUpdateL: boolean = current === 'from' || (isInit && double);
-    const isCheckTips: boolean = double && isTips;
+    const isCheckTips: boolean = double && tips;
 
     if (isInit) {
-      this.tipR.updateVisibility(isTips);
+      this.tipR.updateVisibility(tips);
       this.updateOrientation();
       this.updateRightEdge();
       if (double) {
         this.runnerL.append();
         this.tipL.append();
-        this.tipL.updateVisibility(isTips);
-        this.minMax.update(isMinMax, min, max, this.runnerR.halfWidth, this.runnerL.halfWidth);
+        this.tipL.updateVisibility(tips);
+        this.minMax.update(minMax, min, max, this.runnerR.halfWidth, this.runnerL.halfWidth);
       } else {
         this.runnerL.remove();
         this.tipL.remove();
-        this.minMax.update(isMinMax, min, max, this.runnerR.halfWidth);
+        this.minMax.update(minMax, min, max, this.runnerR.halfWidth);
       }
     }
     if (isUpdateR) {
