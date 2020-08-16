@@ -30,23 +30,13 @@ class Model extends Observer {
 
     this.updateConfig(userConfig);
     Validator.validateAll(this.config);
-    if (!this.config.step) {
-      this.getDefaultStep();
-    } else if (this.config.step.toString().includes('.')) {
-      this.isFractional = true;
-      this.numOfSymbols = this.config.step.toString().split('.').pop().length;
-    }
+    this.setStep();
   }
 
   public update(userConfig: any) {
     this.updateConfig(userConfig);
     Validator.validateAll(this.config);
-    if (this.config.step.toString().includes('.')) {
-      this.isFractional = true;
-      this.numOfSymbols = this.config.step.toString().split('.').pop().length;
-    } else {
-      this.isFractional = false;
-    }
+    this.setStep();
     this.notify('changeConfig');
     this.callOnChange();
   }
@@ -120,6 +110,17 @@ class Model extends Observer {
       if (typeof value !== 'undefined') {
         this.config[key] = value;
       }
+    }
+  }
+
+  private setStep() {
+    if (!this.config.step) {
+      this.getDefaultStep();
+    } else if (this.config.step.toString().includes('.')) {
+      this.isFractional = true;
+      this.numOfSymbols = this.config.step.toString().split('.').pop().length;
+    } else {
+      this.isFractional = false;
     }
   }
 
