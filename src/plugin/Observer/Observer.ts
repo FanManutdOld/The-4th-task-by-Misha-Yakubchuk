@@ -19,7 +19,8 @@ class Observer {
 
   protected notify(eventType: string, data?: any) {
     if (this.observers[eventType] === undefined || this.observers[eventType].data === undefined) {
-      throw new Error('could not find callback or observer');
+      console.warn('could not find callback or observer');
+      return;
     }
 
     // Make a copy of observer list in case the list
