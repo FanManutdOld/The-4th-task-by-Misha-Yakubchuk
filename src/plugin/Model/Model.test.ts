@@ -23,5 +23,17 @@ describe('Model class', () => {
       };
       expect(model.getConfig()).toMatchObject(defaultConfig);
     });
+    test('should setup user config', () => {
+      const userConfig = {
+        min: 200,
+        max: 500,
+        from: 250,
+        to: 300,
+        double: true,
+        vertical: true,
+      };
+      model = new Model(userConfig);
+      expect(model.getConfig()).toMatchObject(userConfig);
+    });
   });
 });
