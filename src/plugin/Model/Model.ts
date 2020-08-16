@@ -16,9 +16,6 @@ class Model extends Observer {
     vertical: false,
     scin: 'orange',
     current: 'to',
-    onStart: () => { },
-    onChange: () => { },
-    onFinish: () => { },
   };
 
   private isFractional: boolean;
@@ -104,7 +101,8 @@ class Model extends Observer {
   private updateConfig(newConfig: any) {
     // eslint-disable-next-line no-restricted-syntax
     for (const [key, value] of Object.entries(newConfig)) {
-      if (!(key in this.config)) {
+      const isInvalid = !(key in this.config) && typeof value !== 'function';
+      if (isInvalid) {
         throw new Error(`Invalid config property - ${key}`);
       }
       if (typeof value !== 'undefined') {
@@ -128,7 +126,9 @@ class Model extends Observer {
     const { min, max } = this.config;
     this.isFractional = min.toString().includes('.') || max.toString().includes('.');
     if (this.isFractional) {
-      this.numOfSymbols = Math.max(min.toString().split('.').pop().length, max.toString().split('.').pop().length);
+      const minSymbols = min.toString().includes('.') ? min.toString().split('.').pop().length : 0;
+      const maxSymbols = max.toString().includes('.') ? max.toString().split('.').pop().length : 0;
+      this.numOfSymbols = Math.max(minSymbols, maxSymbols);
     } else {
       this.numOfSymbols = 0;
     }
