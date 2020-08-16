@@ -71,7 +71,7 @@ class View extends Observer {
       minMax,
     } = config;
     const isUpdateR: boolean = current === 'to' || isInit;
-    const isUpdateL: boolean = current === 'from' || (isInit && double);
+    const isUpdateL: boolean = (current === 'from' || isInit) && double;
     const isCheckTips: boolean = double && tips;
 
     if (isInit) {
