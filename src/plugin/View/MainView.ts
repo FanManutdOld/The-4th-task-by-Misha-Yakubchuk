@@ -160,8 +160,8 @@ class View extends Observer {
     this.tipR.setValue(`${from}\u00A0—\u00A0${to}`);
     const rect = this.slider.getBoundingClientRect();
     const pos = this.config.vertical
-      ? rect.bottom - this.bar.getMiddle()
-      : this.bar.getMiddle() - rect.left;
+      ? rect.bottom - this.bar.getCenter()
+      : this.bar.getCenter() - rect.left;
     this.tipR.setUnitedPos(pos);
   }
 
@@ -216,11 +216,11 @@ class View extends Observer {
     if (!double) {
       return this.runnerR.halfWidth - 0.5;
     }
-    const middle = this.bar.getMiddle();
+    const center = this.bar.getCenter();
     if (vertical) {
-      return (posClick < middle) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
+      return (posClick < center) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
     }
-    return (posClick > middle) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
+    return (posClick > center) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
   }
 
   private getRelativePosition(posClick: number, shift: number): number {

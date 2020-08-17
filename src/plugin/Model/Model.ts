@@ -58,11 +58,11 @@ class Model extends Observer {
 
     const posRound = this.roundFractional(position, 3);
 
-    let middle = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
-    middle = this.roundFractional(middle, 3);
+    let center = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
+    center = this.roundFractional(center, 3);
 
-    const isLastCurrentFrom: boolean = posRound === middle && this.config.current === 'from';
-    this.config.current = (posRound < middle) ? 'from' : (isLastCurrentFrom) ? 'from' : 'to';
+    const isLastCurrentFrom: boolean = posRound === center && this.config.current === 'from';
+    this.config.current = (posRound < center) ? 'from' : (isLastCurrentFrom) ? 'from' : 'to';
     this.notify('changeCurrent', this.config.current);
   }
 

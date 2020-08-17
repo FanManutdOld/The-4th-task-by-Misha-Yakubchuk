@@ -10,7 +10,7 @@ class Bar {
     this.initBar();
   }
 
-  public getMiddle(): number {
+  public getCenter(): number {
     const rect = this.bar.getBoundingClientRect();
     if (this.vertical) {
       return rect.top + (rect.bottom - rect.top) / 2;
