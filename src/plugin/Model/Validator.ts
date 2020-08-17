@@ -17,7 +17,7 @@ class Validator {
     config.double = this.validateDouble(double);
     config.step = this.validateStep(config.min, config.max, config.step);
     config = this.validateFromTo(config);
-    config.tips = this.validateIsTips(tips);
+    config.tips = this.validateTips(tips);
     config.minMax = this.validateIsMinMax(minMax);
     config.scin = this.validateScin(scin);
 
@@ -92,13 +92,13 @@ class Validator {
     return config;
   }
 
-  static validateIsTips(tip: boolean): boolean {
-    if (typeof tip !== 'boolean') {
+  static validateTips(tips: boolean): boolean {
+    if (typeof tips !== 'boolean') {
       console.warn('isTip must be boolean');
-      tip = true;
+      tips = true;
     }
 
-    return tip;
+    return tips;
   }
 
   static validateIsMinMax(minMax: boolean): boolean {
