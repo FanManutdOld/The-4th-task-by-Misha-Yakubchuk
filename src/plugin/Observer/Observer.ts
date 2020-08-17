@@ -8,7 +8,6 @@ class Observer {
   public add(eventType: string, callback: Function) {
     if (this.observers[eventType] === undefined) {
       this.observers[eventType] = {};
-      this.observers[eventType].isAddOnce = false;
       this.observers[eventType].data = [];
     }
     if (this.observers[eventType].data.includes(callback)) {
