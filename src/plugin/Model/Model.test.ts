@@ -4,6 +4,7 @@ describe('Model class', () => {
   let model: Model;
   beforeEach(() => {
     model = new Model({});
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
   });
 
   describe('Initialize model', () => {
