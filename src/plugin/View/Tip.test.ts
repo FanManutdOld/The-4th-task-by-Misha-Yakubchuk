@@ -40,7 +40,7 @@ describe('Tip class', () => {
       tipR.remove();
       tipR.append();
       const tipRDOM = parent.querySelector('.slider__tipR');
-      expect(tipRDOM).toBeDefined();
+      expect(tipRDOM).toBeTruthy();
     });
   });
 
