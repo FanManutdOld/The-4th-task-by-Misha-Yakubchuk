@@ -74,6 +74,14 @@ describe('Model class', () => {
   });
 
   describe('setCurrent method', () => {
+    test('should notify about change current', () => {
+      model.update({ double: true });
+      const callback = jest.fn();
+      model.add('changeCurrent', callback);
+      model.setCurrent(0.7);
+      expect(callback).toBeCalled();
+    });
+
     test('should set current - to, in single slider', () => {
       model.setCurrent(0.7);
       expect(model.getConfig().current).toBe('to');
@@ -105,6 +113,13 @@ describe('Model class', () => {
   });
 
   describe('calcValue method', () => {
+    test('should notify about change value', () => {
+      const callback = jest.fn();
+      model.add('changeValue', callback);
+      model.calcValue(0.8);
+      expect(callback).toBeCalled();
+    });
+
     test('should set correct right value', () => {
       model.calcValue(0.8);
       expect(model.getConfig().to).toBe(800);
