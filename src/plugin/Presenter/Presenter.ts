@@ -31,7 +31,7 @@ class Presenter {
   }
 
   private handleChangeCurrent = (current: string) => {
-    this.view.updateCurrent(current);
+    this.view.updateZIndex(current);
   }
 
   private handleChangeValue = () => {

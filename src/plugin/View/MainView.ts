@@ -108,8 +108,7 @@ class View extends Observer {
     }
   }
 
-  public updateCurrent(current: string) {
-    this.config.current = current;
+  public updateZIndex(current: string) {
     if (current === 'to') {
       this.runnerR.setZIndex();
     } else {
