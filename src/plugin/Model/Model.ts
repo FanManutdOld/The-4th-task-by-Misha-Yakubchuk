@@ -141,7 +141,6 @@ class Model extends Observer {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   private roundFractional(num: number, decimalPlaces: number): number {
     const numPower = 10 ** decimalPlaces;
     return Math.round(num * numPower) / numPower;

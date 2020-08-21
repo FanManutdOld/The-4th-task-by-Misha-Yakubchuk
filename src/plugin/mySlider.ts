@@ -4,7 +4,6 @@ import Model from './Model/Model';
 import View from './View/MainView';
 import Presenter from './Presenter/Presenter';
 
-
 (function ($) {
 
   const mySlider = function (el: HTMLElement, userConfig) {
@@ -36,16 +35,16 @@ import Presenter from './Presenter/Presenter';
       this.model.update(newConfig);
     },
 
-    getData: function() {
+    getData: function () {
       return this.model.getConfig();
     }
   }
 
   $.fn.mySlider = function (userConfig) {
-    return this.each(function() {
+    return this.each(function () {
       if (!$.data(this, 'mySlider')) {
-          $.data(this, 'mySlider', new mySlider(this, userConfig));
+        $.data(this, 'mySlider', new mySlider(this, userConfig));
       }
-  });
+    });
   }
 })(jQuery);

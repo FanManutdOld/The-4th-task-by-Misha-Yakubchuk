@@ -23,6 +23,7 @@
     "import/extensions": "off",
     "import/no-unresolved": "off",
     "radix": ["error", "as-needed"],
-    "no-console": ["error", { "allow": ["warn", "error"] }]
+    "no-console": ["error", { "allow": ["warn", "error"] }],
+    "class-methods-use-this": "off"
   }
 }
