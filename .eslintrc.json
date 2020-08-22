@@ -24,6 +24,7 @@
     "import/no-unresolved": "off",
     "radix": ["error", "as-needed"],
     "no-console": ["error", { "allow": ["warn", "error"] }],
+    "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "class-methods-use-this": "off"
   }
 }
