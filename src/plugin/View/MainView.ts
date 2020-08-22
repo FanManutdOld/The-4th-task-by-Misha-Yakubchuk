@@ -173,7 +173,7 @@ class View extends Observer {
 
   private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
-    if (event.which === 1) {
+    if (event.which === 1 || event instanceof TouchEvent) {
       const { vertical } = this.config;
       let posClick: number; let shift: number; let position: number;
       const target: HTMLElement = event.target as HTMLElement;
