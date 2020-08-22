@@ -5,6 +5,7 @@ describe('MainView class', () => {
   let parent: HTMLElement;
   let track: HTMLElement;
   let bar: HTMLElement;
+  let scale: HTMLElement;
   let runnerR: HTMLElement;
   let tipR: HTMLElement;
   let runnerL: HTMLElement;
@@ -24,6 +25,7 @@ describe('MainView class', () => {
       double: true,
       tips: true,
       minMax: true,
+      scale: true,
       vertical: false,
       scin: 'orange',
       current: 'to',
@@ -36,6 +38,7 @@ describe('MainView class', () => {
     mainView.initView(config);
     track = parent.querySelector('.slider__track');
     bar = parent.querySelector('.slider__bar');
+    scale = parent.querySelector('.slider__scale');
     runnerR = parent.querySelector('.slider__runner.slider__runnerR');
     tipR = parent.querySelector('.slider__tip.slider__tipR');
     runnerL = parent.querySelector('.slider__runner.slider__runnerL');
@@ -48,6 +51,7 @@ describe('MainView class', () => {
     test('should create HTML elements', () => {
       expect(track).toBeTruthy();
       expect(bar).toBeTruthy();
+      expect(scale).toBeTruthy();
       expect(runnerR).toBeTruthy();
       expect(tipR).toBeTruthy();
       expect(runnerL).toBeTruthy();
@@ -127,7 +131,8 @@ describe('MainView class', () => {
       const onStart = jest.fn();
       config.onStart = onStart;
       mainView.updateView(config);
-      const mousedown = new Event('mousedown', { bubbles: true });
+      // @ts-expect-error
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
       track.dispatchEvent(mousedown);
       expect(onStart).toBeCalled();
     });
@@ -138,7 +143,8 @@ describe('MainView class', () => {
       const onFinish = jest.fn();
       config.onFinish = onFinish;
       mainView.updateView(config);
-      const mousedown = new Event('mousedown', { bubbles: true });
+      // @ts-expect-error
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
       const mouseup = new Event('mouseup', { bubbles: true });
       track.dispatchEvent(mousedown);
       track.dispatchEvent(mouseup);
@@ -147,18 +153,44 @@ describe('MainView class', () => {
   });
 
   describe('mousedown event', () => {
-    test('should notify about mousedown on track', () => {
+    test('should not notify about mousedown on Right Mouse Button', () => {
       const callback = jest.fn();
       mainView.add('mouseDown', callback);
-      const mousedown = new Event('mousedown', { bubbles: true });
-      track.dispatchEvent(mousedown);
-      expect(callback).toBeCalled();
+      // @ts-expect-error
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 3 });
+      runnerR.dispatchEvent(mousedown);
+      expect(callback).not.toBeCalled();
     });
     test('should notify about mousedown on runner', () => {
       const callback = jest.fn();
       mainView.add('mouseDown', callback);
-      const mousedown = new Event('mousedown', { bubbles: true });
+      // @ts-expect-error
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
       runnerR.dispatchEvent(mousedown);
+      expect(callback).toBeCalled();
+    });
+    test('should notify about mousedown on track', () => {
+      const callback = jest.fn();
+      mainView.add('mouseDown', callback);
+      // @ts-expect-error
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
+      track.dispatchEvent(mousedown);
+      expect(callback).toBeCalled();
+    });
+    test('should notify about mousedown on bar', () => {
+      const callback = jest.fn();
+      mainView.add('mouseDown', callback);
+      // @ts-expect-error
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
+      bar.dispatchEvent(mousedown);
+      expect(callback).toBeCalled();
+    });
+    test('should notify about mousedown on scale', () => {
+      const callback = jest.fn();
+      mainView.add('mouseDown', callback);
+      // @ts-expect-error
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
+      scale.dispatchEvent(mousedown);
       expect(callback).toBeCalled();
     });
   });
@@ -167,7 +199,8 @@ describe('MainView class', () => {
     test('should notify about mousemove', () => {
       const callback = jest.fn();
       mainView.add('changePosition', callback);
-      const mousedown = new Event('mousedown', { bubbles: true });
+      // @ts-expect-error
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
       const mousemove = new Event('mousemove', { bubbles: true });
       runnerR.dispatchEvent(mousedown);
       runnerR.dispatchEvent(mousemove);

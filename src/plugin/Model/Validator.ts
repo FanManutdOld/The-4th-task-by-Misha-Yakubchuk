@@ -10,6 +10,7 @@ class Validator {
       double,
       tips,
       minMax,
+      scale,
       scin,
     } = config;
 
@@ -19,6 +20,7 @@ class Validator {
     config = this.validateFromTo(config);
     config.tips = this.validateTips(tips);
     config.minMax = this.validateIsMinMax(minMax);
+    config.scale = this.validateIsScale(scale);
     config.scin = this.validateScin(scin);
 
     return config;
@@ -108,6 +110,15 @@ class Validator {
     }
 
     return minMax;
+  }
+
+  static validateIsScale(scale: boolean): boolean {
+    if (typeof scale !== 'boolean') {
+      console.warn('isMinMax must be boolean');
+      scale = false;
+    }
+
+    return scale;
   }
 
   static validateScin(scin: string): string {

@@ -7,7 +7,8 @@ $(document).ready(() => {
     min: 0,
     max: 1000,
     from: 300,
-    step: 0.1,
+    step: 1,
+    scale: true,
     scin: 'orange',
     double: true,
   };

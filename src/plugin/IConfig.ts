@@ -7,6 +7,7 @@ interface IConfig {
   double: boolean,
   tips: boolean,
   minMax: boolean,
+  scale: boolean,
   vertical: boolean,
   scin: string,
   current: string,

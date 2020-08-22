@@ -150,8 +150,8 @@ class DemoSlider {
   }
 
   private handleScaleInputChange = () => {
-    /* const scale = Boolean(this.scaleInput.value);
-    this.$slider.update({ scale }); */
+    const scale = Boolean(this.scaleInput.checked);
+    this.$slider.update({ scale });
   }
 
   private initInputs() {
@@ -166,7 +166,7 @@ class DemoSlider {
     this.tipsInput.checked = data.tips;
     this.verticalInput.checked = data.vertical;
     this.minMaxInput.checked = data.minMax;
-    // this.scaleInput.value = data.scale;
+    this.scaleInput.checked = data.scale;
 
     this.updateInputsStep(data.step);
   }
@@ -177,6 +177,8 @@ class DemoSlider {
   }
 
   private handleOnChange = (data) => {
+    this.maxInput.value = data.max;
+    this.minInput.value = data.min;
     this.fromInput.value = data.from;
     this.toInput.value = data.to;
     this.change.style.background = '#73b9f2';

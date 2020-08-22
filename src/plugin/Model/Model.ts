@@ -13,6 +13,7 @@ class Model extends Observer {
     double: false,
     tips: true,
     minMax: true,
+    scale: false,
     vertical: false,
     scin: 'orange',
     current: 'to',

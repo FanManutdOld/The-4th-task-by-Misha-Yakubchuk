@@ -3,6 +3,7 @@ import IConfig from '../IConfig';
 import Track from './Track';
 import Bar from './Bar';
 import MinMax from './MinMax';
+import Scale from './Scale';
 import Runner from './Runner';
 import Tip from './Tip';
 import Observer from '../Observer/Observer';
@@ -19,6 +20,8 @@ class View extends Observer {
   private bar: Bar;
 
   private minMax: MinMax;
+
+  private scale: Scale;
 
   private runnerR: Runner;
 
@@ -45,6 +48,7 @@ class View extends Observer {
 
     this.track = new Track(this.slider);
     this.bar = new Bar(this.slider);
+    this.scale = new Scale(this.slider);
     this.runnerR = new Runner(this.slider, 'runnerR');
     this.tipR = new Tip(this.slider, 'tipR');
     this.runnerL = new Runner(this.slider, 'runnerL');
@@ -69,6 +73,7 @@ class View extends Observer {
       current,
       tips,
       minMax,
+      scale,
     } = config;
     const isUpdateR: boolean = current === 'to' || isInit;
     const isUpdateL: boolean = (current === 'from' || isInit) && double;
@@ -85,10 +90,12 @@ class View extends Observer {
           this.tipL.updateVisibility(tips);
         }
         this.minMax.update(minMax, min, max, this.runnerR.halfWidth, this.runnerL.halfWidth);
+        this.scale.update(scale, this.runnerL.halfWidth, this.runnerR.halfWidth, config);
       } else {
         this.runnerL.remove();
         this.tipL.remove();
         this.minMax.update(minMax, min, max, this.runnerR.halfWidth);
+        this.scale.update(scale, this.runnerR.halfWidth, this.runnerR.halfWidth, config);
       }
     }
     if (isUpdateR) {
@@ -166,43 +173,45 @@ class View extends Observer {
 
   private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
-    const { vertical } = this.config;
-    let posClick: number; let shift: number; let position: number;
-    const target: HTMLElement = event.target as HTMLElement;
-    const isTrack: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar');
+    if (event.which === 1) {
+      const { vertical } = this.config;
+      let posClick: number; let shift: number; let position: number;
+      const target: HTMLElement = event.target as HTMLElement;
+      const isTrack: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || target.classList.contains('slider__scale');
 
-    if (isTrack) {
-      this.callOnStart();
-      if (vertical) {
-        posClick = (event instanceof TouchEvent)
-          ? event.targetTouches[0].clientY : event.clientY;
-      } else {
-        posClick = (event instanceof TouchEvent)
-          ? event.targetTouches[0].clientX : event.clientX;
+      if (isTrack) {
+        this.callOnStart();
+        if (vertical) {
+          posClick = (event instanceof TouchEvent)
+            ? event.targetTouches[0].clientY : event.clientY;
+        } else {
+          posClick = (event instanceof TouchEvent)
+            ? event.targetTouches[0].clientX : event.clientX;
+        }
+        shift = this.getDefaultShiftX(posClick);
+        position = this.getRelativePosition(posClick, shift);
+
+        this.notify('mouseDown', position);
+        this.notify('changePosition', position);
+        this.bindDocumentMouseMove(event, shift);
       }
-      shift = this.getDefaultShiftX(posClick);
-      position = this.getRelativePosition(posClick, shift);
+      if (target.classList.contains('slider__runner')) {
+        this.callOnStart();
+        if (vertical) {
+          posClick = (event instanceof TouchEvent)
+            ? event.targetTouches[0].clientY : event.clientY;
+        } else {
+          posClick = (event instanceof TouchEvent)
+            ? event.targetTouches[0].clientX : event.clientX;
+        }
 
-      this.notify('mouseDown', position);
-      this.notify('changePosition', position);
-      this.bindDocumentMouseMove(event, shift);
-    }
-    if (target.classList.contains('slider__runner')) {
-      this.callOnStart();
-      if (vertical) {
-        posClick = (event instanceof TouchEvent)
-          ? event.targetTouches[0].clientY : event.clientY;
-      } else {
-        posClick = (event instanceof TouchEvent)
-          ? event.targetTouches[0].clientX : event.clientX;
+        shift = vertical
+          ? target.getBoundingClientRect().bottom - posClick
+          : posClick - target.getBoundingClientRect().left;
+        position = this.getRelativePosition(posClick, shift);
+        this.notify('mouseDown', position);
+        this.bindDocumentMouseMove(event, shift);
       }
-
-      shift = vertical
-        ? target.getBoundingClientRect().bottom - posClick
-        : posClick - target.getBoundingClientRect().left;
-      position = this.getRelativePosition(posClick, shift);
-      this.notify('mouseDown', position);
-      this.bindDocumentMouseMove(event, shift);
     }
   }
 
@@ -291,6 +300,7 @@ class View extends Observer {
       : `slider slider_${scin} slider_${scin}_hor`;
     this.bar.setOrientation(vertical);
     this.minMax.setOrientation(vertical);
+    this.scale.setOrientation(vertical);
     this.runnerR.setOrientation(vertical);
     this.tipR.setOrientation(vertical);
     if (this.config.double) {

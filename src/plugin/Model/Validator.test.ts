@@ -9,6 +9,7 @@ describe('Validator class', () => {
 
   describe('validate min max', () => {
     test('min and max should be a number', () => {
+      // @ts-expect-error
       expect(() => Validator.validateMinMax(0, '100')).toThrow('min and max must be a number');
     });
     test('max should be greater then min', () => {
@@ -18,12 +19,14 @@ describe('Validator class', () => {
 
   describe('validate double', () => {
     test('double should be a boolean', () => {
+      // @ts-expect-error
       expect(Validator.validateDouble('true')).toBeBoolean();
     });
   });
 
   describe('validate step', () => {
     test('step should be a number', () => {
+      // @ts-expect-error
       expect(Validator.validateStep(0, 100, '20')).toBeNumber();
     });
     test('step should be a NaN, if step not set', () => {
@@ -76,18 +79,28 @@ describe('Validator class', () => {
 
   describe('validate tips', () => {
     test('tips should be a boolean', () => {
+      // @ts-expect-error
       expect(Validator.validateTips('true')).toBeBoolean();
     });
   });
 
   describe('validate isMinMax', () => {
     test('isMinMax should be a boolean', () => {
+      // @ts-expect-error
       expect(Validator.validateIsMinMax('true')).toBeBoolean();
+    });
+  });
+
+  describe('validate scale', () => {
+    test('scale should be a boolean', () => {
+      // @ts-expect-error
+      expect(Validator.validateIsScale('true')).toBeBoolean();
     });
   });
 
   describe('validate scin', () => {
     test('scin should be a string', () => {
+      // @ts-expect-error
       expect(Validator.validateScin(10)).toBeString();
     });
     test('scin should be an orange if not orange, darkcongo, whitered, azure or indigo', () => {

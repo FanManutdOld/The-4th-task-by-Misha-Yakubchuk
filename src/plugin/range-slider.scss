@@ -25,6 +25,19 @@
     position: absolute;
     z-index: -2;
   }
+  &__scale {
+    position: absolute;
+    cursor: pointer;
+  }
+  &__scale-big {
+    position: absolute;
+  }
+  &__scale-small {
+    position: absolute;
+  }
+  &__scale-text {
+    position: absolute;
+  }
 }
 
 /* ----------------------------------------------------------------------------------------- */
@@ -63,29 +76,58 @@
       border-radius: 4px;
       background: #fbe5d5;
     }
+    &__scale {
+      background: #fbe5d5;
+    }
+    &__scale-big {
+      background: #242424;
+    }
+    &__scale-small {
+      background: #242424;
+    }
+    &__scale-text {
+
+    }
   }
   &_hor {
     & .slider {
       &__track {
         width: 100%;
         height: 10px;
-        bottom: 10px;
+        bottom: 25px;
       }
       &__bar {
         left: 0;
         height: 10px;
-        bottom: 10px;
+        bottom: 25px;
       }
       &__runner {
         width: 30px;
         height: 30px;
-        bottom: 0px;
+        bottom: 15px;
       }
       &__tip {
-        bottom: 35px;
+        bottom: 50px;
       }
       &__range {
-        bottom: 35px;
+        bottom: 50px;
+      }
+      &__scale {
+        bottom: 0;
+        height: 20px;
+      }
+      &__scale-big {
+        width: 1px;
+        height: 8px;
+        background: #242424;
+      }
+      &__scale-small {
+        width: 1px;
+        height: 4px;
+        background: #242424;
+      }
+      &__scale-text {
+        bottom: 0;
       }
     }
   }
@@ -94,23 +136,27 @@
       &__track {
         height: 100%;
         width: 10px;
-        left: 10px;
+        left: 25px;
       }
       &__bar {
-        left: 10px;
+        left: 25px;
         width: 10px;
         bottom: 0;
       }
       &__runner {
         width: 30px;
         height: 30px;
-        left: 0px;
+        left: 15px;
       }
       &__tip {
-        left: 35px;
+        left: 50px;
       }
       &__range {
-        left: 35px;
+        left: 50px;
+      }
+      &__scale {
+        left: 0;
+        width: 20px;
       }
     }
   }
