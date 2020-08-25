@@ -177,7 +177,7 @@ class View extends Observer {
       const { vertical } = this.config;
       let posClick: number; let shift: number; let position: number;
       const target: HTMLElement = event.target as HTMLElement;
-      const isTrack: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || target.classList.contains('slider__scale');
+      const isTrack: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'));
 
       if (isTrack) {
         this.callOnStart();

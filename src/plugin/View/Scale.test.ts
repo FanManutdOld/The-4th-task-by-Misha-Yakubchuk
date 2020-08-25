@@ -36,16 +36,16 @@ describe('Scale class', () => {
       scale.update(true, 0, 0, config);
       expect((parent.firstElementChild as HTMLElement).style.visibility).toBe('visible');
     });
-    test('should hide scale, if isScale - true', () => {
+    test('should hide scale, if isScale - false', () => {
       scale.update(false, 0, 0, config);
       expect((parent.firstElementChild as HTMLElement).style.visibility).toBe('hidden');
     });
-    test('should set correct positions in horizontal slider', () => {
+    test('should set correct scale location in horizontal slider', () => {
       scale.update(true, 15, 40, config);
       expect((parent.firstElementChild as HTMLElement).style.left).toMatch('2.3076');
       expect((parent.firstElementChild as HTMLElement).style.width).toMatch('91.5384');
     });
-    test('should set correct positions in vertical slider', () => {
+    test('should set correct scale location in vertical slider', () => {
       scale.setOrientation(true);
       scale.update(true, 15, 40, config);
       expect((parent.firstElementChild as HTMLElement).style.bottom).toMatch('5.4151');

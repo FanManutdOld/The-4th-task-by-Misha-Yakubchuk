@@ -17,7 +17,7 @@ describe('Model class', () => {
         step: 1,
         double: false,
         tips: true,
-        minMax: true,
+        minMax: false,
         vertical: false,
         scin: 'orange',
         current: 'to',

@@ -37,7 +37,7 @@ class Validator {
       throw new Error('min and max must be a number');
     }
 
-    max = (max < min) ? min + 1000 : max;
+    max = (max <= min) ? min + 1000 : max;
 
     return max;
   }
@@ -110,7 +110,7 @@ class Validator {
   static validateIsMinMax(minMax: boolean): boolean {
     if (typeof minMax !== 'boolean') {
       console.warn('isMinMax must be boolean');
-      minMax = true;
+      minMax = false;
     }
 
     return minMax;

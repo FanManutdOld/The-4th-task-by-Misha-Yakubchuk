@@ -13,7 +13,7 @@ class Model extends Observer {
     scaleNum: 4,
     double: false,
     tips: true,
-    minMax: true,
+    minMax: false,
     scale: false,
     scaleSnap: false,
     vertical: false,

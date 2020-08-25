@@ -69,6 +69,7 @@ class Scale {
     if (bigNum > 50) bigNum = 50;
     bigP = Number((100 / bigNum).toFixed(20));
 
+    // определям количество маленьких рисочек
     if (bigNum > 4) {
       smallMax = 3;
     }
@@ -97,6 +98,7 @@ class Scale {
 
         smallW = Number((bigW - (smallP * z)).toFixed(20));
 
+        // добавляем маленькую рисочку
         html = document.createElement('div');
         html.className = 'slider__scale-small';
         if (this.vertical) {
@@ -106,7 +108,7 @@ class Scale {
         }
         this.scale.append(html);
       }
-
+      // добавляем большую рисочку
       html = document.createElement('div');
       html.className = 'slider__scale-big';
       if (this.vertical) {
@@ -116,6 +118,7 @@ class Scale {
       }
       this.scale.append(html);
 
+      // считаем значение под большой рисочкой
       let value = (max - min) * (bigW / 100) + min;
       value = Math.round((value - min) / step) * step + min;
       const isFractional = step.toString().includes('.') || min.toString().includes('.') || max.toString().includes('.');
@@ -136,6 +139,7 @@ class Scale {
         value = min;
       }
 
+      // добавляем значение под большой рисочкой
       html = document.createElement('div');
       html.className = 'slider__scale-text';
       html.textContent = `${value}`;
@@ -143,7 +147,7 @@ class Scale {
       if (this.vertical) {
         html.style.bottom = `${bigW - (html.offsetHeight / this.slider.offsetHeight / 2) * 100}%`;
       } else {
-        html.style.left = `${bigW - (html.offsetWidth / this.slider.offsetWidth / 2) * 100}%`;
+        html.style.left = `${bigW - ((html.offsetWidth - 2) / this.slider.offsetWidth / 2) * 100}%`;
       }
     }
   }
