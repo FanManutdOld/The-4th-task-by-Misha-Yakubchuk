@@ -44,47 +44,108 @@ class Scale {
   }
 
   private drawScale(config: IConfig) {
+    this.scale.innerHTML = '';
     const {
       min,
       max,
+      step,
+      scaleNum,
+      scaleSnap,
     } = config;
-    let stick: HTMLElement; let text: HTMLElement;
-    this.slider.removeChild(this.scale);
-    this.scale.innerHTML = '';
-    this.slider.prepend(this.scale);
-    stick = document.createElement('div');
-    stick.className = 'slider__scale-big';
-    stick.style.left = '0%';
-    text = document.createElement('div');
-    text.className = 'slider__scale-text';
-    text.textContent = `${min}`;
-    this.scale.append(stick, text);
-    text.style.left = `${0 - (text.offsetWidth / 2 / this.slider.offsetWidth) * 100}%`;
-    for (let i = 1; i < 20; i++) {
-      stick = document.createElement('div');
-      if (i % 5 === 0) {
-        stick.className = 'slider__scale-big';
-        text = document.createElement('div');
-        text.className = 'slider__scale-text';
-        text.textContent = `${(max - min) / (100 / 20 - 1) * (i / 5)}`;
-        this.scale.append(text);
-        text.style.left = `${i * (100 / 20) - (text.offsetWidth / 2 / this.slider.offsetWidth) * 100}%`;
-      } else {
-        stick.className = 'slider__scale-small';
-      }
-      stick.style.left = `${i * (100 / 20)}%`;
-      this.scale.append(stick);
+    let html: HTMLElement;
+    const total = max - min;
+    let bigNum = scaleNum;
+    let smallMax = 4;
+    let bigP = 0;
+    let bigW = 0;
+    let smallP = NaN;
+    let smallW = 0;
+    let numOfSymbols: number;
+
+    if (scaleSnap) {
+      bigNum = total / step;
     }
 
-    stick = document.createElement('div');
-    stick.className = 'slider__scale-big';
-    stick.style.left = '100%';
-    text = document.createElement('div');
-    text.className = 'slider__scale-text';
-    text.textContent = `${max}`;
-    this.scale.append(stick, text);
-    text.style.left = `${100 - (text.offsetWidth / 2 / this.slider.offsetWidth) * 100}%`;
+    if (bigNum > 50) bigNum = 50;
+    bigP = Number((100 / bigNum).toFixed(20));
 
+    if (bigNum > 4) {
+      smallMax = 3;
+    }
+    if (bigNum > 7) {
+      smallMax = 2;
+    }
+    if (bigNum > 14) {
+      smallMax = 1;
+    }
+    if (bigNum > 28) {
+      smallMax = 0;
+    }
+
+    for (let i = 0; i < bigNum + 1; i++) {
+      bigW = Number((bigP * i).toFixed(20));
+      if (bigW > 100) {
+        bigW = 100;
+      }
+
+      smallP = (bigW - (bigP * (i - 1))) / (smallMax + 1);
+
+      for (let z = 1; z <= smallMax; z++) {
+        if (bigW === 0) {
+          break;
+        }
+
+        smallW = Number((bigW - (smallP * z)).toFixed(20));
+
+        html = document.createElement('div');
+        html.className = 'slider__scale-small';
+        if (this.vertical) {
+          html.style.bottom = `${smallW}%`;
+        } else {
+          html.style.left = `${smallW}%`;
+        }
+        this.scale.append(html);
+      }
+
+      html = document.createElement('div');
+      html.className = 'slider__scale-big';
+      if (this.vertical) {
+        html.style.bottom = `${bigW}%`;
+      } else {
+        html.style.left = `${bigW}%`;
+      }
+      this.scale.append(html);
+
+      let value = (max - min) * (bigW / 100) + min;
+      value = Math.round((value - min) / step) * step + min;
+      const isFractional = step.toString().includes('.') || min.toString().includes('.') || max.toString().includes('.');
+      if (isFractional) {
+        if (step.toString().includes('.')) {
+          numOfSymbols = step.toString().split('.').pop().length;
+        } else {
+          const minSymbols = min.toString().includes('.') ? min.toString().split('.').pop().length : 0;
+          const maxSymbols = max.toString().includes('.') ? max.toString().split('.').pop().length : 0;
+          numOfSymbols = Math.max(minSymbols, maxSymbols);
+        }
+        const numPower = 10 ** numOfSymbols;
+        value = Math.round(value * numPower) / numPower;
+      }
+      if (value > max) {
+        value = max;
+      } else if (value < min) {
+        value = min;
+      }
+
+      html = document.createElement('div');
+      html.className = 'slider__scale-text';
+      html.textContent = `${value}`;
+      this.scale.append(html);
+      if (this.vertical) {
+        html.style.bottom = `${bigW - (html.offsetHeight / this.slider.offsetHeight / 2) * 100}%`;
+      } else {
+        html.style.left = `${bigW - (html.offsetWidth / this.slider.offsetWidth / 2) * 100}%`;
+      }
+    }
   }
 }
 

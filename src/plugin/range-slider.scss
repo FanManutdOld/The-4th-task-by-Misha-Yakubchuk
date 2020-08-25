@@ -158,6 +158,21 @@
         left: 0;
         width: 20px;
       }
+      &__scale-big {
+        width: 8px;
+        height: 1px;
+        background: #242424;
+        right: 0;
+      }
+      &__scale-small {
+        width: 4px;
+        height: 1px;
+        background: #242424;
+        right: 0;
+      }
+      &__scale-text {
+        left: 0;
+      }
     }
   }
 }
@@ -241,29 +256,58 @@
       box-shadow: inset 0px 10px 10px 0 #8d8384;
       color: #fdf6b7;
     }
+    &__scale {
+      background: #fbe5d5;
+    }
+    &__scale-big {
+      background: #242424;
+    }
+    &__scale-small {
+      background: #242424;
+    }
+    &__scale-text {
+      color: #323232;
+    }
   }
   &_hor {
     & .slider {
       &__track {
         width: 100%;
         height: 30px;
-        bottom: 0px;
+        bottom: 25px;
       }
       &__bar {
         left: 10px;
         height: 10px;
-        bottom: 10px;
+        bottom: 35px;
       }
       &__runner {
         width: 30px;
         height: 30px;
-        bottom: 0px;
+        bottom: 25px;
       }
       &__tip {
-        bottom: 40px;
+        bottom: 65px;
       }
       &__range {
-        bottom: 40px;
+        bottom: 65px;
+      }
+      &__scale {
+        bottom: 0;
+        height: 20px;
+      }
+      &__scale-big {
+        width: 1px;
+        height: 8px;
+        background: #242424;
+      }
+      &__scale-small {
+        width: 1px;
+        height: 4px;
+        background: #242424;
+      }
+      &__scale-text {
+        bottom: 0;
       }
     }
   }
@@ -349,29 +393,58 @@
     &__range {
       color: rgba(153, 46, 46, 0.3);
     }
+    &__scale {
+      background: #fbe5d5;
+    }
+    &__scale-big {
+      background: #242424;
+    }
+    &__scale-small {
+      background: #242424;
+    }
+    &__scale-text {
+
+    }
   }
   &_hor {
     & .slider {
       &__track {
         width: 100%;
         height: 14px;
-        bottom: 4px;
+        bottom: 24px;
       }
       &__bar {
         left: 0;
         height: 12px;
-        bottom: 5px;
+        bottom: 25px;
       }
       &__runner {
         width: 22px;
         height: 22px;
-        bottom: 0px;
+        bottom: 20px;
       }
       &__tip {
-        bottom: 23px;
+        bottom: 43px;
       }
       &__range {
-        bottom: 27px;
+        bottom: 47px;
+      }
+      &__scale {
+        bottom: 0;
+        height: 20px;
+      }
+      &__scale-big {
+        width: 1px;
+        height: 8px;
+        background: #242424;
+      }
+      &__scale-small {
+        width: 1px;
+        height: 4px;
+        background: #242424;
+      }
+      &__scale-text {
+        bottom: 0;
       }
     }
   }
@@ -472,30 +545,59 @@
       background-color: rgba(45, 165, 218, 0.2);
       box-shadow: 0 1px 2px rgba(36, 36, 360, 0.2);
     }
+    &__scale {
+      background: #fbe5d5;
+    }
+    &__scale-big {
+      background: #242424;
+    }
+    &__scale-small {
+      background: #242424;
+    }
+    &__scale-text {
+      color: #323232;
+    }
   }
   &_hor {
     & .slider {
       &__track {
         width: 100%;
         height: 16px;
-        bottom: 2px;
+        bottom: 22px;
       }
       &__bar {
         left: 0;
         height: 6px;
-        bottom: 7px;
+        bottom: 27px;
         margin-left: 5px;
       }
       &__runner {
         width: 42px;
         height: 20px;
-        bottom: 0px;
+        bottom: 20px;
       }
       &__tip {
-        bottom: 30px;
+        bottom: 50px;
       }
       &__range {
-        bottom: 30px;
+        bottom: 50px;
+      }
+      &__scale {
+        bottom: 0;
+        height: 20px;
+      }
+      &__scale-big {
+        width: 1px;
+        height: 8px;
+        background: #242424;
+      }
+      &__scale-small {
+        width: 1px;
+        height: 4px;
+        background: #242424;
+      }
+      &__scale-text {
+        bottom: 0;
       }
     }
   }
@@ -576,29 +678,58 @@
     &__range {
       color: rgba(65, 54, 241, 0.3);
     }
+    &__scale {
+      background: #fbe5d5;
+    }
+    &__scale-big {
+      background: #242424;
+    }
+    &__scale-small {
+      background: #242424;
+    }
+    &__scale-text {
+
+    }
   }
   &_hor {
     & .slider {
       &__track {
         width: 100%;
         height: 6px;
-        bottom: 3px;
+        bottom: 23px;
       }
       &__bar {
         left: 0;
         height: 6px;
-        bottom: 3px;
+        bottom: 23px;
       }
       &__runner {
         width: 12px;
         height: 12px;
-        bottom: 0px;
+        bottom: 20px;
       }
       &__tip {
-        bottom: 16px;
+        bottom: 36px;
       }
       &__range {
-        bottom: 20px;
+        bottom: 40px;
+      }
+      &__scale {
+        bottom: 0;
+        height: 20px;
+      }
+      &__scale-big {
+        width: 1px;
+        height: 8px;
+        background: #242424;
+      }
+      &__scale-small {
+        width: 1px;
+        height: 4px;
+        background: #242424;
+      }
+      &__scale-text {
+        bottom: 0;
       }
     }
   }
