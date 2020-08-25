@@ -211,11 +211,8 @@ class DemoSlider {
   }
 
   private updateInputsStep(step: string) {
-    this.minInput.step = step;
-    this.maxInput.step = step;
     this.fromInput.step = step;
     this.toInput.step = step;
-    this.stepInput.step = step;
   }
 }
 
