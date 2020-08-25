@@ -11,6 +11,8 @@ class Validator {
       tips,
       minMax,
       scale,
+      scaleNum,
+      scaleSnap,
       scin,
     } = config;
 
@@ -21,6 +23,8 @@ class Validator {
     config.tips = this.validateTips(tips);
     config.minMax = this.validateIsMinMax(minMax);
     config.scale = this.validateIsScale(scale);
+    config.scaleNum = this.validateScaleNum(scaleNum);
+    config.scaleSnap = this.validateScaleSnap(scaleSnap);
     config.scin = this.validateScin(scin);
 
     return config;
@@ -119,6 +123,29 @@ class Validator {
     }
 
     return scale;
+  }
+
+  static validateScaleNum(scaleNum: number): number {
+    if (typeof scaleNum !== 'number') {
+      console.warn('ScaleNum must be a number');
+      scaleNum = 4;
+    }
+
+    if (scaleNum > 50) {
+      console.warn('ScaleNum too big');
+      scaleNum = 4;
+    }
+
+    return scaleNum;
+  }
+
+  static validateScaleSnap(scaleSnap: boolean): boolean {
+    if (typeof scaleSnap !== 'boolean') {
+      console.warn('scaleSnap must be boolean');
+      scaleSnap = false;
+    }
+
+    return scaleSnap;
   }
 
   static validateScin(scin: string): string {

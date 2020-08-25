@@ -10,10 +10,12 @@ class Model extends Observer {
     from: 400,
     to: 700,
     step: NaN,
+    scaleNum: 4,
     double: false,
     tips: true,
     minMax: true,
     scale: false,
+    scaleSnap: false,
     vertical: false,
     scin: 'orange',
     current: 'to',
@@ -113,11 +115,12 @@ class Model extends Observer {
   }
 
   private setStep() {
-    if (!this.config.step) {
+    const { step } = this.config;
+    if (!step) {
       this.getDefaultStep();
-    } else if (this.config.step.toString().includes('.')) {
+    } else if (step.toString().includes('.')) {
       this.isFractional = true;
-      this.numOfSymbols = this.config.step.toString().split('.').pop().length;
+      this.numOfSymbols = step.toString().split('.').pop().length;
     } else {
       this.isFractional = false;
     }

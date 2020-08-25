@@ -135,26 +135,26 @@ describe('Model class', () => {
       model.calcValue(0.3005);
       expect(model.getConfig().to).toBe(300.5);
     });
-    test('should set right value to max, if right value greater then max', () => {
+    test('should set right value to max, if right value greater than max', () => {
       model.calcValue(1.1);
       expect(model.getConfig().to).toBe((model.getConfig().max));
     });
-    test('should set right value to min, if right value less then min in single slider', () => {
+    test('should set right value to min, if right value less than min in single slider', () => {
       model.calcValue(-0.1);
       expect(model.getConfig().to).toBe((model.getConfig().min));
     });
-    test('should set right value to left value, if right value less then left value in double slider', () => {
+    test('should set right value to left value, if right value less than left value in double slider', () => {
       model.update({ double: true });
       model.calcValue(0.2);
       expect(model.getConfig().to).toBe(model.getConfig().from);
     });
-    test('should set left value to min, if left value less then min in double slider', () => {
+    test('should set left value to min, if left value less than min in double slider', () => {
       model.update({ double: true });
       model.setCurrent(0.3);
       model.calcValue(-0.1);
       expect(model.getConfig().from).toBe((model.getConfig().min));
     });
-    test('should set left value to right value, if left value greater then right value in double slider', () => {
+    test('should set left value to right value, if left value greater than right value in double slider', () => {
       model.update({ double: true });
       model.setCurrent(0.3);
       model.calcValue(0.8);

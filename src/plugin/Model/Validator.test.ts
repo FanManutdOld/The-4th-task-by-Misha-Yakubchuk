@@ -12,7 +12,7 @@ describe('Validator class', () => {
       // @ts-expect-error
       expect(() => Validator.validateMinMax(0, '100')).toThrow('min and max must be a number');
     });
-    test('max should be greater then min', () => {
+    test('max should be greater than min', () => {
       expect(Validator.validateMinMax(100, 0)).toBeGreaterThan(100);
     });
   });
@@ -32,7 +32,7 @@ describe('Validator class', () => {
     test('step should be a NaN, if step not set', () => {
       expect(Validator.validateStep(0, 100, NaN)).toBeNaN();
     });
-    test('step should be less then min + max', () => {
+    test('step should be less than min + max', () => {
       expect(Validator.validateStep(0, 100, 200)).toBeLessThan(100);
     });
   });
@@ -65,12 +65,12 @@ describe('Validator class', () => {
       const result = Validator.validateFromTo(config);
       expect(result.to).toBeLessThanOrEqual(config.max);
     });
-    test('right value should be greater then left value in double slider', () => {
+    test('right value should be greater than left value in double slider', () => {
       config.to = 250;
       const result = Validator.validateFromTo(config);
       expect(result.to).toBeGreaterThanOrEqual(config.from);
     });
-    test('left value should be less then right value in double slider', () => {
+    test('left value should be less than right value in double slider', () => {
       config.from = 800;
       const result = Validator.validateFromTo(config);
       expect(result.from).toBeLessThanOrEqual(config.to);
@@ -95,6 +95,23 @@ describe('Validator class', () => {
     test('scale should be a boolean', () => {
       // @ts-expect-error
       expect(Validator.validateIsScale('true')).toBeBoolean();
+    });
+  });
+
+  describe('validate scaleNum', () => {
+    test('scaleNum should be a number', () => {
+      // @ts-expect-error
+      expect(Validator.validateScaleNum('20')).toBeNumber();
+    });
+    test('scaleNum should be less or equal than 50', () => {
+      expect(Validator.validateScaleNum(55)).toBeLessThanOrEqual(50);
+    });
+  });
+
+  describe('validate scaleSnap', () => {
+    test('scaleSnap should be a boolean', () => {
+      // @ts-expect-error
+      expect(Validator.validateScaleSnap('true')).toBeBoolean();
     });
   });
 
