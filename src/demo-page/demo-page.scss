@@ -1,9 +1,10 @@
-@import "../plugin/range-slider.scss";
-@import "./demo-slider/demo-slider.scss";
+@import '../plugin/range-slider.scss';
+@import './demo-slider/demo-slider.scss';
 
 .demo-page {
   max-width: 1000px;
   margin: 0 auto;
-  &__slider1 {
+  &__slider {
+    margin-bottom: 30px;
   }
 }

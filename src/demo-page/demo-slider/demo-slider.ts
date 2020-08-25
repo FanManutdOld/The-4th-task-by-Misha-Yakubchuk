@@ -17,7 +17,7 @@ class DemoSlider {
 
   private stepInput: HTMLInputElement;
 
-  private scinInput: HTMLInputElement;
+  private scinInput: HTMLSelectElement;
 
   private doubleInput: HTMLInputElement;
 
@@ -28,6 +28,10 @@ class DemoSlider {
   private minMaxInput: HTMLInputElement;
 
   private scaleInput: HTMLInputElement;
+
+  private scaleNumInput: HTMLInputElement;
+
+  private scaleSnapInput: HTMLInputElement;
 
   private start: HTMLElement;
 
@@ -57,6 +61,8 @@ class DemoSlider {
     this.verticalInput = this.parent.querySelector('.js-vertical');
     this.minMaxInput = this.parent.querySelector('.js-minMax');
     this.scaleInput = this.parent.querySelector('.js-scale');
+    this.scaleNumInput = this.parent.querySelector('.js-scaleNum');
+    this.scaleSnapInput = this.parent.querySelector('.js-scaleSnap');
     this.start = this.parent.querySelector('.js-start');
     this.change = this.parent.querySelector('.js-change');
     this.finish = this.parent.querySelector('.js-finish');
@@ -82,6 +88,8 @@ class DemoSlider {
     this.verticalInput.addEventListener('change', this.handleVerticalInputChange);
     this.minMaxInput.addEventListener('change', this.handleMinMaxInputChange);
     this.scaleInput.addEventListener('change', this.handleScaleInputChange);
+    this.scaleNumInput.addEventListener('change', this.handleScaleNumInputChange);
+    this.scaleSnapInput.addEventListener('change', this.handleScaleSnapInputChange);
   }
 
   private handleMinInputChange = () => {
@@ -154,6 +162,16 @@ class DemoSlider {
     this.$slider.update({ scale });
   }
 
+  private handleScaleNumInputChange = () => {
+    const scaleNum = Number(this.scaleNumInput.value);
+    this.$slider.update({ scaleNum });
+  }
+
+  private handleScaleSnapInputChange = () => {
+    const scaleSnap = Boolean(this.scaleSnapInput.checked);
+    this.$slider.update({ scaleSnap });
+  }
+
   private initInputs() {
     const data = this.$slider.getData();
     this.minInput.value = data.min;
@@ -167,6 +185,8 @@ class DemoSlider {
     this.verticalInput.checked = data.vertical;
     this.minMaxInput.checked = data.minMax;
     this.scaleInput.checked = data.scale;
+    this.scaleNumInput.value = data.scaleNum;
+    this.scaleSnapInput.checked = data.scaleSnap;
 
     this.updateInputsStep(data.step);
   }

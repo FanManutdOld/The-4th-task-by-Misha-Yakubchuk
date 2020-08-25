@@ -13,6 +13,14 @@ html(lang="ru")
     title Test plugin
   body
     .demo-page
-      .demo-page__slider1.js-slider1
+      .demo-page__slider.js-slider1
+        +demo-slider({})
+      .demo-page__slider.js-slider2
+        +demo-slider({})
+      .demo-page__slider.js-slider3
+        +demo-slider({})
+      .demo-page__slider.js-slider4
+        +demo-slider({})
+      .demo-page__slider.js-slider5
         +demo-slider({})
   script(src="./demo-page.ts")

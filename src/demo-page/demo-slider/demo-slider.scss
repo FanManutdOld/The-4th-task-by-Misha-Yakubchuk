@@ -27,9 +27,24 @@
     margin-left: 10px;
     border-radius: 5px;
     text-align: right;
+    &_small {
+      width: 40px;
+    }
+  }
+  &__select {
+    width: 80px;
+    padding: 0px 2px;
+    border: 2px solid #242424;
+    margin-top: 20px;
+    margin-left: 10px;
+    border-radius: 5px;
+    box-sizing: content-box;
   }
   &__checkbox {
     margin-top: 20px;
+  }
+  &__double {
+    margin-top: 61px;
   }
   &__plugin {
     width: 100%;
