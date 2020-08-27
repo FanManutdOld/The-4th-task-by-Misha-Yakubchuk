@@ -25,9 +25,9 @@ import Presenter from './Presenter/Presenter';
   }
 
   mySlider.prototype = {
-    init: function (el: HTMLElement, userConfig) {
+    init: function (parent: HTMLElement, userConfig) {
       this.model = new Model(userConfig);
-      const view = new View(el);
+      const view = new View(parent);
       new Presenter(this.model, view);
     },
 

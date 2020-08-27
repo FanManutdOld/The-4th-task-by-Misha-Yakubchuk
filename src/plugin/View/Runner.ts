@@ -1,15 +1,15 @@
 class Runner {
+  public halfWidth: number;
+
   private runner: HTMLElement;
 
   private slider: HTMLElement;
-
-  public halfWidth: number;
 
   private vertical: boolean;
 
   constructor(slider: HTMLElement, runnerSide: string) {
     this.slider = slider;
-    this.initRunner(runnerSide);
+    this.init(runnerSide);
   }
 
   public setZIndex() {
@@ -56,7 +56,7 @@ class Runner {
     }
   }
 
-  private initRunner(runnerSide: string) {
+  private init(runnerSide: string) {
     this.runner = document.createElement('div');
     this.runner.className = `slider__runner slider__${runnerSide}`;
     this.slider.append(this.runner);

@@ -7,7 +7,7 @@ class Bar {
 
   constructor(slider: HTMLElement) {
     this.slider = slider;
-    this.initBar();
+    this.init();
   }
 
   public getCenter(): number {
@@ -42,7 +42,7 @@ class Bar {
     this.bar.style.left = '';
   }
 
-  private initBar() {
+  private init() {
     this.bar = document.createElement('div');
     this.bar.className = 'slider__bar';
     this.slider.append(this.bar);

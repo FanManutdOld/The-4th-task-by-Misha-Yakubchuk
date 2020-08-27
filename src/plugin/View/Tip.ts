@@ -1,15 +1,15 @@
 class Tip {
+  public halfWidth: number;
+
   private tip: HTMLElement;
 
   private slider: HTMLElement;
-
-  public halfWidth: number;
 
   private vertical: boolean;
 
   constructor(slider: HTMLElement, tipSide: string) {
     this.slider = slider;
-    this.initTip(tipSide);
+    this.init(tipSide);
   }
 
   public setValue(newValue: number | string) {
@@ -79,7 +79,7 @@ class Tip {
     }
   }
 
-  private initTip(tipSide: string) {
+  private init(tipSide: string) {
     this.tip = document.createElement('div');
     this.tip.className = `slider__tip slider__${tipSide}`;
     this.slider.append(this.tip);

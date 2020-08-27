@@ -222,13 +222,13 @@ class View extends Observer {
     } = this.config;
 
     if (!double) {
-      return this.runnerR.halfWidth - 0.5;
+      return this.runnerR.halfWidth;
     }
     const center = this.bar.getCenter();
     if (vertical) {
-      return (posClick < center) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
+      return (posClick < center) ? this.runnerR.halfWidth : this.runnerL.halfWidth;
     }
-    return (posClick > center) ? this.runnerR.halfWidth - 0.5 : this.runnerL.halfWidth - 0.5;
+    return (posClick > center) ? this.runnerR.halfWidth : this.runnerL.halfWidth;
   }
 
   private getRelativePosition(posClick: number, shift: number): number {

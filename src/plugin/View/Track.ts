@@ -2,10 +2,10 @@ class Track {
   private track: HTMLElement;
 
   constructor(slider: HTMLElement) {
-    this.initTrack(slider);
+    this.init(slider);
   }
 
-  private initTrack(slider: HTMLElement) {
+  private init(slider: HTMLElement) {
     this.track = document.createElement('div');
     this.track.className = 'slider__track';
     slider.append(this.track);

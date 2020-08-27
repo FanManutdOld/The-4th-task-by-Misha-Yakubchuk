@@ -117,7 +117,7 @@ class Model extends Observer {
   private setStep() {
     const { step } = this.config;
     if (!step) {
-      this.getDefaultStep();
+      this.calcDefaultStep();
     } else if (step.toString().includes('.')) {
       this.isFractional = true;
       this.numOfSymbols = step.toString().split('.').pop().length;
@@ -126,7 +126,7 @@ class Model extends Observer {
     }
   }
 
-  private getDefaultStep() {
+  private calcDefaultStep() {
     const { min, max } = this.config;
     this.isFractional = min.toString().includes('.') || max.toString().includes('.');
     if (this.isFractional) {
