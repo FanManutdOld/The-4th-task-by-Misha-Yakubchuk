@@ -66,6 +66,11 @@ class Validator {
       step = Math.min(Math.abs(min), Math.abs(max));
     }
 
+    if (step < 0) {
+      console.warn('Step must be equal or greater than 0');
+      step = 0;
+    }
+
     return step;
   }
 
@@ -134,6 +139,11 @@ class Validator {
     if (scaleNum > 50) {
       console.warn('ScaleNum too big');
       scaleNum = 4;
+    }
+
+    if (scaleNum < 1) {
+      console.warn('ScaleNum must be equal or greater than 1');
+      scaleNum = 1;
     }
 
     return scaleNum;

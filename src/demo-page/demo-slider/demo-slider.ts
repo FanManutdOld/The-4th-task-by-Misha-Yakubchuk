@@ -113,11 +113,7 @@ class DemoSlider {
   }
 
   private handleStepInputChange = () => {
-    let step = Number(this.stepInput.value);
-    if (step <= 0) {
-      step = 1;
-      this.stepInput.value = String(step);
-    }
+    const step = Number(this.stepInput.value);
     this.$slider.update({ step });
     this.updateInputsStep(this.stepInput.value);
   }
@@ -201,6 +197,8 @@ class DemoSlider {
     this.minInput.value = data.min;
     this.fromInput.value = data.from;
     this.toInput.value = data.to;
+    this.stepInput.value = data.step;
+    this.scaleNumInput.value = data.scaleNum;
     this.change.style.background = '#73b9f2';
     setTimeout(() => { this.change.style.background = 'rgba(251, 229, 213, 0.5)'; }, 500);
   }

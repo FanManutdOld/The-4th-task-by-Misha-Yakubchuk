@@ -35,6 +35,9 @@ describe('Validator class', () => {
     test('step should be less than min + max', () => {
       expect(Validator.validateStep(0, 100, 200)).toBeLessThan(100);
     });
+    test('step should be equal or greater than 0', () => {
+      expect(Validator.validateStep(0, 100, -25)).toBeGreaterThanOrEqual(0);
+    });
   });
 
   describe('validate from to', () => {
@@ -105,6 +108,9 @@ describe('Validator class', () => {
     });
     test('scaleNum should be less or equal than 50', () => {
       expect(Validator.validateScaleNum(55)).toBeLessThanOrEqual(50);
+    });
+    test('scaleNum should be equal or greater than 1', () => {
+      expect(Validator.validateScaleNum(-25)).toBeGreaterThanOrEqual(1);
     });
   });
 
