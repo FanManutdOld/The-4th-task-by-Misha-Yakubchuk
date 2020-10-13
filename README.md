@@ -10,12 +10,12 @@
 6. [UML-диаграмма](#uml)
 
 ### Демонстрация <a name="demo"></a> 
-[Демо страница](https://fanmanutd.github.io/The-4th-task-by-Misha-Yakubchuk/output/demo-page/demo-page.html)
+[Демо страница](https://fanmanutd.github.io/The-4th-task-by-Misha-Yakubchuk/demo-page.html)
 
-[Больше слайдеров богу слайдеров](https://fanmanutd.github.io/The-4th-task-by-Misha-Yakubchuk/output/more-sliders/more-sliders.html)
+[Больше слайдеров богу слайдеров](https://fanmanutd.github.io/The-4th-task-by-Misha-Yakubchuk/more-sliders.html)
 
 Использованные библиотеки:
-- упаковщик [parceljs](https://en.parceljs.org/)
+- упаковщик/сборщик/бандлер [webpack](https://v4.webpack.js.org/)
 - препроцессор-шаблонизатор [pug](https://gist.github.com/neretin-trike/53aff5afb76153f050c958b82abd9228)
 - препроцессор [sass(scss)](https://sass-lang.com/)
 - [typescript](https://www.typescriptlang.org/)
@@ -26,7 +26,8 @@
 - Запуск: `npm run start`
 - Сборка: `npm run build`
 - Тесты: `npm run test`
-- Покрытие: `npm run coverage`
+- Покрытие: `npm run coverage``
+- Деплой на gh-pages: `npm run deploy`
 
 ### Инициализация плагина <a name="init"></a> 
 Плагин инициализируется на любом пустом div-элементе.  
