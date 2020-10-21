@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import '../plugin/mySlider.ts';
 import DemoSlider from './demo-slider/demo-slider';
 

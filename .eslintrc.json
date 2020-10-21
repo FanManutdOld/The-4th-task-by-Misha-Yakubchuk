@@ -26,5 +26,8 @@
     "no-console": ["error", { "allow": ["warn", "error"] }],
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "class-methods-use-this": "off"
+  },
+  "globals": {
+    "$": "readonly"
   }
 }

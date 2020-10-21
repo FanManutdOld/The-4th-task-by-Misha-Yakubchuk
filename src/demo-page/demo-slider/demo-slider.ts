@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-/* eslint-disable no-undef */
 import '../../plugin/jQueryInterface';
 
 class DemoSlider {
