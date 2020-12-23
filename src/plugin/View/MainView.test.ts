@@ -15,7 +15,7 @@ describe('MainView class', () => {
   let config;
 
   beforeEach(() => {
-    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    jest.spyOn(console, 'warn').mockImplementation(() => { });
     config = {
       min: 0,
       max: 1000,
@@ -201,7 +201,7 @@ describe('MainView class', () => {
       mainView.add('changePosition', callback);
       // @ts-expect-error
       const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
-      const mousemove = new Event('mousemove', { bubbles: true });
+      const mousemove = new MouseEvent('mousemove', { bubbles: true });
       runnerR.dispatchEvent(mousedown);
       runnerR.dispatchEvent(mousemove);
       expect(callback).toBeCalled();
