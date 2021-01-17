@@ -5,8 +5,6 @@ describe('Runner class', () => {
   const runnerR = new Runner(parent, 'runnerR');
   document.body.innerHTML = '';
   document.body.appendChild(parent);
-  (parent.firstElementChild as HTMLElement).style.width = '23px';
-  (parent.firstElementChild as HTMLElement).style.height = '15px';
   Object.defineProperty(parent, 'offsetWidth', { value: 650 });
   Object.defineProperty(parent, 'offsetHeight', { value: 650 });
   Object.defineProperty(parent.firstElementChild, 'offsetWidth', { value: 30 });
