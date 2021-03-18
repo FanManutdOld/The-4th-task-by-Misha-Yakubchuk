@@ -80,6 +80,7 @@ class View extends Observer {
     const isCheckTips: boolean = double && tips;
 
     if (isInit) {
+      this.connectedTips = false;
       this.tipR.updateVisibility(tips);
       this.updateOrientation();
       this.updateRightEdge();
@@ -99,14 +100,10 @@ class View extends Observer {
       }
     }
     if (isUpdateR) {
-      if (!this.connectedTips) {
-        this.tipR.setValue(to);
-      }
       newPos = (this.rightEdge * (to - min)) / (max - min);
       this.updateR(newPos);
     }
     if (isUpdateL) {
-      this.tipL.setValue(from);
       newPos = (this.rightEdge * (from - min)) / (max - min);
       this.updateL(newPos);
     }
@@ -129,6 +126,7 @@ class View extends Observer {
     if (this.connectedTips) {
       this.updateConnectedTips();
     } else {
+      this.tipR.setValue(this.config.to);
       this.tipR.setPos(newPos, this.runnerR.halfWidth);
     }
   }
@@ -139,6 +137,7 @@ class View extends Observer {
     if (this.connectedTips) {
       this.updateConnectedTips();
     }
+    this.tipL.setValue(this.config.from);
     this.tipL.setPos(newPos, this.runnerL.halfWidth);
   }
 
@@ -153,7 +152,9 @@ class View extends Observer {
       if (this.tipR.isDisconnected(this.tipL)) {
         this.connectedTips = false;
         this.tipL.updateVisibility(true);
-        this.updateView(this.config, true);
+        const { to, min, max } = this.config;
+        const newPos = (this.rightEdge * (to - min)) / (max - min);
+        this.updateR(newPos);
       }
     }
   }
