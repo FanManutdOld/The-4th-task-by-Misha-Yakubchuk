@@ -574,10 +574,9 @@
         bottom: 22px;
       }
       &__bar {
-        left: 0;
+        left: 5px;
         height: 6px;
         bottom: 27px;
-        margin-left: 5px;
       }
       &__runner {
         width: 42px;
@@ -617,8 +616,7 @@
       &__bar {
         left: 7px;
         width: 6px;
-        bottom: 0;
-        margin-bottom: 5px;
+        bottom: 5px;
       }
       &__runner {
         width: 20px;
