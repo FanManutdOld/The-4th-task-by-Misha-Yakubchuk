@@ -41,14 +41,14 @@ class Tip {
     if (this.vertical) {
       return (rectR.bottom >= rectL.top);
     }
-    return (rectL.right >= rectR.left);
+    return (rectL.right >= rectR.left + 1);
   }
 
   public isDisconnected(tipL: Tip): boolean {
     const rectR = this.tip.getBoundingClientRect();
     const rectL = tipL.tip.getBoundingClientRect();
     if (this.vertical) {
-      return (rectR.bottom <= rectL.top + this.halfWidth);
+      return (rectR.bottom <= rectL.top + this.halfWidth - 1);
     }
     return (rectL.right <= rectR.left + this.halfWidth);
   }
