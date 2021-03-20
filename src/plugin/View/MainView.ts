@@ -189,7 +189,7 @@ class View extends Observer {
           posClick = (event instanceof TouchEvent)
             ? event.targetTouches[0].clientX : event.clientX;
         }
-        shift = this.getDefaultShiftX(posClick);
+        shift = this.getDefaultShift(posClick);
         position = this.getRelativePosition(posClick, shift);
 
         this.notify('mouseDown', position);
@@ -216,7 +216,7 @@ class View extends Observer {
     }
   }
 
-  private getDefaultShiftX(posClick: number): number {
+  private getDefaultShift(posClick: number): number {
     const {
       double,
       vertical,
@@ -294,6 +294,7 @@ class View extends Observer {
     const {
       scin,
       vertical,
+      double,
     } = this.config;
 
     this.slider.className = vertical
@@ -304,7 +305,7 @@ class View extends Observer {
     this.scale.setOrientation(vertical);
     this.runnerR.setOrientation(vertical);
     this.tipR.setOrientation(vertical);
-    if (this.config.double) {
+    if (double) {
       this.runnerL.setOrientation(vertical);
       this.tipL.setOrientation(vertical);
     }
