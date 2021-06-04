@@ -1,9 +1,10 @@
+/* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line no-unused-vars
 import IConfig from '../IConfig';
 
-class Validator {
-  static validateAll(config: IConfig): IConfig {
+const Validator = {
+  validateAll(config: IConfig): IConfig {
     const {
       min,
       max,
@@ -28,9 +29,9 @@ class Validator {
     config.scin = this.validateScin(scin);
 
     return config;
-  }
+  },
 
-  static validateMinMax(min: number, max: number): number {
+  validateMinMax(min: number, max: number): number {
     const isWrongType = typeof min !== 'number' || typeof max !== 'number';
 
     if (isWrongType) {
@@ -40,18 +41,18 @@ class Validator {
     max = (max <= min) ? min + 1000 : max;
 
     return max;
-  }
+  },
 
-  static validateDouble(double: boolean): boolean {
+  validateDouble(double: boolean): boolean {
     if (typeof double !== 'boolean') {
       console.warn('double must be boolean');
       double = false;
     }
 
     return double;
-  }
+  },
 
-  static validateStep(min: number, max: number, step: number): number {
+  validateStep(min: number, max: number, step: number): number {
     if (typeof step !== 'number') {
       console.warn('Step must be a number');
       return NaN;
@@ -72,9 +73,9 @@ class Validator {
     }
 
     return step;
-  }
+  },
 
-  static validateFromTo(config: IConfig): IConfig {
+  validateFromTo(config: IConfig): IConfig {
     const {
       min,
       max,
@@ -101,36 +102,36 @@ class Validator {
     }
 
     return config;
-  }
+  },
 
-  static validateTips(tips: boolean): boolean {
+  validateTips(tips: boolean): boolean {
     if (typeof tips !== 'boolean') {
       console.warn('isTip must be boolean');
       tips = true;
     }
 
     return tips;
-  }
+  },
 
-  static validateIsMinMax(minMax: boolean): boolean {
+  validateIsMinMax(minMax: boolean): boolean {
     if (typeof minMax !== 'boolean') {
       console.warn('isMinMax must be boolean');
       minMax = false;
     }
 
     return minMax;
-  }
+  },
 
-  static validateIsScale(scale: boolean): boolean {
+  validateIsScale(scale: boolean): boolean {
     if (typeof scale !== 'boolean') {
       console.warn('isMinMax must be boolean');
       scale = false;
     }
 
     return scale;
-  }
+  },
 
-  static validateScaleNum(scaleNum: number): number {
+  validateScaleNum(scaleNum: number): number {
     if (typeof scaleNum !== 'number') {
       console.warn('ScaleNum must be a number');
       scaleNum = 4;
@@ -147,18 +148,18 @@ class Validator {
     }
 
     return scaleNum;
-  }
+  },
 
-  static validateScaleSnap(scaleSnap: boolean): boolean {
+  validateScaleSnap(scaleSnap: boolean): boolean {
     if (typeof scaleSnap !== 'boolean') {
       console.warn('scaleSnap must be boolean');
       scaleSnap = false;
     }
 
     return scaleSnap;
-  }
+  },
 
-  static validateScin(scin: string): string {
+  validateScin(scin: string): string {
     if (typeof scin !== 'string') {
       console.warn('scin must be a string');
       return 'orange';
@@ -172,7 +173,7 @@ class Validator {
     }
 
     return scin;
-  }
-}
+  },
+};
 
 export default Validator;
