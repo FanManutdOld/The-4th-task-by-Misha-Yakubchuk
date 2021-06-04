@@ -13,9 +13,13 @@ class Scale {
     this.init();
   }
 
-  public update(isScale: boolean, leftEdge: number, rightEdge: number, config: IConfig) {
-    if (isScale) {
+  public update(config: IConfig, rightEdge: number, leftEdge?: number) {
+    if (config.scale) {
       this.scale.style.visibility = 'visible';
+      if (!rightEdge) {
+        // eslint-disable-next-line no-param-reassign
+        rightEdge = leftEdge;
+      }
       if (this.vertical) {
         this.scale.style.bottom = `${(leftEdge / this.slider.offsetHeight) * 100}%`;
         this.scale.style.height = `${((this.slider.offsetHeight - leftEdge - rightEdge) / this.slider.offsetHeight) * 100}%`;

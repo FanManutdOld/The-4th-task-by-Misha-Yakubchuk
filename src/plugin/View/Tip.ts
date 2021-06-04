@@ -12,6 +12,10 @@ class Tip {
     this.init(tipSide);
   }
 
+  public getRect(): DOMRect {
+    return this.tip.getBoundingClientRect();
+  }
+
   public setValue(newValue: number | string) {
     this.tip.textContent = (typeof newValue === 'string') ? newValue : `${newValue}`;
     this.halfWidth = this.vertical
@@ -35,18 +39,16 @@ class Tip {
     }
   }
 
-  public isConnected(tipL: Tip): boolean {
+  public isConnected(rectL: DOMRect): boolean {
     const rectR = this.tip.getBoundingClientRect();
-    const rectL = tipL.tip.getBoundingClientRect();
     if (this.vertical) {
       return (rectR.bottom >= rectL.top);
     }
     return (rectL.right >= rectR.left + 1);
   }
 
-  public isDisconnected(tipL: Tip): boolean {
+  public isDisconnected(rectL: DOMRect): boolean {
     const rectR = this.tip.getBoundingClientRect();
-    const rectL = tipL.tip.getBoundingClientRect();
     if (this.vertical) {
       return (rectR.bottom <= rectL.top + this.halfWidth - 1);
     }

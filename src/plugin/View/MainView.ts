@@ -2,10 +2,7 @@
 import IConfig from '../IConfig';
 import Track from './Track';
 import Bar from './Bar';
-import MinMax from './MinMax';
-import Scale from './Scale';
 import Runner from './Runner';
-import Tip from './Tip';
 import Observer from '../Observer/Observer';
 import CurrentRunner from '../ECurrentRunner';
 
@@ -20,17 +17,9 @@ class View extends Observer {
 
   private bar: Bar;
 
-  private minMax: MinMax;
-
-  private scale: Scale;
-
   private runnerR: Runner;
 
-  private tipR: Tip;
-
   private runnerL: Runner;
-
-  private tipL: Tip;
 
   private refHandleDocumentMouseMove: EventListener;
 
@@ -49,12 +38,8 @@ class View extends Observer {
 
     this.track = new Track(this.slider);
     this.bar = new Bar(this.slider);
-    this.scale = new Scale(this.slider);
     this.runnerR = new Runner(this.slider, 'runnerR');
-    this.tipR = new Tip(this.slider, 'tipR');
     this.runnerL = new Runner(this.slider, 'runnerL');
-    this.tipL = new Tip(this.slider, 'tipL');
-    this.minMax = new MinMax(this.slider);
 
     this.updateView(config, true);
     this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
@@ -73,8 +58,6 @@ class View extends Observer {
       double,
       current,
       tips,
-      minMax,
-      scale,
     } = config;
     const isUpdateR: boolean = current === CurrentRunner.TO || isInit;
     const isUpdateL: boolean = (current === CurrentRunner.FROM || isInit) && double;
@@ -82,22 +65,18 @@ class View extends Observer {
 
     if (isInit) {
       this.connectedTips = false;
-      this.tipR.updateVisibility(tips);
+      this.runnerR.updateTipVisibility(tips);
       this.updateOrientation();
       this.updateRightEdge();
       if (double) {
         this.runnerL.append();
-        this.tipL.append();
         if (!this.connectedTips) {
-          this.tipL.updateVisibility(tips);
+          this.runnerL.updateTipVisibility(tips);
         }
-        this.minMax.update(minMax, min, max, this.runnerR.halfWidth, this.runnerL.halfWidth);
-        this.scale.update(scale, this.runnerL.halfWidth, this.runnerR.halfWidth, config);
+        this.track.update(config, this.runnerR.halfWidth, this.runnerL.halfWidth);
       } else {
         this.runnerL.remove();
-        this.tipL.remove();
-        this.minMax.update(minMax, min, max, this.runnerR.halfWidth);
-        this.scale.update(scale, this.runnerR.halfWidth, this.runnerR.halfWidth, config);
+        this.track.update(config, this.runnerR.halfWidth);
       }
     }
     if (isUpdateR) {
@@ -127,8 +106,7 @@ class View extends Observer {
     if (this.connectedTips) {
       this.updateConnectedTips();
     } else {
-      this.tipR.setValue(this.config.to);
-      this.tipR.setPos(newPos, this.runnerR.halfWidth);
+      this.runnerR.updateTip(newPos, this.config.to);
     }
   }
 
@@ -138,21 +116,21 @@ class View extends Observer {
     if (this.connectedTips) {
       this.updateConnectedTips();
     }
-    this.tipL.setValue(this.config.from);
-    this.tipL.setPos(newPos, this.runnerL.halfWidth);
+    this.runnerL.updateTip(newPos, this.config.from);
   }
 
   private checkConnectionTips() {
+    const rectTipL = this.runnerL.getTipRect();
     if (!this.connectedTips) {
-      if (this.tipR.isConnected(this.tipL)) {
+      if (this.runnerR.isConnectedTips(rectTipL)) {
         this.connectedTips = true;
-        this.tipL.updateVisibility(false);
+        this.runnerL.updateTipVisibility(false);
         this.updateConnectedTips();
       }
     } else if (this.connectedTips) {
-      if (this.tipR.isDisconnected(this.tipL)) {
+      if (this.runnerR.isDisconnectedTips(rectTipL)) {
         this.connectedTips = false;
-        this.tipL.updateVisibility(true);
+        this.runnerL.updateTipVisibility(true);
         const { to, min, max } = this.config;
         const newPos = (this.rightEdge * (to - min)) / (max - min);
         this.updateR(newPos);
@@ -165,12 +143,11 @@ class View extends Observer {
       from,
       to,
     } = this.config;
-    this.tipR.setValue(`${from}\u00A0—\u00A0${to}`);
     const rect = this.slider.getBoundingClientRect();
     const pos = this.config.vertical
       ? rect.bottom - this.bar.getCenter()
       : this.bar.getCenter() - rect.left;
-    this.tipR.setUnitedPos(pos);
+    this.runnerR.updateTip(pos, `${from}\u00A0—\u00A0${to}`, true);
   }
 
   private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
@@ -302,13 +279,10 @@ class View extends Observer {
       ? `slider slider_${scin} slider_${scin}_ver`
       : `slider slider_${scin} slider_${scin}_hor`;
     this.bar.setOrientation(vertical);
-    this.minMax.setOrientation(vertical);
-    this.scale.setOrientation(vertical);
+    this.track.setOrientation(vertical);
     this.runnerR.setOrientation(vertical);
-    this.tipR.setOrientation(vertical);
     if (double) {
       this.runnerL.setOrientation(vertical);
-      this.tipL.setOrientation(vertical);
     }
   }
 
