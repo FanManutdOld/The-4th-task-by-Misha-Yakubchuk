@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import IConfig from '../IConfig';
+import CurrentRunner from '../ECurrentRunner';
 import Observer from '../Observer/Observer';
 import Validator from './Validator';
 
@@ -18,7 +19,7 @@ class Model extends Observer {
     scaleSnap: false,
     vertical: false,
     scin: 'orange',
-    current: 'to',
+    current: CurrentRunner.TO,
   };
 
   private isFractional: boolean;
@@ -55,7 +56,7 @@ class Model extends Observer {
     } = this.config;
 
     if (!double) {
-      this.config.current = 'to';
+      this.config.current = CurrentRunner.TO;
       return;
     }
 
@@ -64,8 +65,10 @@ class Model extends Observer {
     let center = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
     center = this.roundFractional(center, 3);
 
-    const isLastCurrentFrom: boolean = posRound === center && this.config.current === 'from';
-    this.config.current = (posRound < center) ? 'from' : (isLastCurrentFrom) ? 'from' : 'to';
+    // eslint-disable-next-line max-len
+    const isLastCurrentFrom: boolean = posRound === center && this.config.current === CurrentRunner.FROM;
+    // eslint-disable-next-line max-len
+    this.config.current = (posRound < center) ? CurrentRunner.FROM : (isLastCurrentFrom) ? CurrentRunner.FROM : CurrentRunner.TO;
     this.notify('changeCurrent', this.config.current);
   }
 
@@ -89,7 +92,7 @@ class Model extends Observer {
       this.config[current] = newValue;
     }
 
-    if (current === 'to') {
+    if (current === CurrentRunner.TO) {
       const leftEdge = double ? from : min;
       this.config.to = (this.config.to > max) ? max
         : (this.config.to < leftEdge) ? leftEdge : this.config.to;

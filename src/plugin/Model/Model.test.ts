@@ -1,4 +1,5 @@
 import Model from './Model';
+import CurrentRunner from '../ECurrentRunner';
 
 describe('Model class', () => {
   let model: Model;
@@ -20,7 +21,7 @@ describe('Model class', () => {
         minMax: false,
         vertical: false,
         scin: 'orange',
-        current: 'to',
+        current: CurrentRunner.TO,
       };
       expect(model.getConfig()).toMatchObject(defaultConfig);
     });
@@ -84,23 +85,23 @@ describe('Model class', () => {
 
     test('should set current - to, in single slider', () => {
       model.setCurrent(0.7);
-      expect(model.getConfig().current).toBe('to');
+      expect(model.getConfig().current).toBe(CurrentRunner.TO);
     });
     test('should set current - to, if position right of center', () => {
       model.update({ double: true });
       model.setCurrent(0.8);
-      expect(model.getConfig().current).toBe('to');
+      expect(model.getConfig().current).toBe(CurrentRunner.TO);
     });
     test('should set current - from, if position left of center', () => {
       model.update({ double: true });
       model.setCurrent(0.4);
-      expect(model.getConfig().current).toBe('from');
+      expect(model.getConfig().current).toBe(CurrentRunner.FROM);
     });
     test('should set current - from, if last current - from and position on middle', () => {
       model.update({ double: true });
       model.setCurrent(0.3);
       model.setCurrent(0.55);
-      expect(model.getConfig().current).toBe('from');
+      expect(model.getConfig().current).toBe(CurrentRunner.FROM);
     });
   });
 

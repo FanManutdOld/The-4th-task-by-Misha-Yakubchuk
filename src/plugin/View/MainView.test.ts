@@ -1,4 +1,5 @@
 import MainView from './MainView';
+import CurrentRunner from '../ECurrentRunner';
 
 describe('MainView class', () => {
   let mainView: MainView;
@@ -28,7 +29,7 @@ describe('MainView class', () => {
       scale: true,
       vertical: false,
       scin: 'orange',
-      current: 'to',
+      current: CurrentRunner.TO,
     };
     parent = document.createElement('div');
     (parent as HTMLElement).style.width = '650px';
@@ -109,7 +110,7 @@ describe('MainView class', () => {
     });
     test('should set correct left value', () => {
       config.from = 250;
-      config.current = 'from';
+      config.current = CurrentRunner.FROM;
       mainView.updateView(config);
       expect(tipL.textContent).toBe('250');
     });
@@ -117,11 +118,11 @@ describe('MainView class', () => {
 
   describe('updateZIndex method', () => {
     test('should set z-index', () => {
-      mainView.updateZIndex('to');
+      mainView.updateZIndex(CurrentRunner.TO);
       expect(runnerR.style.zIndex).toBe('1');
     });
     test('should remove z-index', () => {
-      mainView.updateZIndex('from');
+      mainView.updateZIndex(CurrentRunner.FROM);
       expect(runnerR.style.zIndex).toBe('0');
     });
   });

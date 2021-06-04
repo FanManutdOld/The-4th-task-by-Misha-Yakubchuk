@@ -1,3 +1,6 @@
+// eslint-disable-next-line no-unused-vars
+import CurrentRunner from './ECurrentRunner';
+
 interface IConfig {
   min: number,
   max: number,
@@ -12,7 +15,7 @@ interface IConfig {
   scaleSnap: boolean,
   vertical: boolean,
   scin: string,
-  current: string,
+  current: CurrentRunner,
   onStart?: (data: IConfig) => void;
   onChange?: (data: IConfig) => void;
   onFinish?: (data: IConfig) => void;

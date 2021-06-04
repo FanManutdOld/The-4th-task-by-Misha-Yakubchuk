@@ -7,6 +7,7 @@ import Scale from './Scale';
 import Runner from './Runner';
 import Tip from './Tip';
 import Observer from '../Observer/Observer';
+import CurrentRunner from '../ECurrentRunner';
 
 class View extends Observer {
   private config: IConfig;
@@ -75,8 +76,8 @@ class View extends Observer {
       minMax,
       scale,
     } = config;
-    const isUpdateR: boolean = current === 'to' || isInit;
-    const isUpdateL: boolean = (current === 'from' || isInit) && double;
+    const isUpdateR: boolean = current === CurrentRunner.TO || isInit;
+    const isUpdateL: boolean = (current === CurrentRunner.FROM || isInit) && double;
     const isCheckTips: boolean = double && tips;
 
     if (isInit) {
@@ -113,7 +114,7 @@ class View extends Observer {
   }
 
   public updateZIndex(current: string) {
-    if (current === 'to') {
+    if (current === CurrentRunner.TO) {
       this.runnerR.setZIndex();
     } else {
       this.runnerR.removeZIndex();

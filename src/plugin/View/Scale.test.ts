@@ -1,5 +1,6 @@
 // eslint-disable-next-line no-unused-vars
 import IConfig from '../IConfig';
+import CurrentRunner from '../ECurrentRunner';
 import Scale from './Scale';
 
 describe('Scale class', () => {
@@ -23,7 +24,7 @@ describe('Scale class', () => {
     scaleSnap: false,
     vertical: false,
     scin: 'orange',
-    current: 'to',
+    current: CurrentRunner.TO,
   };
   describe('className', () => {
     test('should set correct className', () => {
