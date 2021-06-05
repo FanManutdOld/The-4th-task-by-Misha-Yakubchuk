@@ -23,7 +23,7 @@ class View extends Observer {
 
   private refHandleDocumentMouseMove: EventListener;
 
-  private refHandleDocumentMouseUp: EventListener;
+  private refHandleDocumentMouseUp: (event: MouseEvent | TouchEvent) => void;
 
   private connectedTips: boolean;
 
@@ -34,8 +34,6 @@ class View extends Observer {
   }
 
   public initView(config: IConfig) {
-    this.config = config;
-
     this.track = new Track(this.slider);
     this.bar = new Bar(this.slider);
     this.runnerR = new Runner(this.slider, 'runnerR');
@@ -58,26 +56,13 @@ class View extends Observer {
       double,
       current,
       tips,
-    } = config;
+    } = this.config;
     const isUpdateR: boolean = current === CurrentRunner.TO || isInit;
     const isUpdateL: boolean = (current === CurrentRunner.FROM || isInit) && double;
     const isCheckTips: boolean = double && tips;
 
     if (isInit) {
-      this.connectedTips = false;
-      this.runnerR.updateTipVisibility(tips);
-      this.updateOrientation();
-      this.updateRightEdge();
-      if (double) {
-        this.runnerL.append();
-        if (!this.connectedTips) {
-          this.runnerL.updateTipVisibility(tips);
-        }
-        this.track.update(config, this.runnerR.halfWidth, this.runnerL.halfWidth);
-      } else {
-        this.runnerL.remove();
-        this.track.update(config, this.runnerR.halfWidth);
-      }
+      this.rebuild();
     }
     if (isUpdateR) {
       newPos = (this.rightEdge * (to - min)) / (max - min);
@@ -97,6 +82,24 @@ class View extends Observer {
       this.runnerR.setZIndex();
     } else {
       this.runnerR.removeZIndex();
+    }
+  }
+
+  private rebuild() {
+    const { tips, double } = this.config;
+    this.connectedTips = false;
+    this.runnerR.updateTipVisibility(tips);
+    this.updateOrientation();
+    this.updateRightEdge();
+    if (double) {
+      this.runnerL.append();
+      if (!this.connectedTips) {
+        this.runnerL.updateTipVisibility(tips);
+      }
+      this.track.update(this.config, this.runnerR.halfWidth, this.runnerL.halfWidth);
+    } else {
+      this.runnerL.remove();
+      this.track.update(this.config, this.runnerR.halfWidth);
     }
   }
 
@@ -156,25 +159,10 @@ class View extends Observer {
       const { vertical } = this.config;
       let posClick: number; let shift: number; let position: number;
       const target: HTMLElement = event.target as HTMLElement;
-      const isTrack: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'));
+      const isCorrect: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'))
+        || target.classList.contains('slider__runner');
 
-      if (isTrack) {
-        this.callOnStart();
-        if (vertical) {
-          posClick = (event instanceof TouchEvent)
-            ? event.targetTouches[0].clientY : event.clientY;
-        } else {
-          posClick = (event instanceof TouchEvent)
-            ? event.targetTouches[0].clientX : event.clientX;
-        }
-        shift = this.getDefaultShift(posClick);
-        position = this.getRelativePosition(posClick, shift);
-
-        this.notify('mouseDown', position);
-        this.notify('changePosition', position);
-        this.bindDocumentMouseMove(event, shift);
-      }
-      if (target.classList.contains('slider__runner')) {
+      if (isCorrect) {
         this.callOnStart();
         if (vertical) {
           posClick = (event instanceof TouchEvent)
@@ -184,11 +172,19 @@ class View extends Observer {
             ? event.targetTouches[0].clientX : event.clientX;
         }
 
-        shift = vertical
-          ? target.getBoundingClientRect().bottom - posClick
-          : posClick - target.getBoundingClientRect().left;
+        if (target.classList.contains('slider__runner')) {
+          shift = vertical
+            ? target.getBoundingClientRect().bottom - posClick
+            : posClick - target.getBoundingClientRect().left;
+        } else {
+          shift = this.getDefaultShift(posClick);
+        }
         position = this.getRelativePosition(posClick, shift);
+
         this.notify('mouseDown', position);
+        if (!target.classList.contains('slider__runner')) {
+          this.notify('changePosition', position);
+        }
         this.bindDocumentMouseMove(event, shift);
       }
     }
