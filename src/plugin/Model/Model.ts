@@ -76,45 +76,46 @@ class Model extends Observer {
     const {
       min,
       max,
-      from,
-      to,
       step,
-      double,
       current,
     } = this.config;
 
     let newValue = (max - min) * position + min;
-    newValue = Math.round((newValue - min) / step) * step + min;
+    newValue = (newValue >= max) ? max
+      : (newValue <= min) ? min : Math.round((newValue - min) / step) * step + min;
 
     if (this.isFractional) {
-      this.config[current] = this.roundFractional(newValue, this.numOfSymbols);
-    } else {
-      this.config[current] = newValue;
+      newValue = this.roundFractional(newValue, this.numOfSymbols);
     }
 
-    if (current === CurrentRunner.TO) {
-      const leftEdge = double ? from : min;
-      this.config.to = (this.config.to > max) ? max
-        : (this.config.to < leftEdge) ? leftEdge : this.config.to;
-    } else {
-      this.config.from = (this.config.from > to) ? to
-        : (this.config.from < min) ? min : this.config.from;
-    }
+    this.config[current] = this.checkNewValue(newValue);
+
     this.notify('changeValue');
     this.callOnChange();
   }
 
-  private updateConfig(newConfig: any) {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(newConfig)) {
-      const isInvalid = !(key in this.config) && typeof value !== 'function';
-      if (isInvalid) {
-        throw new Error(`Invalid config property - ${key}`);
-      }
-      if (typeof value !== 'undefined') {
-        this.config[key] = value;
-      }
+  private checkNewValue(newValue: number): number {
+    const {
+      min,
+      max,
+      from,
+      to,
+      double,
+      current,
+    } = this.config;
+
+    if (current === CurrentRunner.TO) {
+      const leftEdge = double ? from : min;
+      // eslint-disable-next-line no-param-reassign
+      newValue = (newValue > max) ? max
+        : (newValue < leftEdge) ? leftEdge : newValue;
+    } else {
+      // eslint-disable-next-line no-param-reassign
+      newValue = (newValue > to) ? to
+        : (newValue < min) ? min : newValue;
     }
+
+    return newValue;
   }
 
   private setStep() {
@@ -140,6 +141,19 @@ class Model extends Observer {
       this.numOfSymbols = 0;
     }
     this.config.step = this.roundFractional(10 ** (-this.numOfSymbols), this.numOfSymbols);
+  }
+
+  private updateConfig(newConfig: any) {
+    // eslint-disable-next-line no-restricted-syntax
+    for (const [key, value] of Object.entries(newConfig)) {
+      const isInvalid = !(key in this.config) && typeof value !== 'function';
+      if (isInvalid) {
+        throw new Error(`Invalid config property - ${key}`);
+      }
+      if (typeof value !== 'undefined') {
+        this.config[key] = value;
+      }
+    }
   }
 
   private callOnChange() {
