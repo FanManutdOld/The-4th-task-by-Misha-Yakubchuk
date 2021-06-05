@@ -16,9 +16,9 @@ class Scale {
   public update(config: IConfig, rightEdge: number, leftEdge?: number) {
     if (config.scale) {
       this.scale.style.visibility = 'visible';
-      if (!rightEdge) {
+      if (!leftEdge) {
         // eslint-disable-next-line no-param-reassign
-        rightEdge = leftEdge;
+        leftEdge = rightEdge;
       }
       if (this.vertical) {
         this.scale.style.bottom = `${(leftEdge / this.slider.offsetHeight) * 100}%`;
