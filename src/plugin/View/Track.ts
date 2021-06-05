@@ -15,11 +15,7 @@ class Track {
   }
 
   public update(config: IConfig, halfWidthRunnerR: number, halfWidthRunnerL?: number) {
-    const {
-      min,
-      max,
-      minMax,
-    } = config;
+    const { min, max, minMax } = config;
     this.scale.update(config, halfWidthRunnerR, halfWidthRunnerL);
     this.minMax.update(minMax, min, max, halfWidthRunnerR, halfWidthRunnerL);
   }

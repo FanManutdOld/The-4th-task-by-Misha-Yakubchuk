@@ -142,10 +142,7 @@ class View extends Observer {
   }
 
   private updateConnectedTips() {
-    const {
-      from,
-      to,
-    } = this.config;
+    const { from, to } = this.config;
     const rect = this.slider.getBoundingClientRect();
     const pos = this.config.vertical
       ? rect.bottom - this.bar.getCenter()
@@ -191,10 +188,7 @@ class View extends Observer {
   }
 
   private getDefaultShift(posClick: number): number {
-    const {
-      double,
-      vertical,
-    } = this.config;
+    const { double, vertical } = this.config;
 
     if (!double) {
       return this.runnerR.halfWidth;
@@ -265,11 +259,7 @@ class View extends Observer {
   }
 
   private updateOrientation() {
-    const {
-      scin,
-      vertical,
-      double,
-    } = this.config;
+    const { scin, vertical, double } = this.config;
 
     this.slider.className = vertical
       ? `slider slider_${scin} slider_${scin}_ver`
