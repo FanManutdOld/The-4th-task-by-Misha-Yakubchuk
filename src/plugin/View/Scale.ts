@@ -124,9 +124,11 @@ class Scale {
   }
 
   private calcValue(min: number, max: number, step: number, bigW: number): number {
-    let value = (max - min) * (bigW / 100) + min;
     let numOfSymbols: number;
-    value = Math.round((value - min) / step) * step + min;
+    let value = (max - min) * (bigW / 100) + min;
+    if (value !== max) {
+      value = Math.round((value - min) / step) * step + min;
+    }
     const isFractional = step.toString().includes('.') || min.toString().includes('.') || max.toString().includes('.');
     if (isFractional) {
       if (step.toString().includes('.')) {
