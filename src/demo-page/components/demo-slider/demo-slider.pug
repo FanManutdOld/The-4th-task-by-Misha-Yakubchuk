@@ -1,0 +1,42 @@
+include ../text-input/text-input.pug
+include ../checkbox/checkbox.pug
+include ../callbacks/callbacks.pug
+include ../slider/slider.pug
+
+mixin demo-slider(data)
+
+  .demo-slider
+    .demo-slider__panel
+      .demo-slider__column
+        .demo-slider__text-input.js-demo-slider__text-input
+          +text-input({ name: "min" })
+        .demo-slider__text-input.js-demo-slider__text-input
+          +text-input({ name: "from" })
+        .demo-slider__text-input.js-demo-slider__text-input
+          +text-input({ name: "scin" })
+        .demo-slider__checkbox.js-demo-slider__checkbox.demo-slider__checkbox_with_margin
+          +checkbox({label: "double"})
+        .demo-slider__checkbox.js-demo-slider__checkbox
+          +checkbox({label: "tips"})
+        .demo-slider__checkbox.js-demo-slider__checkbox
+          +checkbox({label: "scaleSnap"})
+      .demo-slider__column
+        .demo-slider__text-input.js-demo-slider__text-input
+          +text-input({ name: "max" })
+        .demo-slider__text-input.js-demo-slider__text-input
+          +text-input({ name: "to" })
+        .demo-slider__text-input.js-demo-slider__text-input
+          +text-input({ name: "step" })
+        .demo-slider__text-input.js-demo-slider__text-input
+          +text-input({ name: "scaleNum", isSmall: true })
+        .demo-slider__checkbox.js-demo-slider__checkbox
+          +checkbox({label: "vertical"})
+        .demo-slider__checkbox.js-demo-slider__checkbox
+          +checkbox({label: "minMax"})
+        .demo-slider__checkbox.js-demo-slider__checkbox
+          +checkbox({label: "scale"})
+    .demo-slider__plugin.js-demo-slider__plugin
+      .demo-slider__callbacks.js-demo-slider__callbacks
+        +callbacks()
+      .demo-slider__example-slider.js-demo-slider__example-slider
+        +slider(data)

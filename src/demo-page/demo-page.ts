@@ -1,5 +1,4 @@
-import '../plugin/mySlider.ts';
-import DemoSlider from './demo-slider/demo-slider';
+import DemoSlider from './components/demo-slider/demo-slider';
 
 $(document).ready(() => {
   const config1 = {

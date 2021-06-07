@@ -1,10 +1,6 @@
 $gradient: linear-gradient(180deg, #BC9CFF 0%, #8BA4F9 100%);
 
 .checkbox{
-  margin-bottom: 10.5px;
-  &:last-child{
-    margin-bottom: 0;
-  }
   &__label{
     display: inline-block;
     padding-right: 30px;

@@ -1,0 +1,52 @@
+@import '../checkbox/checkbox.scss';
+@import '../callbacks/callbacks.scss';
+@import '../slider/slider.scss';
+@import '../text-input/text-input.scss';
+
+.demo-slider {
+  display: flex;
+  justify-content: space-between;
+  &__panel {
+    max-width: 400px;
+    background: #fbe5d5;
+    border-radius: 5px;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  &__column {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  &__text-input {
+    margin-top: 20px;
+  }
+  &__checkbox {
+    margin-top: 20px;
+    &_with_margin {
+      margin-top: 61px;
+    }
+  }
+  &__plugin {
+    width: 100%;
+    max-width: 650px;
+    margin-left: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    &_orient_ver {
+      flex-direction: row-reverse;
+      justify-content: initial;
+    }
+  }
+  &__callbacks {
+    margin: 0 auto;
+  }
+  &__example-slider {
+    height: 150px;
+    &_orient_ver {
+      height: auto;
+    }
+  }
+}
