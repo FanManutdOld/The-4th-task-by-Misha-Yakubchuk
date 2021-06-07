@@ -1,4 +1,3 @@
-/* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
 // eslint-disable-next-line no-unused-vars
 import IConfig from '../IConfig';
@@ -11,6 +10,7 @@ const Validator = {
       double,
       tips,
       minMax,
+      vertical,
       scale,
       scaleNum,
       scaleSnap,
@@ -23,6 +23,7 @@ const Validator = {
     config = this.validateFromTo(config);
     config.tips = this.validateTips(tips);
     config.minMax = this.validateIsMinMax(minMax);
+    config.vertical = this.validateVertical(vertical);
     config.scale = this.validateIsScale(scale);
     config.scaleNum = this.validateScaleNum(scaleNum);
     config.scaleSnap = this.validateScaleSnap(scaleSnap);
@@ -54,7 +55,7 @@ const Validator = {
 
   validateStep(min: number, max: number, step: number): number {
     if (typeof step !== 'number') {
-      console.warn('Step must be a number');
+      console.warn('step must be a number');
       return NaN;
     }
 
@@ -63,12 +64,12 @@ const Validator = {
     }
 
     if (step > Math.abs(min) + Math.abs(max)) {
-      console.warn('Step too big');
+      console.warn('step too big');
       step = Math.min(Math.abs(min), Math.abs(max));
     }
 
     if (step < 0) {
-      console.warn('Step must be equal or greater than 0');
+      console.warn('step must be equal or greater than 0');
       step = 0;
     }
 
@@ -122,9 +123,18 @@ const Validator = {
     return minMax;
   },
 
+  validateVertical(vertical: boolean): boolean {
+    if (typeof vertical !== 'boolean') {
+      console.warn('vertical must be boolean');
+      vertical = false;
+    }
+
+    return vertical;
+  },
+
   validateIsScale(scale: boolean): boolean {
     if (typeof scale !== 'boolean') {
-      console.warn('isMinMax must be boolean');
+      console.warn('scale must be boolean');
       scale = false;
     }
 
@@ -133,17 +143,17 @@ const Validator = {
 
   validateScaleNum(scaleNum: number): number {
     if (typeof scaleNum !== 'number') {
-      console.warn('ScaleNum must be a number');
+      console.warn('scaleNum must be a number');
       scaleNum = 4;
     }
 
     if (scaleNum > 50) {
-      console.warn('ScaleNum too big');
+      console.warn('scaleNum too big');
       scaleNum = 4;
     }
 
     if (scaleNum < 1) {
-      console.warn('ScaleNum must be equal or greater than 1');
+      console.warn('scaleNum must be equal or greater than 1');
       scaleNum = 1;
     }
 
