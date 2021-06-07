@@ -161,5 +161,16 @@ describe('Model class', () => {
       model.calcValue(0.8);
       expect(model.getConfig().from).toBe(model.getConfig().to);
     });
+    test('should set right value to max, if right value greater than max after rounding', () => {
+      model.update({
+        min: 0,
+        max: 11,
+        step: 4,
+        to: 8,
+      });
+      model.setCurrent(0.8);
+      model.calcValue(0.95);
+      expect(model.getConfig().to).toBe(model.getConfig().max);
+    });
   });
 });

@@ -1,4 +1,6 @@
 import MainView from './MainView';
+// eslint-disable-next-line no-unused-vars
+import IConfig from '../IConfig';
 import CurrentRunner from '../ECurrentRunner';
 
 describe('MainView class', () => {
@@ -13,7 +15,7 @@ describe('MainView class', () => {
   let tipL: HTMLElement;
   let min: HTMLElement;
   let max: HTMLElement;
-  let config;
+  let config: IConfig;
 
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => { });
@@ -27,6 +29,8 @@ describe('MainView class', () => {
       tips: true,
       minMax: true,
       scale: true,
+      scaleNum: 4,
+      scaleSnap: true,
       vertical: false,
       scin: 'orange',
       current: CurrentRunner.TO,
@@ -63,7 +67,14 @@ describe('MainView class', () => {
   });
 
   describe('updateView method', () => {
-    beforeEach(() => {
+    test('should set correct values in HTML', () => {
+      mainView.updateView(config, true);
+      expect(tipR.textContent).toBe('700');
+      expect(tipL.textContent).toBe('400');
+      expect(min.textContent).toBe('0');
+      expect(max.textContent).toBe('1000');
+    });
+    test('should set united Tips', () => {
       tipR.style.width = '10px';
       tipR.getBoundingClientRect = jest.fn(() => ({
         x: 0,
@@ -83,17 +94,59 @@ describe('MainView class', () => {
         height: 0,
         top: 0,
         left: 0,
+        right: 20,
+        bottom: 0,
+        toJSON: jest.fn(),
+      }));
+      config.to = 250;
+      config.from = 220;
+      mainView.updateView(config);
+      expect(tipR.textContent).toBe('220\u00A0—\u00A0250');
+    });
+    test('should disconnect united tips after connect', () => {
+      tipR.style.width = '10px';
+      tipR.getBoundingClientRect = jest.fn(() => ({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        top: 0,
+        left: 10,
         right: 0,
         bottom: 0,
         toJSON: jest.fn(),
       }));
-    });
-    test('should set correct values in HTML', () => {
-      mainView.updateView(config, true);
-      expect(tipR.textContent).toBe('700');
-      expect(tipL.textContent).toBe('400');
-      expect(min.textContent).toBe('0');
-      expect(max.textContent).toBe('1000');
+      tipL.getBoundingClientRect = jest.fn(() => ({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        top: 0,
+        left: 0,
+        right: 20,
+        bottom: 0,
+        toJSON: jest.fn(),
+      }));
+      // connect
+      config.to = 250;
+      config.from = 220;
+      mainView.updateView(config);
+
+      tipL.getBoundingClientRect = jest.fn(() => ({
+        x: 0,
+        y: 0,
+        width: 0,
+        height: 0,
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        toJSON: jest.fn(),
+      }));
+      // should disconnect
+      config.from = 100;
+      mainView.updateView(config);
+      expect(tipR.textContent).toBe('250');
     });
     test('should remove left runner and left tip, in single slider', () => {
       config.double = false;

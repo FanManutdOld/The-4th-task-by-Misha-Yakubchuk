@@ -94,6 +94,13 @@ describe('Validator class', () => {
     });
   });
 
+  describe('validate vertical', () => {
+    test('vertical should be a boolean', () => {
+      // @ts-expect-error
+      expect(Validator.validateVertical('true')).toBeBoolean();
+    });
+  });
+
   describe('validate scale', () => {
     test('scale should be a boolean', () => {
       // @ts-expect-error
