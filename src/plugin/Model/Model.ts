@@ -111,8 +111,7 @@ class Model extends Observer {
         : (newValue < leftEdge) ? leftEdge : newValue;
     } else {
       // eslint-disable-next-line no-param-reassign
-      newValue = (newValue > to) ? to
-        : (newValue < min) ? min : newValue;
+      newValue = (newValue > to) ? to : newValue;
     }
 
     return newValue;

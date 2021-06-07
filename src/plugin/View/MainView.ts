@@ -248,7 +248,6 @@ class View extends Observer {
   }
 
   private handleWindowResize = () => {
-    this.updateRightEdge();
     this.updateView(this.config, true);
   }
 
