@@ -41,7 +41,7 @@ class View extends Observer {
 
     this.updateView(config, true);
     this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
-    this.slider.addEventListener('touchstart', this.handleSliderMouseDown);
+    this.slider.addEventListener('touchstart', this.handleSliderMouseDown, { passive: false });
     window.addEventListener('resize', this.handleWindowResize);
   }
 
@@ -152,39 +152,57 @@ class View extends Observer {
 
   private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
-    if (event.which === 1 || event instanceof TouchEvent) {
-      const { vertical } = this.config;
-      let posClick: number; let shift: number; let position: number;
-      const target: HTMLElement = event.target as HTMLElement;
-      const isCorrect: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'))
-        || target.classList.contains('slider__runner');
-
+    const { vertical } = this.config;
+    let posClick: number;
+    const target: HTMLElement = event.target as HTMLElement;
+    const isCorrect: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'))
+      || target.classList.contains('slider__runner');
+    if (event instanceof MouseEvent && event.which === 1) {
       if (isCorrect) {
         this.callOnStart();
         if (vertical) {
-          posClick = (event instanceof TouchEvent)
-            ? event.targetTouches[0].clientY : event.clientY;
+          posClick = event.clientY;
         } else {
-          posClick = (event instanceof TouchEvent)
-            ? event.targetTouches[0].clientX : event.clientX;
+          posClick = event.clientX;
         }
-
-        if (target.classList.contains('slider__runner')) {
-          shift = vertical
-            ? target.getBoundingClientRect().bottom - posClick
-            : posClick - target.getBoundingClientRect().left;
+        const shift = this.calcShift(target, posClick);
+        const position: number = this.getRelativePosition(posClick, shift);
+        this.notifyMouseDown(target, position);
+        this.bindDocumentMouseMove(event, shift);
+      }
+    } else if (event instanceof TouchEvent) {
+      if (isCorrect) {
+        this.callOnStart();
+        if (vertical) {
+          posClick = event.targetTouches[0].clientY;
         } else {
-          shift = this.getDefaultShift(posClick);
+          posClick = event.targetTouches[0].clientX;
         }
-        position = this.getRelativePosition(posClick, shift);
-
-        this.notify('mouseDown', position);
-        if (!target.classList.contains('slider__runner')) {
-          this.notify('changePosition', position);
-        }
+        const shift = this.calcShift(target, posClick);
+        const position: number = this.getRelativePosition(posClick, shift);
+        this.notifyMouseDown(target, position);
         this.bindDocumentMouseMove(event, shift);
       }
     }
+  }
+
+  private notifyMouseDown(target: HTMLElement, position: number) {
+    this.notify('mouseDown', position);
+    if (!target.classList.contains('slider__runner')) {
+      this.notify('changePosition', position);
+    }
+  }
+
+  private calcShift(target: HTMLElement, posClick: number) {
+    let shift: number;
+    if (target.classList.contains('slider__runner')) {
+      shift = this.config.vertical
+        ? target.getBoundingClientRect().bottom - posClick
+        : posClick - target.getBoundingClientRect().left;
+    } else {
+      shift = this.getDefaultShift(posClick);
+    }
+    return shift;
   }
 
   private getDefaultShift(posClick: number): number {
@@ -217,7 +235,7 @@ class View extends Observer {
       document.addEventListener('mousemove', this.refHandleDocumentMouseMove);
       document.addEventListener('mouseup', this.refHandleDocumentMouseUp);
     } else {
-      document.addEventListener('touchmove', this.refHandleDocumentMouseMove);
+      document.addEventListener('touchmove', this.refHandleDocumentMouseMove, { passive: false });
       document.addEventListener('touchend', this.refHandleDocumentMouseUp);
     }
   }
@@ -225,12 +243,18 @@ class View extends Observer {
   private handleDocumentMouseMove(shift: number, event: MouseEvent | TouchEvent) {
     event.preventDefault();
     let posClick: number;
-    if (this.config.vertical) {
-      posClick = (event instanceof TouchEvent)
-        ? event.targetTouches[0].clientY : event.clientY;
-    } else {
-      posClick = (event instanceof TouchEvent)
-        ? event.targetTouches[0].clientX : event.clientX;
+    if (event instanceof MouseEvent) {
+      if (this.config.vertical) {
+        posClick = event.clientY;
+      } else {
+        posClick = event.clientX;
+      }
+    } else if (event instanceof TouchEvent) {
+      if (this.config.vertical) {
+        posClick = event.targetTouches[0].clientY;
+      } else {
+        posClick = event.targetTouches[0].clientX;
+      }
     }
     const position = this.getRelativePosition(posClick, shift);
     this.notify('changePosition', position);
