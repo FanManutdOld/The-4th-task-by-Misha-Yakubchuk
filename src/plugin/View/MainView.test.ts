@@ -31,6 +31,7 @@ describe('MainView class', () => {
       scale: true,
       scaleNum: 4,
       scaleSnap: true,
+      scaleLimit: 50,
       vertical: false,
       scin: 'orange',
       current: CurrentRunner.TO,

@@ -17,6 +17,7 @@ describe('Scale class', () => {
     to: 700,
     step: NaN,
     scaleNum: 4,
+    scaleLimit: 50,
     double: false,
     tips: true,
     minMax: true,
