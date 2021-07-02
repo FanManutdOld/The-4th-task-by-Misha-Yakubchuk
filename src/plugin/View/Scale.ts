@@ -153,7 +153,7 @@ class Scale {
 
   private addValue(value: number, bigW: number) {
     const html = document.createElement('div');
-    html.className = 'slider__scale-text';
+    html.className = 'slider__scale-value';
     html.textContent = `${value}`;
     this.scale.append(html);
     if (this.vertical) {
