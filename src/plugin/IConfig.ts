@@ -13,6 +13,7 @@ interface IConfig {
   minMax: boolean,
   scale: boolean,
   scaleSnap: boolean,
+  scaleLimit: number,
   vertical: boolean,
   scin: string,
   current: CurrentRunner,

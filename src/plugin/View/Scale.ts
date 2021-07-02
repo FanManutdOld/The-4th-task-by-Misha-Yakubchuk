@@ -55,6 +55,7 @@ class Scale {
       step,
       scaleNum,
       scaleSnap,
+      scaleLimit,
     } = config;
     const total = max - min;
     let bigNum = scaleNum;
@@ -68,7 +69,7 @@ class Scale {
       bigNum = total / step;
     }
 
-    if (bigNum > 50) bigNum = 50;
+    if (bigNum > scaleLimit) bigNum = scaleLimit;
     bigP = Number((100 / bigNum).toFixed(20));
 
     // определям количество маленьких рисочек

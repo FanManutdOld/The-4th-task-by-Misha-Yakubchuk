@@ -14,6 +14,7 @@ const Validator = {
       scale,
       scaleNum,
       scaleSnap,
+      scaleLimit,
       scin,
     } = config;
 
@@ -25,7 +26,8 @@ const Validator = {
     config.minMax = this.validateIsMinMax(minMax);
     config.vertical = this.validateVertical(vertical);
     config.scale = this.validateIsScale(scale);
-    config.scaleNum = this.validateScaleNum(scaleNum);
+    config.scaleLimit = this.validateScaleLimit(scaleLimit);
+    config.scaleNum = this.validateScaleNum(scaleNum, config.scaleLimit);
     config.scaleSnap = this.validateScaleSnap(scaleSnap);
     config.scin = this.validateScin(scin);
 
@@ -141,15 +143,34 @@ const Validator = {
     return scale;
   },
 
-  validateScaleNum(scaleNum: number): number {
+  validateScaleLimit(scaleLimit: number) {
+    if (typeof scaleLimit !== 'number') {
+      console.warn('scaleLimit must be a number');
+      scaleLimit = 4;
+    }
+
+    if (scaleLimit > 50) {
+      console.warn('scaleLimit too big');
+      scaleLimit = 50;
+    }
+
+    if (scaleLimit < 1) {
+      console.warn('scaleLimit must be equal or greater than 1');
+      scaleLimit = 1;
+    }
+
+    return scaleLimit;
+  },
+
+  validateScaleNum(scaleNum: number, scaleLimit: number): number {
     if (typeof scaleNum !== 'number') {
       console.warn('scaleNum must be a number');
       scaleNum = 4;
     }
 
-    if (scaleNum > 50) {
-      console.warn('scaleNum too big');
-      scaleNum = 4;
+    if (scaleNum > scaleLimit) {
+      console.warn('scaleNum must be equal or less than scaleLimit');
+      scaleNum = scaleLimit;
     }
 
     if (scaleNum < 1) {

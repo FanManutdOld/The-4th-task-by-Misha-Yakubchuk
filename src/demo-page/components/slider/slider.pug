@@ -1,9 +1,9 @@
 mixin slider(data)
 
   if (data)
-    - const { min, max, from, to, step, scaleNum, double, tips, minMax, scale, scaleSnap, vertical, scin } = data
+    - const { min, max, from, to, step, scaleNum, double, tips, minMax, scale, scaleSnap, scaleLimit, vertical, scin } = data
     .example-slider.js-example-slider(data-min=min, data-max=max, data-from=from, data-to=to, 
       data-step=step,  data-scale-num=scaleNum, data-double=double, data-tips=tips, data-min-max=minMax, 
-      data-scale=scale, data-scale-snap=scaleSnap, data-vertical=vertical, data-scin=scin)
+      data-scale=scale, data-scale-snap=scaleSnap, data-scale-limit=scaleLimit data-vertical=vertical, data-scin=scin)
   else 
     .example-slider.js-example-slider

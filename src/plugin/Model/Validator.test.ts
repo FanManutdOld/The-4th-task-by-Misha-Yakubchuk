@@ -108,16 +108,29 @@ describe('Validator class', () => {
     });
   });
 
+  describe('validate scaleLimit', () => {
+    test('scaleLimit should be a number', () => {
+      // @ts-expect-error
+      expect(Validator.validateScaleLimit('20')).toBeNumber();
+    });
+    test('scaleLimit should be less or equal than 50', () => {
+      expect(Validator.validateScaleLimit(55)).toBeLessThanOrEqual(50);
+    });
+    test('scaleLimit should be equal or greater than 1', () => {
+      expect(Validator.validateScaleLimit(-25)).toBeGreaterThanOrEqual(1);
+    });
+  });
+
   describe('validate scaleNum', () => {
     test('scaleNum should be a number', () => {
       // @ts-expect-error
       expect(Validator.validateScaleNum('20')).toBeNumber();
     });
-    test('scaleNum should be less or equal than 50', () => {
-      expect(Validator.validateScaleNum(55)).toBeLessThanOrEqual(50);
+    test('scaleNum should be less or equal than scaleLimit', () => {
+      expect(Validator.validateScaleNum(30, 25)).toBeLessThanOrEqual(25);
     });
     test('scaleNum should be equal or greater than 1', () => {
-      expect(Validator.validateScaleNum(-25)).toBeGreaterThanOrEqual(1);
+      expect(Validator.validateScaleNum(-25, 30)).toBeGreaterThanOrEqual(1);
     });
   });
 

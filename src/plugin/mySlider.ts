@@ -17,6 +17,10 @@ import Presenter from './Presenter/Presenter';
       tips: $(el).data('tips'),
       minMax: $(el).data('minMax'),
       vertical: $(el).data('vertical'),
+      scale: $(el).data('scale'),
+      scaleSnap: $(el).data('scaleSnap'),
+      scaleLimit: $(el).data('scaleLimit'),
+      scaleNum: $(el).data('scaleNum'),
       scin: $(el).data('scin'),
     };
 

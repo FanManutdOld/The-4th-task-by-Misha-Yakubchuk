@@ -14,7 +14,9 @@ mixin demo-slider(data)
           +text-input({ name: 'from' })
         .demo-slider__text-input.js-demo-slider__text-input
           +text-input({ name: 'scin' })
-        .demo-slider__checkbox.js-demo-slider__checkbox.demo-slider__checkbox_with_margin
+        .demo-slider__text-input.js-demo-slider__text-input
+          +text-input({ name: 'scaleLimit', isSmall: true })
+        .demo-slider__checkbox.js-demo-slider__checkbox
           +checkbox({ label: 'double' })
         .demo-slider__checkbox.js-demo-slider__checkbox
           +checkbox({ label: 'tips' })
