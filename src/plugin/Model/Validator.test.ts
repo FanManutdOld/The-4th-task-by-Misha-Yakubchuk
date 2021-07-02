@@ -1,6 +1,7 @@
 import Validator from './Validator';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'jest-extended';
+import CurrentRunner from '../ECurrentRunner';
 
 describe('Validator class', () => {
   beforeEach(() => {
@@ -122,15 +123,40 @@ describe('Validator class', () => {
   });
 
   describe('validate scaleNum', () => {
+    const config = {
+      max: 1000,
+      min: 0,
+      from: 2,
+      to: 5,
+      double: true,
+      tips: false,
+      scale: true,
+      scaleSnap: false,
+      minMax: false,
+      scin: 'orange',
+      current: CurrentRunner.TO,
+      vertical: false,
+      step: 1,
+      scaleNum: 25,
+      scaleLimit: 50,
+    };
+    // @ts-expect-error
+    config.scaleNum = 'string';
     test('scaleNum should be a number', () => {
-      // @ts-expect-error
-      expect(Validator.validateScaleNum('20')).toBeNumber();
+      expect(Validator.validateScaleNum(config)).toBeNumber();
     });
+    config.scaleNum = 55;
     test('scaleNum should be less or equal than scaleLimit', () => {
-      expect(Validator.validateScaleNum(30, 25)).toBeLessThanOrEqual(25);
+      expect(Validator.validateScaleNum(config)).toBeLessThanOrEqual(50);
+    });
+    config.max = 10;
+    config.scaleNum = 15;
+    const maxNumberOfValues = Math.round((config.max - config.min) / config.step);
+    test('scaleNum should be less or equal than (max - min) / step', () => {
+      expect(Validator.validateScaleNum(config)).toBeLessThanOrEqual(maxNumberOfValues);
     });
     test('scaleNum should be equal or greater than 1', () => {
-      expect(Validator.validateScaleNum(-25, 30)).toBeGreaterThanOrEqual(1);
+      expect(Validator.validateScaleNum(config)).toBeGreaterThanOrEqual(1);
     });
   });
 

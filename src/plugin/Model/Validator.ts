@@ -12,7 +12,6 @@ const Validator = {
       minMax,
       vertical,
       scale,
-      scaleNum,
       scaleSnap,
       scaleLimit,
       scin,
@@ -27,7 +26,7 @@ const Validator = {
     config.vertical = this.validateVertical(vertical);
     config.scale = this.validateIsScale(scale);
     config.scaleLimit = this.validateScaleLimit(scaleLimit);
-    config.scaleNum = this.validateScaleNum(scaleNum, config.scaleLimit);
+    config.scaleNum = this.validateScaleNum(config);
     config.scaleSnap = this.validateScaleSnap(scaleSnap);
     config.scin = this.validateScin(scin);
 
@@ -162,7 +161,16 @@ const Validator = {
     return scaleLimit;
   },
 
-  validateScaleNum(scaleNum: number, scaleLimit: number): number {
+  validateScaleNum(config: IConfig): number {
+    const {
+      min,
+      max,
+      step,
+      scaleLimit,
+    } = config;
+
+    let { scaleNum } = config;
+
     if (typeof scaleNum !== 'number') {
       console.warn('scaleNum must be a number');
       scaleNum = 4;
@@ -171,6 +179,13 @@ const Validator = {
     if (scaleNum > scaleLimit) {
       console.warn('scaleNum must be equal or less than scaleLimit');
       scaleNum = scaleLimit;
+    }
+
+    const maxNumberOfValues = Math.round((max - min) / step);
+
+    if (scaleNum > maxNumberOfValues) {
+      console.warn('scaleNum must be equal or less than (max - min) / step');
+      scaleNum = maxNumberOfValues;
     }
 
     if (scaleNum < 1) {
