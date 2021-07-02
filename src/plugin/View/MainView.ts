@@ -157,6 +157,7 @@ class View extends Observer {
     const target: HTMLElement = event.target as HTMLElement;
     const isCorrect: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'))
       || target.classList.contains('slider__runner');
+    const isScaleValue: boolean = target.classList.contains('slider__scale-value');
     if (event instanceof MouseEvent && event.which === 1) {
       if (isCorrect) {
         this.callOnStart();
@@ -167,7 +168,13 @@ class View extends Observer {
         }
         const shift = this.calcShift(target, posClick);
         const position: number = this.getRelativePosition(posClick, shift);
-        this.notifyMouseDown(target, position);
+        if (isScaleValue) {
+          this.notify('mouseDown', position);
+          this.config[this.config.current] = Number(target.textContent);
+          this.updateView(this.config);
+        } else {
+          this.notifyMouseDown(target, position);
+        }
         this.bindDocumentMouseMove(event, shift);
       }
     } else if (event instanceof TouchEvent) {
@@ -180,7 +187,13 @@ class View extends Observer {
         }
         const shift = this.calcShift(target, posClick);
         const position: number = this.getRelativePosition(posClick, shift);
-        this.notifyMouseDown(target, position);
+        if (isScaleValue) {
+          this.notify('mouseDown', position);
+          this.config[this.config.current] = Number(target.textContent);
+          this.updateView(this.config);
+        } else {
+          this.notifyMouseDown(target, position);
+        }
         this.bindDocumentMouseMove(event, shift);
       }
     }
