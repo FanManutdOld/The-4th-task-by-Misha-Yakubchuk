@@ -17,6 +17,7 @@ class Presenter {
   private addListeners() {
     this.view.add('mouseDown', this.handleMouseDown);
     this.view.add('changePosition', this.handleChangePosition);
+    this.view.add('setValue', this.handleSetValue);
     this.model.add('changeCurrent', this.handleChangeCurrent);
     this.model.add('changeValue', this.handleChangeValue);
     this.model.add('changeConfig', this.handleChangeConfig);
@@ -28,6 +29,10 @@ class Presenter {
 
   private handleChangePosition = (position: number) => {
     this.model.calcValue(position);
+  }
+
+  private handleSetValue = (value: number) => {
+    this.model.setValueFromView(value);
   }
 
   private handleChangeCurrent = (current: string) => {

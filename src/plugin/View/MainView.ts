@@ -170,8 +170,7 @@ class View extends Observer {
         const position: number = this.getRelativePosition(posClick, shift);
         if (isScaleValue) {
           this.notify('mouseDown', position);
-          this.config[this.config.current] = Number(target.textContent);
-          this.updateView(this.config);
+          this.notify('setValue', Number(target.textContent));
         } else {
           this.notifyMouseDown(target, position);
         }
@@ -189,8 +188,7 @@ class View extends Observer {
         const position: number = this.getRelativePosition(posClick, shift);
         if (isScaleValue) {
           this.notify('mouseDown', position);
-          this.config[this.config.current] = Number(target.textContent);
-          this.updateView(this.config);
+          this.notify('setValue', Number(target.textContent));
         } else {
           this.notifyMouseDown(target, position);
         }
