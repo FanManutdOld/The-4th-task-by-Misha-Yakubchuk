@@ -76,7 +76,7 @@ class Model extends Observer {
   public setValueFromView(value: number) {
     const { current } = this.config;
 
-    this.config[current] = value;
+    this.config[current] = this.checkNewValue(value);
     this.notify('changeValue');
     this.callOnChange();
   }
