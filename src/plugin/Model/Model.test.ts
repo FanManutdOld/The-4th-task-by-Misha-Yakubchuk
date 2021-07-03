@@ -105,6 +105,13 @@ describe('Model class', () => {
     });
   });
 
+  describe('setValueFromView method', () => {
+    test('should set new value', () => {
+      model.setValueFromView(200);
+      expect(model.getConfig().to).toBe(200);
+    });
+  });
+
   describe('callOnChange method', () => {
     test('should call onChange method', () => {
       const onChange = jest.fn();
