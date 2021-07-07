@@ -70,14 +70,14 @@ class Runner {
   }
 
   public append() {
-    if (!this.slider.contains(this.runner)) {
-      this.slider.append(this.runner);
-      this.tip.append();
-      if (this.vertical) {
-        this.halfWidth = this.runner.offsetHeight / 2;
-      } else {
-        this.halfWidth = this.runner.offsetWidth / 2;
-      }
+    if (this.slider.contains(this.runner)) return;
+
+    this.slider.append(this.runner);
+    this.tip.append();
+    if (this.vertical) {
+      this.halfWidth = this.runner.offsetHeight / 2;
+    } else {
+      this.halfWidth = this.runner.offsetWidth / 2;
     }
   }
 

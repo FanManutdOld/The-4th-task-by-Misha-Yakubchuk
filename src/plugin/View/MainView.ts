@@ -157,19 +157,19 @@ class View extends Observer {
       const isCorrect: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'))
         || target.classList.contains('slider__runner');
       const isScaleValue: boolean = target.classList.contains('slider__scale-value');
-      if (isCorrect) {
-        this.callOnStart();
-        const posClick = this.getPosClick(event);
-        const shift = this.calcShift(target, posClick);
-        const position: number = this.getRelativePosition(posClick, shift);
-        if (isScaleValue) {
-          this.notify('mouseDown', position);
-          this.notify('setValue', Number(target.textContent));
-        } else {
-          this.notifyMouseDown(target, position);
-        }
-        this.bindDocumentMouseMove(event, shift);
+      if (!isCorrect) return;
+
+      this.callOnStart();
+      const posClick = this.getPosClick(event);
+      const shift = this.calcShift(target, posClick);
+      const position: number = this.getRelativePosition(posClick, shift);
+      if (isScaleValue) {
+        this.notify('mouseDown', position);
+        this.notify('setValue', Number(target.textContent));
+      } else {
+        this.notifyMouseDown(target, position);
       }
+      this.bindDocumentMouseMove(event, shift);
     }
   }
 
@@ -236,20 +236,7 @@ class View extends Observer {
 
   private handleDocumentMouseMove(shift: number, event: MouseEvent | TouchEvent) {
     event.preventDefault();
-    let posClick: number;
-    if (event instanceof MouseEvent) {
-      if (this.config.vertical) {
-        posClick = event.clientY;
-      } else {
-        posClick = event.clientX;
-      }
-    } else if (event instanceof TouchEvent) {
-      if (this.config.vertical) {
-        posClick = event.targetTouches[0].clientY;
-      } else {
-        posClick = event.targetTouches[0].clientX;
-      }
-    }
+    const posClick = this.getPosClick(event);
     const position = this.getRelativePosition(posClick, shift);
     this.notify('changePosition', position);
   }
