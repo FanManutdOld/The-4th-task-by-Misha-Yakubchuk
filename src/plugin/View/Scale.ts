@@ -53,24 +53,27 @@ class Scale {
       min,
       max,
       step,
-      scaleNum,
-      scaleSnap,
       scaleLimit,
     } = config;
     const total = max - min;
-    let bigNum = scaleNum;
+    let bigNum = total / step;
+    let bigPos = 0;
+    let bigPrev = 0;
     let smallMax = 4;
-    let bigP = 0;
-    let bigW = 0;
-    let smallP = NaN;
-    let smallW = 0;
+    let smallPos = 0;
+    let smallSize = NaN; // расстояние между маленькими рисочками
+    let stepSize = NaN;
 
-    if (scaleSnap) {
-      bigNum = total / step;
+    if (bigNum > scaleLimit) {
+      stepSize = step * Math.ceil(bigNum / scaleLimit);
+    } else {
+      stepSize = step;
     }
 
-    if (bigNum > scaleLimit) bigNum = scaleLimit;
-    bigP = Number((100 / bigNum).toFixed(20));
+    const isLastStepFull: boolean = !(this.getRemainder(total, stepSize));
+
+    bigNum = Math.floor(total / stepSize);
+    bigNum = isLastStepFull ? bigNum : bigNum + 1;
 
     // определям количество маленьких рисочек
     if (bigNum > 4) {
@@ -87,30 +90,44 @@ class Scale {
     }
 
     for (let i = 0; i < bigNum + 1; i++) {
-      bigW = Number((bigP * i).toFixed(20));
-      if (bigW > 100) {
-        bigW = 100;
+      bigPos = Number((stepSize / total).toFixed(10)) * i;
+      bigPos = this.toFixedNoRounding(bigPos, 2) * 100;
+      // bigPos = (stepSize / total) * i * 100;
+      if (bigPos > 100) {
+        bigPos = 100;
       }
 
-      smallP = (bigW - (bigP * (i - 1))) / (smallMax + 1);
+      smallSize = (bigPos - bigPrev) / (smallMax + 1);
 
       for (let z = 1; z <= smallMax; z++) {
-        if (bigW === 0) {
+        if (bigPos === 0) {
           break;
         }
 
-        smallW = Number((bigW - (smallP * z)).toFixed(20));
+        smallPos = Number((bigPos - (smallSize * z)).toFixed(20));
 
         // добавляем маленькую рисочку
-        this.addStick(smallW, 'small');
+        this.addStick(smallPos, 'small');
       }
       // добавляем большую рисочку
-      this.addStick(bigW, 'big');
+      this.addStick(bigPos, 'big');
       // считаем значение под большой рисочкой
-      const value = this.calcValue(min, max, step, bigW);
+      const value = this.calcValue(min, max, step, bigPos);
       // добавляем значение под большой рисочкой
-      this.addValue(value, bigW);
+      this.addValue(value, bigPos);
+      bigPrev = bigPos;
     }
+  }
+
+  private getRemainder(a: number, b: number): number {
+    // Корректный остаток от деления а на b, работающий с дробными числами.
+    return a - b * Math.floor(a / b);
+  }
+
+  private toFixedNoRounding(number: number, n: number): number {
+    const str = String(number);
+
+    return Number(str.slice(0, str.indexOf('.') + n + 1));
   }
 
   private addStick(position: number, size: string) {

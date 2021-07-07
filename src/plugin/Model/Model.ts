@@ -17,7 +17,7 @@ class Model extends Observer {
     minMax: false,
     scale: false,
     scaleSnap: false,
-    scaleLimit: 50,
+    scaleLimit: 10,
     vertical: false,
     scin: 'orange',
     current: CurrentRunner.TO,
