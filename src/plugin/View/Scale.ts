@@ -57,11 +57,6 @@ class Scale {
     } = config;
     const total = max - min;
     let bigNum = total / step;
-    let bigPos = 0;
-    let bigPrev = 0;
-    let smallMax = 4;
-    let smallPos = 0;
-    let smallSize = NaN; // расстояние между маленькими рисочками
     let stepSize = NaN;
 
     if (bigNum > scaleLimit) {
@@ -76,6 +71,7 @@ class Scale {
     bigNum = isLastStepFull ? bigNum : bigNum + 1;
 
     // определям количество маленьких рисочек
+    let smallMax = 4;
     if (bigNum > 4) {
       smallMax = 3;
     }
@@ -89,6 +85,10 @@ class Scale {
       smallMax = 0;
     }
 
+    let bigPos = 0;
+    let bigPrev = 0;
+    let smallPos = 0;
+    let smallSize = NaN; // расстояние между маленькими рисочками
     for (let i = 0; i < bigNum + 1; i++) {
       bigPos = (stepSize / total) * i * 100;
       if (bigPos > 100) {
@@ -134,13 +134,13 @@ class Scale {
   }
 
   private calcValue(min: number, max: number, step: number, bigW: number): number {
-    let numOfSymbols: number;
     let value = (max - min) * (bigW / 100) + min;
     if (value !== max) {
       value = Math.round((value - min) / step) * step + min;
     }
     const isFractional = step.toString().includes('.') || min.toString().includes('.') || max.toString().includes('.');
     if (isFractional) {
+      let numOfSymbols: number;
       if (step.toString().includes('.')) {
         numOfSymbols = step.toString().split('.').pop().length;
       } else {

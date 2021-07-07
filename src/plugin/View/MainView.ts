@@ -47,7 +47,6 @@ class View extends Observer {
 
   public updateView(config: IConfig, isInit?: boolean) {
     this.config = config;
-    let newPos: number;
     const {
       min,
       max,
@@ -64,6 +63,7 @@ class View extends Observer {
     if (isInit) {
       this.rebuild();
     }
+    let newPos: number;
     if (isUpdateR) {
       newPos = (this.rightEdge * (to - min)) / (max - min);
       this.updateR(newPos);
@@ -142,11 +142,12 @@ class View extends Observer {
   }
 
   private updateConnectedTips() {
-    const { from, to } = this.config;
     const rect = this.slider.getBoundingClientRect();
     const pos = this.config.vertical
       ? rect.bottom - this.bar.getCenter()
       : this.bar.getCenter() - rect.left;
+
+    const { from, to } = this.config;
     this.runnerR.updateTip(pos, `${from}\u00A0—\u00A0${to}`, true);
   }
 
@@ -156,13 +157,13 @@ class View extends Observer {
       const target: HTMLElement = event.target as HTMLElement;
       const isCorrect: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'))
         || target.classList.contains('slider__runner');
-      const isScaleValue: boolean = target.classList.contains('slider__scale-value');
       if (!isCorrect) return;
 
       this.callOnStart();
       const posClick = this.getPosClick(event);
       const shift = this.calcShift(target, posClick);
       const position: number = this.getRelativePosition(posClick, shift);
+      const isScaleValue: boolean = target.classList.contains('slider__scale-value');
       if (isScaleValue) {
         this.notify('mouseDown', position);
         this.notify('setValue', Number(target.textContent));
