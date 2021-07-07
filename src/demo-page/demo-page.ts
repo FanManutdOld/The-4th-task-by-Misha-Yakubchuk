@@ -21,7 +21,6 @@ $(document).ready(() => {
     step: 0.001,
     scin: 'darkcongo',
     minMax: true,
-    scale: true,
   };
   const demo2 = document.querySelector('.js-slider2') as HTMLElement;
   new DemoSlider(demo2, config2);
@@ -47,6 +46,7 @@ $(document).ready(() => {
     scaleLimit: 16,
     scin: 'azure',
     scale: true,
+    vertical: true,
   };
   const demo4 = document.querySelector('.js-slider4') as HTMLElement;
   new DemoSlider(demo4, config4);
