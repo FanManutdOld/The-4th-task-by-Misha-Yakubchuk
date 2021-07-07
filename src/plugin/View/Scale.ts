@@ -90,9 +90,7 @@ class Scale {
     }
 
     for (let i = 0; i < bigNum + 1; i++) {
-      bigPos = Number((stepSize / total).toFixed(10)) * i;
-      bigPos = this.toFixedNoRounding(bigPos, 2) * 100;
-      // bigPos = (stepSize / total) * i * 100;
+      bigPos = (stepSize / total) * i * 100;
       if (bigPos > 100) {
         bigPos = 100;
       }
@@ -122,12 +120,6 @@ class Scale {
   private getRemainder(a: number, b: number): number {
     // Корректный остаток от деления а на b, работающий с дробными числами.
     return a - b * Math.floor(a / b);
-  }
-
-  private toFixedNoRounding(number: number, n: number): number {
-    const str = String(number);
-
-    return Number(str.slice(0, str.indexOf('.') + n + 1));
   }
 
   private addStick(position: number, size: string) {

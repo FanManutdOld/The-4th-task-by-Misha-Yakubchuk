@@ -29,8 +29,6 @@ describe('MainView class', () => {
       tips: true,
       minMax: true,
       scale: true,
-      scaleNum: 4,
-      scaleSnap: true,
       scaleLimit: 50,
       vertical: false,
       scin: 'orange',

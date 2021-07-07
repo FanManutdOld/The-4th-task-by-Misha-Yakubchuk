@@ -110,19 +110,6 @@ describe('Validator class', () => {
   });
 
   describe('validate scaleLimit', () => {
-    test('scaleLimit should be a number', () => {
-      // @ts-expect-error
-      expect(Validator.validateScaleLimit('20')).toBeNumber();
-    });
-    test('scaleLimit should be less or equal than 50', () => {
-      expect(Validator.validateScaleLimit(55)).toBeLessThanOrEqual(50);
-    });
-    test('scaleLimit should be equal or greater than 1', () => {
-      expect(Validator.validateScaleLimit(-25)).toBeGreaterThanOrEqual(1);
-    });
-  });
-
-  describe('validate scaleNum', () => {
     const config = {
       max: 1000,
       min: 0,
@@ -131,39 +118,25 @@ describe('Validator class', () => {
       double: true,
       tips: false,
       scale: true,
-      scaleSnap: false,
       minMax: false,
       scin: 'orange',
       current: CurrentRunner.TO,
       vertical: false,
       step: 1,
-      scaleNum: 25,
       scaleLimit: 50,
     };
-    // @ts-expect-error
-    config.scaleNum = 'string';
-    test('scaleNum should be a number', () => {
-      expect(Validator.validateScaleNum(config)).toBeNumber();
-    });
-    config.scaleNum = 55;
-    test('scaleNum should be less or equal than scaleLimit', () => {
-      expect(Validator.validateScaleNum(config)).toBeLessThanOrEqual(50);
-    });
-    config.max = 10;
-    config.scaleNum = 15;
-    const maxNumberOfValues = Math.round((config.max - config.min) / config.step);
-    test('scaleNum should be less or equal than (max - min) / step', () => {
-      expect(Validator.validateScaleNum(config)).toBeLessThanOrEqual(maxNumberOfValues);
-    });
-    test('scaleNum should be equal or greater than 1', () => {
-      expect(Validator.validateScaleNum(config)).toBeGreaterThanOrEqual(1);
-    });
-  });
-
-  describe('validate scaleSnap', () => {
-    test('scaleSnap should be a boolean', () => {
+    test('scaleLimit should be a number', () => {
       // @ts-expect-error
-      expect(Validator.validateScaleSnap('true')).toBeBoolean();
+      config.scaleLimit = '59';
+      expect(Validator.validateScaleLimit(config)).toBeNumber();
+    });
+    test('scaleLimit should be less or equal than 50', () => {
+      config.scaleLimit = 55;
+      expect(Validator.validateScaleLimit(config)).toBeLessThanOrEqual(50);
+    });
+    test('scaleLimit should be equal or greater than 1', () => {
+      config.scaleLimit = -5;
+      expect(Validator.validateScaleLimit(config)).toBeGreaterThanOrEqual(1);
     });
   });
 

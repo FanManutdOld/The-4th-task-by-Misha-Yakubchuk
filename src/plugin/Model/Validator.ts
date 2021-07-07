@@ -12,8 +12,6 @@ const Validator = {
       minMax,
       vertical,
       scale,
-      scaleSnap,
-      scaleLimit,
       scin,
     } = config;
 
@@ -26,8 +24,6 @@ const Validator = {
     config.vertical = this.validateVertical(vertical);
     config.scale = this.validateIsScale(scale);
     config.scaleLimit = this.validateScaleLimit(config);
-    // config.scaleNum = this.validateScaleNum(config);
-    // config.scaleSnap = this.validateScaleSnap(scaleSnap);
     config.scin = this.validateScin(scin);
 
     return config;
@@ -164,7 +160,7 @@ const Validator = {
     const maxNumberOfValues = Math.ceil((max - min) / step);
 
     if (scaleLimit > maxNumberOfValues) {
-      console.warn('scaleNum must be equal or less than (max - min) / step');
+      console.warn('scaleLimit must be equal or less than (max - min) / step');
       scaleLimit = maxNumberOfValues;
     }
 
@@ -174,50 +170,6 @@ const Validator = {
     }
 
     return scaleLimit;
-  },
-
-  validateScaleNum(config: IConfig): number {
-    const {
-      min,
-      max,
-      step,
-      scaleLimit,
-    } = config;
-
-    let { scaleNum } = config;
-
-    if (typeof scaleNum !== 'number') {
-      console.warn('scaleNum must be a number');
-      scaleNum = 4;
-    }
-
-    if (scaleNum > scaleLimit) {
-      console.warn('scaleNum must be equal or less than scaleLimit');
-      scaleNum = scaleLimit;
-    }
-
-    const maxNumberOfValues = Math.round((max - min) / step);
-
-    if (scaleNum > maxNumberOfValues) {
-      console.warn('scaleNum must be equal or less than (max - min) / step');
-      scaleNum = maxNumberOfValues;
-    }
-
-    if (scaleNum < 1) {
-      console.warn('scaleNum must be equal or greater than 1');
-      scaleNum = 1;
-    }
-
-    return scaleNum;
-  },
-
-  validateScaleSnap(scaleSnap: boolean): boolean {
-    if (typeof scaleSnap !== 'boolean') {
-      console.warn('scaleSnap must be boolean');
-      scaleSnap = false;
-    }
-
-    return scaleSnap;
   },
 
   validateScin(scin: string): string {
