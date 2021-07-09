@@ -97,8 +97,7 @@ $('#selector').mySlider(config);
 | tips<br>```data-tips```             | true         | boolean | Показывает/скрывает значение над бегунками.                                                  |
 | minMax<br>```data-min-max```        | false        | boolean | Показывает/скрывает минимальное и максимальное значения слайдера. Не используйте в вертикальном слайдере с                                                                        включённой шкалой(scale).                                                                    |
 | scale<br>```data-scale```           | false        | boolean | Показывает/скрывает шкалу значений.                                                          |
-| scaleLimit<br>```data-scale-limit```| 10           | number  | Устанавливает максимальное количество больших полосок на шкале. Не может быть больше 50 или 
-больше (max - min) / step                                                                                                                                     |
+| scaleLimit<br>```data-scale-limit```| 10           | number  | Устанавливает максимальное количество больших полосок на шкале. Не может быть больше 50 или больше (max - min) /                                                                                                                                                           step|
 | vertical<br>```data-vertical```     | false        | boolean | Устанавливает вертикальное положение слайдера.                                               |
 | scin<br>```data-scin```             | orange       | string  | Устанавливает скин. Доступные: orange, darkcongo, whitered, azure, indigo.                   |
 
