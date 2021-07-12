@@ -18,7 +18,6 @@ class MinMax {
     if (isMinMax) {
       this.minMax.style.visibility = 'visible';
       if (!shiftL) {
-        // eslint-disable-next-line no-param-reassign
         shiftL = shiftR;
       }
       this.minEl.textContent = `${min}`;

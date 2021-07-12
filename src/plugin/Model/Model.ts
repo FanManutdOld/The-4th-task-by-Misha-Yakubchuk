@@ -63,10 +63,14 @@ class Model extends Observer {
     let center = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
     center = this.roundFractional(center, 3);
 
-    // eslint-disable-next-line max-len
     const isLastCurrentFrom: boolean = posRound === center && this.config.current === CurrentRunner.FROM;
-    // eslint-disable-next-line max-len
-    this.config.current = (posRound < center) ? CurrentRunner.FROM : (isLastCurrentFrom) ? CurrentRunner.FROM : CurrentRunner.TO;
+    if (posRound < center) {
+      this.config.current = CurrentRunner.FROM;
+    } else if (isLastCurrentFrom) {
+      this.config.current = CurrentRunner.FROM;
+    } else {
+      this.config.current = CurrentRunner.TO;
+    }
     this.notify('changeCurrent', this.config.current);
   }
 
@@ -87,8 +91,9 @@ class Model extends Observer {
     } = this.config;
 
     let newValue = (max - min) * position + min;
-    newValue = (newValue >= max) ? max
-      : (newValue <= min) ? min : Math.round((newValue - min) / step) * step + min;
+    newValue = (newValue >= max)
+      ? max : (newValue <= min)
+        ? min : Math.round((newValue - min) / step) * step + min;
 
     if (this.isFractional) {
       newValue = this.roundFractional(newValue, this.numOfSymbols);
@@ -112,11 +117,10 @@ class Model extends Observer {
 
     if (current === CurrentRunner.TO) {
       const leftEdge = double ? from : min;
-      // eslint-disable-next-line no-param-reassign
-      newValue = (newValue > max) ? max
-        : (newValue < leftEdge) ? leftEdge : newValue;
+      newValue = (newValue > max)
+        ? max : (newValue < leftEdge)
+          ? leftEdge : newValue;
     } else {
-      // eslint-disable-next-line no-param-reassign
       newValue = (newValue > to) ? to : newValue;
     }
 

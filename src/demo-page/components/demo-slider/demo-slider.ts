@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import Slider from '../slider/slider';
 import TextInput from '../text-input/text-input';
 import Checkbox from '../checkbox/checkbox';

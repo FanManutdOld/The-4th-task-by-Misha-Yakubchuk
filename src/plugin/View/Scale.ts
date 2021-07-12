@@ -16,7 +16,6 @@ class Scale {
     if (config.scale) {
       this.scale.style.visibility = 'visible';
       if (!leftEdge) {
-        // eslint-disable-next-line no-param-reassign
         leftEdge = rightEdge;
       }
       if (this.vertical) {

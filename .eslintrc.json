@@ -27,9 +27,12 @@
     "no-plusplus": ["error", { "allowForLoopAfterthoughts": true }],
     "class-methods-use-this": "off",
     "@typescript-eslint/no-unused-vars": "error",
-    "no-unused-vars": "off"
+    "no-unused-vars": "off",
+    "no-param-reassign": "off",
+    "max-len": "off"
   },
   "globals": {
-    "$": "readonly"
+    "$": "readonly",
+    "jQuery": "readonly"
   }
 }

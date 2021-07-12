@@ -1,4 +1,3 @@
-/* eslint-disable no-param-reassign */
 import IConfig from '../IConfig';
 
 const Validator = {
@@ -91,11 +90,17 @@ const Validator = {
     }
 
     if (double) {
-      config.to = (to > max) ? max : (to < min) ? min : to;
-      config.from = (from < min) ? min : (from > max) ? max : from;
+      config.to = (to > max)
+        ? max : (to < min)
+          ? min : to;
+      config.from = (from < min)
+        ? min : (from > max)
+          ? max : from;
       config.from = (config.from > config.to) ? min : config.from;
     } else {
-      config.to = (to > max) ? max : (to < min) ? min : to;
+      config.to = (to > max)
+        ? max : (to < min)
+          ? min : to;
     }
 
     return config;
