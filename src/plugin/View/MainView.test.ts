@@ -209,40 +209,35 @@ describe('MainView class', () => {
     test('should not notify about mousedown on Right Mouse Button', () => {
       const callback = jest.fn();
       mainView.add('mouseDown', callback);
-      // @ts-expect-error
-      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 3 });
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, button: 3 });
       runnerR.dispatchEvent(mousedown);
       expect(callback).not.toBeCalled();
     });
     test('should notify about mousedown on runner', () => {
       const callback = jest.fn();
       mainView.add('mouseDown', callback);
-      // @ts-expect-error
-      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, button: 0 });
       runnerR.dispatchEvent(mousedown);
       expect(callback).toBeCalled();
     });
     test('should notify about mousedown on track', () => {
       const callback = jest.fn();
       mainView.add('mouseDown', callback);
-      // @ts-expect-error
-      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, button: 0 });
       track.dispatchEvent(mousedown);
       expect(callback).toBeCalled();
     });
     test('should notify about mousedown on bar', () => {
       const callback = jest.fn();
       mainView.add('mouseDown', callback);
-      // @ts-expect-error
-      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, button: 0 });
       bar.dispatchEvent(mousedown);
       expect(callback).toBeCalled();
     });
     test('should notify about mousedown on scale', () => {
       const callback = jest.fn();
       mainView.add('mouseDown', callback);
-      // @ts-expect-error
-      const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
+      const mousedown = new MouseEvent('mousedown', { bubbles: true, button: 0 });
       scale.dispatchEvent(mousedown);
       expect(callback).toBeCalled();
     });
