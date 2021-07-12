@@ -149,8 +149,7 @@ class Model extends Observer {
   }
 
   private updateConfig(newConfig: any) {
-    // eslint-disable-next-line no-restricted-syntax
-    for (const [key, value] of Object.entries(newConfig)) {
+    Object.entries(newConfig).forEach(([key, value]) => {
       const isInvalid = !(key in this.config) && typeof value !== 'function';
       if (isInvalid) {
         throw new Error(`Invalid config property - ${key}`);
@@ -158,7 +157,7 @@ class Model extends Observer {
       if (typeof value !== 'undefined') {
         this.config[key] = value;
       }
-    }
+    });
   }
 
   private callOnChange() {
