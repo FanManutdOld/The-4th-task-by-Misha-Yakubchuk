@@ -153,25 +153,26 @@ class View extends Observer {
 
   private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
     event.preventDefault();
-    if (event.which === 1 || event instanceof TouchEvent) {
-      const target: HTMLElement = event.target as HTMLElement;
-      const isCorrect: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'))
-        || target.classList.contains('slider__runner');
-      if (!isCorrect) return;
+    const isClickOrTouch = (event as MouseEvent).button === 0 || event instanceof TouchEvent;
+    if (!isClickOrTouch) return;
 
-      this.callOnStart();
-      const posClick = this.getPosClick(event);
-      const shift = this.calcShift(target, posClick);
-      const position: number = this.getRelativePosition(posClick, shift);
-      const isScaleValue: boolean = target.classList.contains('slider__scale-value');
-      if (isScaleValue) {
-        this.notify('mouseDown', position);
-        this.notify('setValue', Number(target.textContent));
-      } else {
-        this.notifyMouseDown(target, position);
-      }
-      this.bindDocumentMouseMove(event, shift);
+    const target: HTMLElement = event.target as HTMLElement;
+    const isCorrect: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'))
+      || target.classList.contains('slider__runner');
+    if (!isCorrect) return;
+
+    this.callOnStart();
+    const posClick = this.getPosClick(event);
+    const shift = this.calcShift(target, posClick);
+    const position: number = this.getRelativePosition(posClick, shift);
+    const isScaleValue: boolean = target.classList.contains('slider__scale-value');
+    if (isScaleValue) {
+      this.notify('mouseDown', position);
+      this.notify('setValue', Number(target.textContent));
+    } else {
+      this.notifyMouseDown(target, position);
     }
+    this.bindDocumentMouseMove(event, shift);
   }
 
   private getPosClick(event: MouseEvent | TouchEvent) {
