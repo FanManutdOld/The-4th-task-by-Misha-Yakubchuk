@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-// eslint-disable-next-line no-unused-vars
 import IConfig from '../IConfig';
 
 const Validator = {

@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import IConfig from '../IConfig';
 import Scale from './Scale';
 import MinMax from './MinMax';

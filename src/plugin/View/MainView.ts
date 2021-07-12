@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import IConfig from '../IConfig';
 import Track from './Track';
 import Bar from './Bar';

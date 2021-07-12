@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import IConfig from '../IConfig';
 
 class Scale {

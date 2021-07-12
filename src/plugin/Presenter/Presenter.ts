@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 import Model from '../Model/Model';
 import View from '../View/MainView';
 
