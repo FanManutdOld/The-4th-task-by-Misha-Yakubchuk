@@ -14,7 +14,7 @@ class Scale {
 
   public update(config: IConfig, rightEdge: number, leftEdge?: number) {
     if (config.scale) {
-      this.scale.style.visibility = 'visible';
+      this.scale.classList.remove('slider__scale_hidden');
       if (!leftEdge) {
         leftEdge = rightEdge;
       }
@@ -27,7 +27,7 @@ class Scale {
       }
       this.drawScale(config);
     } else {
-      this.scale.style.visibility = 'hidden';
+      this.scale.classList.add('slider__scale_hidden');
     }
   }
 

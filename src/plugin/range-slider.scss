@@ -20,6 +20,14 @@
   &__tip {
     position: absolute;
     box-sizing: border-box;
+    &_hidden {
+      visibility: hidden;
+    }
+  }
+  &__min-max {
+    &_hidden {
+      visibility: hidden;
+    }
   }
   &__range {
     position: absolute;
@@ -28,6 +36,9 @@
   &__scale {
     position: absolute;
     cursor: pointer;
+    &_hidden {
+      visibility: hidden;
+    }
   }
   &__scale-big {
     position: absolute;
@@ -46,7 +57,7 @@
 
 .slider_orange {
   color: #323232;
-  font-family: "Times New Roman", Helvetica, sans-serif;
+  font-family: 'Times New Roman', Helvetica, sans-serif;
   font-size: 10px;
   line-height: 1.333;
   & .slider {
@@ -173,7 +184,7 @@
 
 .slider_darkcongo {
   color: #fff7b2;
-  font-family: "PT Sans", sans-serif;
+  font-family: 'PT Sans', sans-serif;
   font-size: 12px;
   line-height: 1.5;
   & .slider {
@@ -182,7 +193,7 @@
       background: linear-gradient(to top, #a1655e 0%, #140d0e 100%);
       box-shadow: inset 0 -5px 5px rgba(255, 255, 255, 0.55);
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         right: 0;
@@ -213,7 +224,7 @@
       box-shadow: 0 2px 4px 1px rgba(103, 67, 63, 0.5), inset 0px 3px 5px 0 #191011;
       background-clip: padding-box;
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         right: 0;
@@ -226,7 +237,7 @@
         box-shadow: inset 0 1px 1px #fff247;
       }
       &::after {
-        content: "";
+        content: '';
         position: absolute;
         width: 3px;
         height: 3px;
@@ -501,7 +512,7 @@
       border-radius: 8px;
       background: rgba(46, 88, 137, 0.7);
       &::before {
-        content: "";
+        content: '';
         position: absolute;
         top: 0;
         right: 0;
@@ -521,7 +532,7 @@
         inset 0 0 0 rgba(255, 255, 190, 0.17);
       background-image: linear-gradient(to top, #0d1f2b 0%, #446279 100%);
       border-radius: 8px;
-      &::before{
+      &::before {
         content: '';
         position: absolute;
         width: 40px;
@@ -533,7 +544,7 @@
         border-left: 8px #414147 solid;
         border-radius: inherit;
       }
-      &::after{
+      &::after {
         content: '';
         position: absolute;
         width: 18px;
@@ -625,7 +636,7 @@
         box-shadow: -3px 0px 7px rgba(7, 6, 6, 0.87), inset -1px 0 0 rgba(255, 255, 255, 0.13),
           inset 0 0 0 rgba(255, 255, 190, 0.17);
         background-image: linear-gradient(to right, #0d1f2b 0%, #446279 100%);
-        &::before{
+        &::before {
           width: 18px;
           height: 40px;
           border-right: 0;
@@ -633,7 +644,7 @@
           border-top: 8px #414147 solid;
           border-bottom: 8px #414147 solid;
         }
-        &::after{
+        &::after {
           width: 2px;
           height: 18px;
           top: 12px;

@@ -17,7 +17,7 @@ class Tip {
   }
 
   public setValue(newValue: number | string) {
-    this.tip.textContent = (typeof newValue === 'string') ? newValue : `${newValue}`;
+    this.tip.textContent = String(newValue);
     this.halfWidth = this.vertical
       ? parseInt(getComputedStyle(this.tip).height) / 2
       : parseInt(getComputedStyle(this.tip).width) / 2;
@@ -57,9 +57,9 @@ class Tip {
 
   public updateVisibility(isVisible: boolean) {
     if (isVisible) {
-      this.tip.style.visibility = 'visible';
+      this.tip.classList.remove('slider__tip_hidden');
     } else {
-      this.tip.style.visibility = 'hidden';
+      this.tip.classList.add('slider__tip_hidden');
     }
   }
 

@@ -18,11 +18,11 @@ describe('MinMax class', () => {
     document.body.appendChild(parent);
     test('should hide minMax tips, if isMinMax - false', () => {
       minMax.update(false, 0, 1000, 15);
-      expect((parent.firstElementChild as HTMLElement).style.visibility).toBe('hidden');
+      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__min-max_hidden')).toBe(true);
     });
     test('should show minMax tips, if isMinMax - true', () => {
       minMax.update(true, 0, 1000, 15);
-      expect((parent.firstElementChild as HTMLElement).style.visibility).toBe('visible');
+      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__min-max_hidden')).toBe(false);
     });
     test('should set correct min value', () => {
       minMax.update(true, 0, 1000, 15);

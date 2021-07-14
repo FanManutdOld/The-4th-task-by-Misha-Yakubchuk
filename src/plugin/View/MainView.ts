@@ -156,7 +156,9 @@ class View extends Observer {
     if (!isClickOrTouch) return;
 
     const target: HTMLElement = event.target as HTMLElement;
-    const isCorrect: boolean = target.classList.contains('slider__track') || target.classList.contains('slider__bar') || Boolean(target.closest('.slider__scale'))
+    const isCorrect: boolean = target.classList.contains('slider__track')
+      || target.classList.contains('slider__bar')
+      || Boolean(target.closest('.slider__scale'))
       || target.classList.contains('slider__runner');
     if (!isCorrect) return;
 

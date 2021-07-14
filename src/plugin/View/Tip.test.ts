@@ -47,11 +47,11 @@ describe('Tip class', () => {
   describe('updateVisibility method', () => {
     test('should show tip, if isVisible - true', () => {
       tipR.updateVisibility(true);
-      expect((parent.firstElementChild as HTMLElement).style.visibility).toBe('visible');
+      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__tip_hidden')).toBe(false);
     });
     test('should hide tip, if isVisible - false', () => {
       tipR.updateVisibility(false);
-      expect((parent.firstElementChild as HTMLElement).style.visibility).toBe('hidden');
+      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__tip_hidden')).toBe(true);
     });
   });
 

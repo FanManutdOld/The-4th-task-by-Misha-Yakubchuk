@@ -34,12 +34,12 @@ describe('Scale class', () => {
     test('should show scale, if scale - true', () => {
       config.scale = true;
       scale.update(config, 0, 0);
-      expect((parent.firstElementChild as HTMLElement).style.visibility).toBe('visible');
+      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__scale_hidden')).toBe(false);
     });
     test('should hide scale, if scale - false', () => {
       config.scale = false;
       scale.update(config, 0, 0);
-      expect((parent.firstElementChild as HTMLElement).style.visibility).toBe('hidden');
+      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__scale_hidden')).toBe(true);
     });
     test('should set correct scale location in horizontal slider', () => {
       config.scale = true;

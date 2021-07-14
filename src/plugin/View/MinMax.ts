@@ -16,7 +16,7 @@ class MinMax {
 
   public update(isMinMax: boolean, min: number, max: number, shiftR: number, shiftL?: number) {
     if (isMinMax) {
-      this.minMax.style.visibility = 'visible';
+      this.minMax.classList.remove('slider__min-max_hidden');
       if (!shiftL) {
         shiftL = shiftR;
       }
@@ -30,7 +30,7 @@ class MinMax {
         this.maxEl.style.left = `${this.slider.offsetWidth - shiftR - this.maxEl.offsetWidth / 2}px`;
       }
     } else {
-      this.minMax.style.visibility = 'hidden';
+      this.minMax.classList.add('slider__min-max_hidden');
     }
   }
 
