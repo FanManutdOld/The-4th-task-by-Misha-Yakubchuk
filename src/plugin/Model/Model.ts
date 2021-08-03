@@ -28,13 +28,13 @@ class Model extends Observer {
     super();
 
     this.updateConfig(userConfig);
-    Validator.validateAll(this.config);
+    this.config = Validator.validateAll(this.config);
     this.setStep();
   }
 
   public update(userConfig: any) {
     this.updateConfig(userConfig);
-    Validator.validateAll(this.config);
+    this.config = Validator.validateAll(this.config);
     this.setStep();
     this.notify('changeConfig');
     this.callOnChange();
@@ -63,7 +63,8 @@ class Model extends Observer {
     let center = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
     center = this.roundFractional(center, 3);
 
-    const isLastCurrentFrom: boolean = posRound === center && this.config.current === CurrentRunner.FROM;
+    const isLastCurrentFrom: boolean = posRound === center
+      && this.config.current === CurrentRunner.FROM;
     if (posRound < center) {
       this.config.current = CurrentRunner.FROM;
     } else if (isLastCurrentFrom) {
@@ -114,17 +115,18 @@ class Model extends Observer {
       double,
       current,
     } = this.config;
+    let checkedValue: number;
 
     if (current === CurrentRunner.TO) {
       const leftEdge = double ? from : min;
-      newValue = (newValue > max)
+      checkedValue = (newValue > max)
         ? max : (newValue < leftEdge)
           ? leftEdge : newValue;
     } else {
-      newValue = (newValue > to) ? to : newValue;
+      checkedValue = (newValue > to) ? to : newValue;
     }
 
-    return newValue;
+    return checkedValue;
   }
 
   private setStep() {

@@ -32,10 +32,12 @@ class DemoSlider {
     }
 
     this.callbacks = new Callbacks(callbacksParent);
-    userConfig.onStart = () => { this.callbacks.signalStart(); };
-    userConfig.onChange = this.handleOnChange;
-    userConfig.onFinish = () => { this.callbacks.signalFinish(); };
-    this.slider.addSlider(userConfig);
+    const extendedUserConfig = Object.assign(userConfig, {
+      onStart: () => { this.callbacks.signalStart(); },
+      onChange: this.handleOnChange,
+      onFinish: () => { this.callbacks.signalFinish(); },
+    });
+    this.slider.addSlider(extendedUserConfig);
 
     textInputs.forEach((item, index) => {
       this.InstancesOfTextInputs.push(new TextInput(item as HTMLElement));

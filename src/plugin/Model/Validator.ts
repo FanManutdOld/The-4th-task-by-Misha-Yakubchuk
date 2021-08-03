@@ -5,6 +5,7 @@ const Validator = {
     const {
       min,
       max,
+      step,
       double,
       tips,
       minMax,
@@ -13,18 +14,20 @@ const Validator = {
       scin,
     } = config;
 
-    config.max = this.validateMinMax(min, max);
-    config.double = this.validateDouble(double);
-    config.step = this.validateStep(config.min, config.max, config.step);
-    config = this.validateFromTo(config);
-    config.tips = this.validateTips(tips);
-    config.minMax = this.validateIsMinMax(minMax);
-    config.vertical = this.validateVertical(vertical);
-    config.scale = this.validateIsScale(scale);
-    config.scaleLimit = this.validateScaleLimit(config);
-    config.scin = this.validateScin(scin);
+    const ValidatedConfig = { ...config };
 
-    return config;
+    ValidatedConfig.max = this.validateMinMax(min, max);
+    ValidatedConfig.double = this.validateDouble(double);
+    ValidatedConfig.tips = this.validateTips(tips);
+    ValidatedConfig.minMax = this.validateIsMinMax(minMax);
+    ValidatedConfig.vertical = this.validateVertical(vertical);
+    ValidatedConfig.scale = this.validateIsScale(scale);
+    ValidatedConfig.scin = this.validateScin(scin);
+    ValidatedConfig.step = this.validateStep(ValidatedConfig.min, ValidatedConfig.max, step);
+    [ValidatedConfig.from, ValidatedConfig.to] = this.validateFromTo(ValidatedConfig);
+    ValidatedConfig.scaleLimit = this.validateScaleLimit(ValidatedConfig);
+
+    return ValidatedConfig;
   },
 
   validateMinMax(min: number, max: number): number {
@@ -34,18 +37,19 @@ const Validator = {
       throw new Error('min and max must be a number');
     }
 
-    max = (max <= min) ? min + 1000 : max;
+    const checkedMax = (max <= min) ? min + 1000 : max;
 
-    return max;
+    return checkedMax;
   },
 
   validateDouble(double: boolean): boolean {
+    let checkedDouble = double;
     if (typeof double !== 'boolean') {
       console.warn('double must be boolean');
-      double = false;
+      checkedDouble = false;
     }
 
-    return double;
+    return checkedDouble;
   },
 
   validateStep(min: number, max: number, step: number): number {
@@ -58,20 +62,21 @@ const Validator = {
       return NaN;
     }
 
+    let checkedStep = step;
     if (step > Math.abs(min) + Math.abs(max)) {
       console.warn('step too big');
-      step = Math.min(Math.abs(min), Math.abs(max));
+      checkedStep = Math.min(Math.abs(min), Math.abs(max));
     }
 
     if (step < 0) {
       console.warn('step must be equal or greater than 0');
-      step = 0;
+      checkedStep = 0;
     }
 
-    return step;
+    return checkedStep;
   },
 
-  validateFromTo(config: IConfig): IConfig {
+  validateFromTo(config: IConfig): [number, number] {
     const {
       min,
       max,
@@ -82,67 +87,72 @@ const Validator = {
 
     const isWrongType = typeof from !== 'number' || typeof to !== 'number';
 
+    let checkedFrom = from; let checkedTo = to;
     if (isWrongType) {
       console.warn('from and to must be a number');
-      config.from = min;
-      config.to = max;
-      return config;
+      checkedFrom = min;
+      checkedTo = max;
+      return [checkedFrom, checkedTo];
     }
 
     if (double) {
-      config.to = (to > max)
+      checkedTo = (to > max)
         ? max : (to < min)
           ? min : to;
-      config.from = (from < min)
+      checkedFrom = (from < min)
         ? min : (from > max)
           ? max : from;
-      config.from = (config.from > config.to) ? min : config.from;
+      checkedFrom = (checkedFrom > checkedTo) ? min : checkedFrom;
     } else {
-      config.to = (to > max)
+      checkedTo = (to > max)
         ? max : (to < min)
           ? min : to;
     }
 
-    return config;
+    return [checkedFrom, checkedTo];
   },
 
   validateTips(tips: boolean): boolean {
+    let checkedTips = tips;
     if (typeof tips !== 'boolean') {
       console.warn('isTip must be boolean');
-      tips = true;
+      checkedTips = true;
     }
 
-    return tips;
+    return checkedTips;
   },
 
   validateIsMinMax(minMax: boolean): boolean {
+    let checkedMinMax = minMax;
     if (typeof minMax !== 'boolean') {
       console.warn('isMinMax must be boolean');
-      minMax = false;
+      checkedMinMax = false;
     }
 
-    return minMax;
+    return checkedMinMax;
   },
 
   validateVertical(vertical: boolean): boolean {
+    let checkedVertical = vertical;
     if (typeof vertical !== 'boolean') {
       console.warn('vertical must be boolean');
-      vertical = false;
+      checkedVertical = false;
     }
 
-    return vertical;
+    return checkedVertical;
   },
 
   validateIsScale(scale: boolean): boolean {
+    let checkedScale = scale;
     if (typeof scale !== 'boolean') {
       console.warn('scale must be boolean');
-      scale = false;
+      checkedScale = false;
     }
 
-    return scale;
+    return checkedScale;
   },
 
-  validateScaleLimit(config: IConfig) {
+  validateScaleLimit(config: IConfig): number {
     const {
       min,
       max,
@@ -184,12 +194,13 @@ const Validator = {
 
     const isWrong = scin !== 'orange' && scin !== 'darkcongo' && scin !== 'whitered' && scin !== 'azure' && scin !== 'indigo';
 
+    let checkedScin = scin;
     if (isWrong) {
       console.warn('scin invalid');
-      scin = 'orange';
+      checkedScin = 'orange';
     }
 
-    return scin;
+    return checkedScin;
   },
 };
 

@@ -8,7 +8,8 @@
     "coverage": "jest --coverage",
     "build": "cross-env NODE_ENV=production webpack --mode production",
     "start": "cross-env NODE_ENV=development webpack-dev-server --mode development --open",
-    "deploy": "gh-pages -d dist"
+    "deploy": "gh-pages -d dist",
+    "lint": "eslint --ext .ts ./src"
   },
   "devDependencies": {
     "@babel/core": "^7.11.6",

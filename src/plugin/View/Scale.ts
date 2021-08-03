@@ -12,12 +12,9 @@ class Scale {
     this.init();
   }
 
-  public update(config: IConfig, rightEdge: number, leftEdge?: number) {
+  public update(config: IConfig, rightEdge: number, leftEdge = rightEdge) {
     if (config.scale) {
       this.scale.classList.remove('slider__scale_hidden');
-      if (!leftEdge) {
-        leftEdge = rightEdge;
-      }
       if (this.vertical) {
         this.scale.style.bottom = `${(leftEdge / this.slider.offsetHeight) * 100}%`;
         this.scale.style.height = `${((this.slider.offsetHeight - leftEdge - rightEdge) / this.slider.offsetHeight) * 100}%`;

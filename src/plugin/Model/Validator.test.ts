@@ -54,30 +54,30 @@ describe('Validator class', () => {
     });
     test('left and right values should be a number', () => {
       config.from = '300';
-      const result = Validator.validateFromTo(config);
-      expect(result.from).toBeNumber();
+      const [from] = Validator.validateFromTo(config);
+      expect(from).toBeNumber();
     });
     test('value should be greater min in single slider', () => {
       config.to = -10;
       config.double = false;
-      const result = Validator.validateFromTo(config);
-      expect(result.to).toBeGreaterThanOrEqual(config.min);
+      const [, to] = Validator.validateFromTo(config);
+      expect(to).toBeGreaterThanOrEqual(config.min);
     });
     test('value should be less max in single slider', () => {
       config.to = 2000;
       config.double = false;
-      const result = Validator.validateFromTo(config);
-      expect(result.to).toBeLessThanOrEqual(config.max);
+      const [, to] = Validator.validateFromTo(config);
+      expect(to).toBeLessThanOrEqual(config.max);
     });
     test('right value should be greater than left value in double slider', () => {
       config.to = 250;
-      const result = Validator.validateFromTo(config);
-      expect(result.to).toBeGreaterThanOrEqual(config.from);
+      const [from, to] = Validator.validateFromTo(config);
+      expect(to).toBeGreaterThanOrEqual(from);
     });
     test('left value should be less than right value in double slider', () => {
       config.from = 800;
-      const result = Validator.validateFromTo(config);
-      expect(result.from).toBeLessThanOrEqual(config.to);
+      const [from, to] = Validator.validateFromTo(config);
+      expect(from).toBeLessThanOrEqual(to);
     });
   });
 

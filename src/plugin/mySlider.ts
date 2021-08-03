@@ -40,6 +40,7 @@ import Presenter from './Presenter/Presenter';
     },
   };
 
+  // eslint-disable-next-line no-param-reassign
   $.fn.mySlider = function (userConfig) {
     return this.each(function () {
       if (!$.data(this, 'mySlider')) {

@@ -14,12 +14,9 @@ class MinMax {
     this.init();
   }
 
-  public update(isMinMax: boolean, min: number, max: number, shiftR: number, shiftL?: number) {
+  public update(isMinMax: boolean, min: number, max: number, shiftR: number, shiftL = shiftR) {
     if (isMinMax) {
       this.minMax.classList.remove('slider__min-max_hidden');
-      if (!shiftL) {
-        shiftL = shiftR;
-      }
       this.minEl.textContent = `${min}`;
       this.maxEl.textContent = `${max}`;
       if (this.vertical) {
