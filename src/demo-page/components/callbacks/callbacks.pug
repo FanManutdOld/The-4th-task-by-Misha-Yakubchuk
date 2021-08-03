@@ -1,6 +1,6 @@
 mixin callbacks()
 
   .callbacks
-    .callbacks__callback.js-start onStart
-    .callbacks__callback.js-change onChange
-    .callbacks__callback.js-finish onFinish
+    .callbacks__callback.js-callbacks__callback(data-type="start") onStart
+    .callbacks__callback.js-callbacks__callback(data-type="change") onChange
+    .callbacks__callback.js-callbacks__callback(data-type="finish") onFinish

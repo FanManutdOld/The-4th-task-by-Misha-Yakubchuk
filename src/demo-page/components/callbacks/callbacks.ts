@@ -10,24 +10,24 @@ class Callbacks {
   }
 
   public signalStart = () => {
-    this.start.style.background = '#73b9f2';
-    setTimeout(() => { this.start.style.background = 'rgba(251, 229, 213, 0.5)'; }, 500);
+    this.start.classList.add('callbacks__callback_active');
+    setTimeout(() => { this.start.classList.remove('callbacks__callback_active'); }, 500);
   }
 
   public signalChange = () => {
-    this.change.style.background = '#73b9f2';
-    setTimeout(() => { this.change.style.background = 'rgba(251, 229, 213, 0.5)'; }, 500);
+    this.change.classList.add('callbacks__callback_active');
+    setTimeout(() => { this.change.classList.remove('callbacks__callback_active'); }, 5000);
   }
 
   public signalFinish = () => {
-    this.finish.style.background = '#73b9f2';
-    setTimeout(() => { this.finish.style.background = 'rgba(251, 229, 213, 0.5)'; }, 500);
+    this.finish.classList.add('callbacks__callback_active');
+    setTimeout(() => { this.finish.classList.remove('callbacks__callback_active'); }, 500);
   }
 
   private init(parent: HTMLElement) {
-    this.start = parent.querySelector('.js-start');
-    this.change = parent.querySelector('.js-change');
-    this.finish = parent.querySelector('.js-finish');
+    this.start = parent.querySelector('.js-callbacks__callback[data-type="start"]');
+    this.change = parent.querySelector('.js-callbacks__callback[data-type="change"]');
+    this.finish = parent.querySelector('.js-callbacks__callback[data-type="finish"]');
   }
 }
 
