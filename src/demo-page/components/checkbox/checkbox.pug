@@ -2,6 +2,6 @@ mixin checkbox({ label })
 
   .checkbox
     label.checkbox__label
+      span.checkbox__text= label
       input(class="checkbox__input js-checkbox__input", type="checkbox", name=label)
-      = label
       span.checkbox__box
