@@ -99,14 +99,10 @@ class Scale {
 
         smallPos = Number((bigPos - (smallSize * z)).toFixed(20));
 
-        // добавляем маленькую рисочку
         this.addStick(smallPos, 'small');
       }
-      // добавляем большую рисочку
       this.addStick(bigPos, 'big');
-      // считаем значение под большой рисочкой
       const value = this.calcValue(min, max, step, bigPos);
-      // добавляем значение под большой рисочкой
       this.addValue(value, bigPos);
       bigPrev = bigPos;
     }
@@ -117,7 +113,7 @@ class Scale {
     return a - b * Math.floor(a / b);
   }
 
-  private addStick(position: number, size: string) {
+  private addStick(position: number, size: 'small' | 'big') {
     const html = document.createElement('div');
     html.className = `slider__scale-${size}`;
     if (this.vertical) {
