@@ -42,14 +42,14 @@ const config = {
   max: 500,
   from: 250,
   to: 350,
-  double: true,
+  isDouble: true,
 };
 
 $('#selector').mySlider(config);
 ```
 Инициализация через data атрибуты:
 ```html
-<div class="new-slider" data-min="100" data-max="900" data-vertical="true"></div>
+<div class="new-slider" data-min="100" data-max="900" data-is-vertical="true"></div>
 ```
 ```js
 $('.new-slider').mySlider();
@@ -75,7 +75,7 @@ const config = {
   },
   
   onChange: function (data) {
-    console.log(data.double);
+    console.log(data.isDouble);
   },
   
   onFinish: function (data) {
@@ -93,12 +93,12 @@ $('#selector').mySlider(config);
 | from<br>```data-from```             | 400          | number  | Устанавливает значение левого бегунка.                                                       |
 | to<br>```data-to```                 | 700          | number  | Устанавливает значение правого бегунка (или одиночного, при double - false).                 |
 | step<br>```data-step```             | 1            | number  | Устанавливает значение шага, всегда > 0. Может быть дробным. Если шаг не задан, а минимальньное или максимальное                                                                  значение слайдера - дробное число, значение шага высчитывается и становится дробным.         |
-| double<br>```data-double```         | false        | boolean | Устанавливает диапазоновый слайдер.                                                          |
-| tips<br>```data-tips```             | true         | boolean | Показывает/скрывает значение над бегунками.                                                  |
-| minMax<br>```data-min-max```        | false        | boolean | Показывает/скрывает минимальное и максимальное значения слайдера. Не используйте в вертикальном слайдере с                                                                        включённой шкалой(scale).                                                                    |
-| scale<br>```data-scale```           | false        | boolean | Показывает/скрывает шкалу значений.                                                          |
+| isDouble<br>```data-is-double```         | false        | boolean | Устанавливает диапазоновый слайдер.                                                          |
+| hasTips<br>```data-has-tips```             | true         | boolean | Показывает/скрывает значение над бегунками.                                                  |
+| hasMinMax<br>```data-has-min-max```        | false        | boolean | Показывает/скрывает минимальное и максимальное значения слайдера. Не используйте в вертикальном слайдере с                                                                        включённой шкалой(scale).                                                                    |
+| hasScale<br>```data-has-scale```           | false        | boolean | Показывает/скрывает шкалу значений.                                                          |
 | scaleLimit<br>```data-scale-limit```| 10           | number  | Устанавливает максимальное количество больших полосок на шкале. Не может быть больше 50 или больше (max - min) /                                                                                                                                                           step|
-| vertical<br>```data-vertical```     | false        | boolean | Устанавливает вертикальное положение слайдера.                                               |
+| isVertical<br>```data-is-vertical```     | false        | boolean | Устанавливает вертикальное положение слайдера.                                               |
 | scin<br>```data-scin```             | orange       | string  | Устанавливает скин. Доступные: orange, darkcongo, whitered, azure, indigo.                   |
 
 Коллбэки:
