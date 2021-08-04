@@ -9,8 +9,8 @@ $(document).ready(() => {
     step: 1,
     scaleLimit: 10,
     scin: 'orange',
-    double: true,
-    scale: true,
+    isDouble: true,
+    hasScale: true,
   };
   const demo1 = document.querySelector('.js-slider1') as HTMLElement;
   new DemoSlider(demo1, config1);
@@ -20,7 +20,7 @@ $(document).ready(() => {
     to: 0.035,
     step: 0.001,
     scin: 'darkcongo',
-    minMax: true,
+    hasMinMax: true,
   };
   const demo2 = document.querySelector('.js-slider2') as HTMLElement;
   new DemoSlider(demo2, config2);
@@ -31,9 +31,9 @@ $(document).ready(() => {
     to: 700,
     scaleLimit: 4,
     scin: 'whitered',
-    scale: true,
-    vertical: true,
-    double: true,
+    hasScale: true,
+    isVertical: true,
+    isDouble: true,
   };
   const demo3 = document.querySelector('.js-slider3') as HTMLElement;
   new DemoSlider(demo3, config3);
@@ -45,15 +45,15 @@ $(document).ready(() => {
     step: 0.5,
     scaleLimit: 16,
     scin: 'azure',
-    scale: true,
-    vertical: true,
+    hasScale: true,
+    isVertical: true,
   };
   const demo4 = document.querySelector('.js-slider4') as HTMLElement;
   new DemoSlider(demo4, config4);
   const config5 = {
     min: -1000,
     max: 1000,
-    double: true,
+    isDouble: true,
     from: -500,
     to: 500,
     scin: 'indigo',

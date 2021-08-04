@@ -1,6 +1,6 @@
 import IConfig from '../IConfig';
 import Scale from './Scale';
-import MinMax from './MinMax';
+import MinMax from './minMax';
 
 class Track {
   private track: HTMLElement;
@@ -14,14 +14,14 @@ class Track {
   }
 
   public update(config: IConfig, halfWidthRunnerR: number, halfWidthRunnerL?: number) {
-    const { min, max, minMax } = config;
+    const { min, max, hasMinMax } = config;
     this.scale.update(config, halfWidthRunnerR, halfWidthRunnerL);
-    this.minMax.update(minMax, min, max, halfWidthRunnerR, halfWidthRunnerL);
+    this.minMax.update(hasMinMax, min, max, halfWidthRunnerR, halfWidthRunnerL);
   }
 
-  public setOrientation(vertical: boolean) {
-    this.scale.setOrientation(vertical);
-    this.minMax.setOrientation(vertical);
+  public setOrientation(isVertical: boolean) {
+    this.scale.setOrientation(isVertical);
+    this.minMax.setOrientation(isVertical);
   }
 
   private init(slider: HTMLElement) {

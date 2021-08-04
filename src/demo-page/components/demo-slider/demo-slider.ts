@@ -25,7 +25,7 @@ class DemoSlider {
     const textInputs = this.parent.querySelectorAll('.js-demo-slider__text-input');
     const checkboxes = this.parent.querySelectorAll('.js-demo-slider__checkbox');
     this.slider = new Slider(sliderParent);
-    if (userConfig.vertical || this.slider.isDataAttrVertical) {
+    if (userConfig.isVertical || this.slider.isDataAttrIsVertical) {
       const plugin = this.parent.querySelector('.js-demo-slider__plugin');
       plugin.classList.add('demo-slider__plugin_orient_ver');
       sliderParent.classList.add('demo-slider__example-slider_orient_ver');
@@ -60,7 +60,7 @@ class DemoSlider {
     const plugin = this.parent.querySelector('.js-demo-slider__plugin');
     const sliderParent: HTMLElement = this.parent.querySelector('.js-demo-slider__example-slider');
 
-    if (name === 'vertical') {
+    if (name === 'isVertical') {
       if (value === true) {
         plugin.classList.add('demo-slider__plugin_orient_ver');
         sliderParent.classList.add('demo-slider__example-slider_orient_ver');

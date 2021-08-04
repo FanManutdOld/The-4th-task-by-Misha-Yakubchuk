@@ -16,11 +16,11 @@ describe('Scale class', () => {
     to: 700,
     step: NaN,
     scaleLimit: 50,
-    double: false,
-    tips: true,
-    minMax: true,
-    scale: false,
-    vertical: false,
+    isDouble: false,
+    hasTips: true,
+    hasMinMax: true,
+    hasScale: false,
+    isVertical: false,
     scin: 'orange',
     current: CurrentRunner.TO,
   };
@@ -31,18 +31,18 @@ describe('Scale class', () => {
   });
 
   describe('update method', () => {
-    test('should show scale, if scale - true', () => {
-      config.scale = true;
+    test('should show scale, if hasScale - true', () => {
+      config.hasScale = true;
       scale.update(config, 0, 0);
       expect((parent.firstElementChild as HTMLElement).classList.contains('slider__scale_hidden')).toBe(false);
     });
-    test('should hide scale, if scale - false', () => {
-      config.scale = false;
+    test('should hide scale, if hasScale - false', () => {
+      config.hasScale = false;
       scale.update(config, 0, 0);
       expect((parent.firstElementChild as HTMLElement).classList.contains('slider__scale_hidden')).toBe(true);
     });
     test('should set correct scale location in horizontal slider', () => {
-      config.scale = true;
+      config.hasScale = true;
       scale.update(config, 40, 15);
       expect((parent.firstElementChild as HTMLElement).style.left).toMatch('2.3076');
       expect((parent.firstElementChild as HTMLElement).style.width).toMatch('91.5384');

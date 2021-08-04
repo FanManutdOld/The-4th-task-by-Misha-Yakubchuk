@@ -2,7 +2,7 @@ import '../../../plugin/mySlider';
 import '../../../plugin/jQueryInterface';
 
 class Slider {
-  public isDataAttrVertical: boolean;
+  public isDataAttrIsVertical: boolean;
 
   private exampleSlider: HTMLElement
 
@@ -26,7 +26,7 @@ class Slider {
 
   private init(parent: HTMLElement) {
     this.exampleSlider = parent.querySelector('.js-example-slider');
-    this.isDataAttrVertical = this.exampleSlider.dataset.vertical === 'true';
+    this.isDataAttrIsVertical = this.exampleSlider.dataset.isVertical === 'true';
   }
 }
 

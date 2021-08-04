@@ -10,12 +10,12 @@ class Model extends Observer {
     from: 400,
     to: 700,
     step: NaN,
-    double: false,
-    tips: true,
-    minMax: false,
-    scale: false,
+    isDouble: false,
+    hasTips: true,
+    hasMinMax: false,
+    hasScale: false,
     scaleLimit: 10,
-    vertical: false,
+    isVertical: false,
     scin: 'orange',
     current: CurrentRunner.TO,
   };
@@ -50,10 +50,10 @@ class Model extends Observer {
       max,
       from,
       to,
-      double,
+      isDouble,
     } = this.config;
 
-    if (!double) {
+    if (!isDouble) {
       this.config.current = CurrentRunner.TO;
       return;
     }
@@ -112,13 +112,13 @@ class Model extends Observer {
       max,
       from,
       to,
-      double,
+      isDouble,
       current,
     } = this.config;
     let checkedValue: number;
 
     if (current === CurrentRunner.TO) {
-      const leftEdge = double ? from : min;
+      const leftEdge = isDouble ? from : min;
       checkedValue = (newValue > max)
         ? max : (newValue < leftEdge)
           ? leftEdge : newValue;

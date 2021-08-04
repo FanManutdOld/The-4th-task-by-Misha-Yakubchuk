@@ -15,9 +15,9 @@ mixin demo-slider(data)
         .demo-slider__text-input.js-demo-slider__text-input
           +text-input({ name: 'scin' })
         .demo-slider__checkbox.js-demo-slider__checkbox.demo-slider__checkbox_with_margin
-          +checkbox({ label: 'double' })
+          +checkbox({ label: 'isDouble' })
         .demo-slider__checkbox.js-demo-slider__checkbox
-          +checkbox({ label: 'tips' })
+          +checkbox({ label: 'hasTips' })
       .demo-slider__column
         .demo-slider__text-input.js-demo-slider__text-input
           +text-input({ name: 'max' })
@@ -28,11 +28,11 @@ mixin demo-slider(data)
         .demo-slider__text-input.js-demo-slider__text-input
           +text-input({ name: 'scaleLimit', isSmall: true })
         .demo-slider__checkbox.js-demo-slider__checkbox
-          +checkbox({ label: 'vertical' })
+          +checkbox({ label: 'isVertical' })
         .demo-slider__checkbox.js-demo-slider__checkbox
-          +checkbox({ label: 'minMax' })
+          +checkbox({ label: 'hasMinMax' })
         .demo-slider__checkbox.js-demo-slider__checkbox
-          +checkbox({ label: 'scale' })
+          +checkbox({ label: 'hasScale' })
     .demo-slider__plugin.js-demo-slider__plugin
       .demo-slider__callbacks.js-demo-slider__callbacks
         +callbacks()

@@ -9,7 +9,7 @@ class Runner {
 
   private slider: HTMLElement;
 
-  private vertical: boolean;
+  private isVertical: boolean;
 
   constructor(slider: HTMLElement, runnerSide: string) {
     this.slider = slider;
@@ -17,7 +17,7 @@ class Runner {
   }
 
   public setPos(pos: number) {
-    if (this.vertical) {
+    if (this.isVertical) {
       this.runner.style.bottom = `${(pos / this.slider.offsetHeight) * 100}%`;
     } else {
       this.runner.style.left = `${(pos / this.slider.offsetWidth) * 100}%`;
@@ -57,16 +57,16 @@ class Runner {
     this.runner.style.zIndex = '0';
   }
 
-  public setOrientation(vertical: boolean) {
-    this.vertical = vertical;
+  public setOrientation(isVertical: boolean) {
+    this.isVertical = isVertical;
     this.runner.style.bottom = '';
     this.runner.style.left = '';
-    if (vertical) {
+    if (isVertical) {
       this.halfWidth = this.runner.offsetHeight / 2;
     } else {
       this.halfWidth = this.runner.offsetWidth / 2;
     }
-    this.tip.setOrientation(vertical);
+    this.tip.setOrientation(isVertical);
   }
 
   public append() {
@@ -74,7 +74,7 @@ class Runner {
 
     this.slider.append(this.runner);
     this.tip.append();
-    if (this.vertical) {
+    if (this.isVertical) {
       this.halfWidth = this.runner.offsetHeight / 2;
     } else {
       this.halfWidth = this.runner.offsetWidth / 2;

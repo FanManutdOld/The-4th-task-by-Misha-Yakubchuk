@@ -6,22 +6,22 @@ const Validator = {
       min,
       max,
       step,
-      double,
-      tips,
-      minMax,
-      vertical,
-      scale,
+      isDouble,
+      hasTips,
+      hasMinMax,
+      isVertical,
+      hasScale,
       scin,
     } = config;
 
     const ValidatedConfig = { ...config };
 
     ValidatedConfig.max = this.validateMinMax(min, max);
-    ValidatedConfig.double = this.validateDouble(double);
-    ValidatedConfig.tips = this.validateTips(tips);
-    ValidatedConfig.minMax = this.validateIsMinMax(minMax);
-    ValidatedConfig.vertical = this.validateVertical(vertical);
-    ValidatedConfig.scale = this.validateIsScale(scale);
+    ValidatedConfig.isDouble = this.validateIsDouble(isDouble);
+    ValidatedConfig.hasTips = this.validateHasTips(hasTips);
+    ValidatedConfig.hasMinMax = this.validateHasMinMax(hasMinMax);
+    ValidatedConfig.isVertical = this.validateIsVertical(isVertical);
+    ValidatedConfig.hasScale = this.validateHasScale(hasScale);
     ValidatedConfig.scin = this.validateScin(scin);
     ValidatedConfig.step = this.validateStep(ValidatedConfig.min, ValidatedConfig.max, step);
     [ValidatedConfig.from, ValidatedConfig.to] = this.validateFromTo(ValidatedConfig);
@@ -42,14 +42,14 @@ const Validator = {
     return checkedMax;
   },
 
-  validateDouble(double: boolean): boolean {
-    let checkedDouble = double;
-    if (typeof double !== 'boolean') {
-      console.warn('double must be boolean');
-      checkedDouble = false;
+  validateIsDouble(isDouble: boolean): boolean {
+    let checkedIsDouble = isDouble;
+    if (typeof isDouble !== 'boolean') {
+      console.warn('isDouble must be boolean');
+      checkedIsDouble = false;
     }
 
-    return checkedDouble;
+    return checkedIsDouble;
   },
 
   validateStep(min: number, max: number, step: number): number {
@@ -82,7 +82,7 @@ const Validator = {
       max,
       from,
       to,
-      double,
+      isDouble,
     } = config;
 
     const isWrongType = typeof from !== 'number' || typeof to !== 'number';
@@ -95,7 +95,7 @@ const Validator = {
       return [checkedFrom, checkedTo];
     }
 
-    if (double) {
+    if (isDouble) {
       checkedTo = (to > max)
         ? max : (to < min)
           ? min : to;
@@ -112,44 +112,44 @@ const Validator = {
     return [checkedFrom, checkedTo];
   },
 
-  validateTips(tips: boolean): boolean {
-    let checkedTips = tips;
-    if (typeof tips !== 'boolean') {
+  validateHasTips(hasTips: boolean): boolean {
+    let checkedHasTips = hasTips;
+    if (typeof hasTips !== 'boolean') {
       console.warn('isTip must be boolean');
-      checkedTips = true;
+      checkedHasTips = true;
     }
 
-    return checkedTips;
+    return checkedHasTips;
   },
 
-  validateIsMinMax(minMax: boolean): boolean {
-    let checkedMinMax = minMax;
-    if (typeof minMax !== 'boolean') {
-      console.warn('isMinMax must be boolean');
-      checkedMinMax = false;
+  validateHasMinMax(hasMinMax: boolean): boolean {
+    let checkedHasMinMax = hasMinMax;
+    if (typeof hasMinMax !== 'boolean') {
+      console.warn('isminMax must be boolean');
+      checkedHasMinMax = false;
     }
 
-    return checkedMinMax;
+    return checkedHasMinMax;
   },
 
-  validateVertical(vertical: boolean): boolean {
-    let checkedVertical = vertical;
-    if (typeof vertical !== 'boolean') {
-      console.warn('vertical must be boolean');
-      checkedVertical = false;
+  validateIsVertical(isVertical: boolean): boolean {
+    let checkedIsVertical = isVertical;
+    if (typeof isVertical !== 'boolean') {
+      console.warn('isVertical must be boolean');
+      checkedIsVertical = false;
     }
 
-    return checkedVertical;
+    return checkedIsVertical;
   },
 
-  validateIsScale(scale: boolean): boolean {
-    let checkedScale = scale;
-    if (typeof scale !== 'boolean') {
+  validateHasScale(hasScale: boolean): boolean {
+    let checkedHasScale = hasScale;
+    if (typeof hasScale !== 'boolean') {
       console.warn('scale must be boolean');
-      checkedScale = false;
+      checkedHasScale = false;
     }
 
-    return checkedScale;
+    return checkedHasScale;
   },
 
   validateScaleLimit(config: IConfig): number {

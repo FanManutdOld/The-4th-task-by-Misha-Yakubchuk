@@ -7,19 +7,19 @@ class MinMax {
 
   private maxEl: HTMLElement;
 
-  private vertical: boolean;
+  private isVertical: boolean;
 
   constructor(slider: HTMLElement) {
     this.slider = slider;
     this.init();
   }
 
-  public update(isMinMax: boolean, min: number, max: number, shiftR: number, shiftL = shiftR) {
-    if (isMinMax) {
+  public update(hasMinMax: boolean, min: number, max: number, shiftR: number, shiftL = shiftR) {
+    if (hasMinMax) {
       this.minMax.classList.remove('slider__min-max_hidden');
       this.minEl.textContent = `${min}`;
       this.maxEl.textContent = `${max}`;
-      if (this.vertical) {
+      if (this.isVertical) {
         this.minEl.style.top = `${this.slider.offsetHeight - shiftL - this.maxEl.offsetHeight / 2}px`;
         this.maxEl.style.top = `${shiftR - this.minEl.offsetHeight / 2}px`;
       } else {
@@ -31,8 +31,8 @@ class MinMax {
     }
   }
 
-  public setOrientation(vertical: boolean) {
-    this.vertical = vertical;
+  public setOrientation(isVertical: boolean) {
+    this.isVertical = isVertical;
     this.minEl.style.top = '';
     this.minEl.style.left = '';
     this.maxEl.style.top = '';

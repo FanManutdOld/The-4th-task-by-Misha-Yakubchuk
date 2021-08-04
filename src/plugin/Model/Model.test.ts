@@ -16,10 +16,10 @@ describe('Model class', () => {
         from: 400,
         to: 700,
         step: 1,
-        double: false,
-        tips: true,
-        minMax: false,
-        vertical: false,
+        isDouble: false,
+        hasTips: true,
+        hasMinMax: false,
+        isVertical: false,
         scin: 'orange',
         current: CurrentRunner.TO,
       };
@@ -31,8 +31,8 @@ describe('Model class', () => {
         max: 500,
         from: 250,
         to: 300,
-        double: true,
-        vertical: true,
+        isDouble: true,
+        isVertical: true,
       };
       model = new Model(userConfig);
       expect(model.getConfig()).toMatchObject(userConfig);
@@ -66,8 +66,8 @@ describe('Model class', () => {
       const newConfig = {
         from: 100,
         to: 455,
-        vertical: true,
-        minMax: false,
+        isVertical: true,
+        hasMinMax: false,
       };
       model.update(newConfig);
       expect(model.getConfig()).toMatchObject(newConfig);
@@ -76,7 +76,7 @@ describe('Model class', () => {
 
   describe('setCurrent method', () => {
     test('should notify about change current', () => {
-      model.update({ double: true });
+      model.update({ isDouble: true });
       const callback = jest.fn();
       model.add('changeCurrent', callback);
       model.setCurrent(0.7);
@@ -88,17 +88,17 @@ describe('Model class', () => {
       expect(model.getConfig().current).toBe(CurrentRunner.TO);
     });
     test('should set current - to, if position right of center', () => {
-      model.update({ double: true });
+      model.update({ isDouble: true });
       model.setCurrent(0.8);
       expect(model.getConfig().current).toBe(CurrentRunner.TO);
     });
     test('should set current - from, if position left of center', () => {
-      model.update({ double: true });
+      model.update({ isDouble: true });
       model.setCurrent(0.4);
       expect(model.getConfig().current).toBe(CurrentRunner.FROM);
     });
     test('should set current - from, if last current - from and position on middle', () => {
-      model.update({ double: true });
+      model.update({ isDouble: true });
       model.setCurrent(0.3);
       model.setCurrent(0.55);
       expect(model.getConfig().current).toBe(CurrentRunner.FROM);
@@ -133,7 +133,7 @@ describe('Model class', () => {
       expect(model.getConfig().to).toBe(800);
     });
     test('should set correct left value', () => {
-      model.update({ double: true });
+      model.update({ isDouble: true });
       model.setCurrent(0.3);
       model.calcValue(0.3);
       expect(model.getConfig().from).toBe(300);
@@ -152,18 +152,18 @@ describe('Model class', () => {
       expect(model.getConfig().to).toBe((model.getConfig().min));
     });
     test('should set right value to left value, if right value less than left value in double slider', () => {
-      model.update({ double: true });
+      model.update({ isDouble: true });
       model.calcValue(0.2);
       expect(model.getConfig().to).toBe(model.getConfig().from);
     });
     test('should set left value to min, if left value less than min in double slider', () => {
-      model.update({ double: true });
+      model.update({ isDouble: true });
       model.setCurrent(0.3);
       model.calcValue(-0.1);
       expect(model.getConfig().from).toBe((model.getConfig().min));
     });
     test('should set left value to right value, if left value greater than right value in double slider', () => {
-      model.update({ double: true });
+      model.update({ isDouble: true });
       model.setCurrent(0.3);
       model.calcValue(0.8);
       expect(model.getConfig().from).toBe(model.getConfig().to);

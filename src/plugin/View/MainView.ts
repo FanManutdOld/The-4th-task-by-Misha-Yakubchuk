@@ -51,13 +51,13 @@ class View extends Observer {
       max,
       from,
       to,
-      double,
+      isDouble,
       current,
-      tips,
+      hasTips,
     } = this.config;
     const isUpdateR: boolean = current === CurrentRunner.TO || isInit;
-    const isUpdateL: boolean = (current === CurrentRunner.FROM || isInit) && double;
-    const isCheckTips: boolean = double && tips;
+    const isUpdateL: boolean = (current === CurrentRunner.FROM || isInit) && isDouble;
+    const isCheckTips: boolean = isDouble && hasTips;
 
     if (isInit) {
       this.rebuild();
@@ -85,15 +85,15 @@ class View extends Observer {
   }
 
   private rebuild() {
-    const { tips, double } = this.config;
+    const { hasTips, isDouble } = this.config;
     this.connectedTips = false;
-    this.runnerR.updateTipVisibility(tips);
+    this.runnerR.updateTipVisibility(hasTips);
     this.updateOrientation();
     this.updateRightEdge();
-    if (double) {
+    if (isDouble) {
       this.runnerL.append();
       if (!this.connectedTips) {
-        this.runnerL.updateTipVisibility(tips);
+        this.runnerL.updateTipVisibility(hasTips);
       }
       this.track.update(this.config, this.runnerR.halfWidth, this.runnerL.halfWidth);
     } else {
@@ -142,7 +142,7 @@ class View extends Observer {
 
   private updateConnectedTips() {
     const rect = this.slider.getBoundingClientRect();
-    const pos = this.config.vertical
+    const pos = this.config.isVertical
       ? rect.bottom - this.bar.getCenter()
       : this.bar.getCenter() - rect.left;
 
@@ -177,7 +177,7 @@ class View extends Observer {
   }
 
   private getPosClick(event: MouseEvent | TouchEvent) {
-    if (this.config.vertical) {
+    if (this.config.isVertical) {
       return event instanceof MouseEvent ? event.clientY : event.targetTouches[0].clientY;
     }
     return event instanceof MouseEvent ? event.clientX : event.targetTouches[0].clientX;
@@ -186,7 +186,7 @@ class View extends Observer {
   private calcShift(target: HTMLElement, posClick: number) {
     let shift: number;
     if (target.classList.contains('slider__runner')) {
-      shift = this.config.vertical
+      shift = this.config.isVertical
         ? target.getBoundingClientRect().bottom - posClick
         : posClick - target.getBoundingClientRect().left;
     } else {
@@ -196,13 +196,13 @@ class View extends Observer {
   }
 
   private getDefaultShift(posClick: number): number {
-    const { double, vertical } = this.config;
+    const { isDouble, isVertical } = this.config;
 
-    if (!double) {
+    if (!isDouble) {
       return this.runnerR.halfWidth;
     }
     const center = this.bar.getCenter();
-    if (vertical) {
+    if (isVertical) {
       return (posClick < center) ? this.runnerR.halfWidth : this.runnerL.halfWidth;
     }
     return (posClick > center) ? this.runnerR.halfWidth : this.runnerL.halfWidth;
@@ -210,7 +210,7 @@ class View extends Observer {
 
   private getRelativePosition(posClick: number, shift: number): number {
     const rect = this.slider.getBoundingClientRect();
-    if (this.config.vertical) {
+    if (this.config.isVertical) {
       return (rect.bottom - posClick - shift) / this.rightEdge;
     }
     return (posClick - shift - rect.left) / this.rightEdge;
@@ -260,22 +260,22 @@ class View extends Observer {
   }
 
   private updateRightEdge() {
-    this.rightEdge = this.config.vertical
+    this.rightEdge = this.config.isVertical
       ? this.slider.offsetHeight - this.runnerR.halfWidth * 2
       : this.slider.offsetWidth - this.runnerR.halfWidth * 2;
   }
 
   private updateOrientation() {
-    const { scin, vertical, double } = this.config;
+    const { scin, isVertical, isDouble } = this.config;
 
-    this.slider.className = vertical
+    this.slider.className = isVertical
       ? `slider slider_${scin} slider_${scin}_ver`
       : `slider slider_${scin} slider_${scin}_hor`;
-    this.bar.setOrientation(vertical);
-    this.track.setOrientation(vertical);
-    this.runnerR.setOrientation(vertical);
-    if (double) {
-      this.runnerL.setOrientation(vertical);
+    this.bar.setOrientation(isVertical);
+    this.track.setOrientation(isVertical);
+    this.runnerR.setOrientation(isVertical);
+    if (isDouble) {
+      this.runnerL.setOrientation(isVertical);
     }
   }
 

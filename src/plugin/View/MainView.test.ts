@@ -24,12 +24,12 @@ describe('MainView class', () => {
       from: 400,
       to: 700,
       step: 1,
-      double: true,
-      tips: true,
-      minMax: true,
-      scale: true,
+      isDouble: true,
+      hasTips: true,
+      hasMinMax: true,
+      hasScale: true,
       scaleLimit: 50,
-      vertical: false,
+      isVertical: false,
       scin: 'orange',
       current: CurrentRunner.TO,
     };
@@ -72,7 +72,7 @@ describe('MainView class', () => {
       expect(min.textContent).toBe('0');
       expect(max.textContent).toBe('1000');
     });
-    test('should set united Tips', () => {
+    test('should set united tips', () => {
       tipR.style.width = '10px';
       tipR.getBoundingClientRect = jest.fn(() => ({
         x: 0,
@@ -147,7 +147,7 @@ describe('MainView class', () => {
       expect(tipR.textContent).toBe('250');
     });
     test('should remove left runner and left tip, in single slider', () => {
-      config.double = false;
+      config.isDouble = false;
       mainView.updateView(config, true);
       runnerL = parent.querySelector('.slider__runner.slider__runnerL');
       tipL = parent.querySelector('.slider__tip.slider__tipL');

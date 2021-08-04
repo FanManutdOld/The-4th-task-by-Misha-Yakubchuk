@@ -3,7 +3,7 @@ class Bar {
 
   private slider: HTMLElement;
 
-  private vertical: boolean;
+  private isVertical: boolean;
 
   constructor(slider: HTMLElement) {
     this.slider = slider;
@@ -12,14 +12,14 @@ class Bar {
 
   public getCenter(): number {
     const rect = this.bar.getBoundingClientRect();
-    if (this.vertical) {
+    if (this.isVertical) {
       return rect.top + (rect.bottom - rect.top) / 2;
     }
     return rect.left + (rect.right - rect.left) / 2;
   }
 
   public setLeft(pos: number, shift: number) {
-    if (this.vertical) {
+    if (this.isVertical) {
       this.bar.style.bottom = `${((pos + shift) / this.slider.offsetHeight) * 100}%`;
     } else {
       this.bar.style.left = `${((pos + shift) / this.slider.offsetWidth) * 100}%`;
@@ -27,15 +27,15 @@ class Bar {
   }
 
   public setRight(pos: number, shift: number) {
-    if (this.vertical) {
+    if (this.isVertical) {
       this.bar.style.top = `${(1 - (pos + shift) / this.slider.offsetHeight) * 100}%`;
     } else {
       this.bar.style.right = `${(1 - (pos + shift) / this.slider.offsetWidth) * 100}%`;
     }
   }
 
-  public setOrientation(vertical: boolean) {
-    this.vertical = vertical;
+  public setOrientation(isVertical: boolean) {
+    this.isVertical = isVertical;
     this.bar.style.top = '';
     this.bar.style.right = '';
     this.bar.style.bottom = '';

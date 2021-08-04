@@ -5,7 +5,7 @@ class Scale {
 
   private scale: HTMLElement;
 
-  private vertical: boolean;
+  private isVertical: boolean;
 
   constructor(slider: HTMLElement) {
     this.slider = slider;
@@ -13,9 +13,9 @@ class Scale {
   }
 
   public update(config: IConfig, rightEdge: number, leftEdge = rightEdge) {
-    if (config.scale) {
+    if (config.hasScale) {
       this.scale.classList.remove('slider__scale_hidden');
-      if (this.vertical) {
+      if (this.isVertical) {
         this.scale.style.bottom = `${(leftEdge / this.slider.offsetHeight) * 100}%`;
         this.scale.style.height = `${((this.slider.offsetHeight - leftEdge - rightEdge) / this.slider.offsetHeight) * 100}%`;
       } else {
@@ -28,8 +28,8 @@ class Scale {
     }
   }
 
-  public setOrientation(vertical: boolean) {
-    this.vertical = vertical;
+  public setOrientation(isVertical: boolean) {
+    this.isVertical = isVertical;
     this.scale.style.left = '';
     this.scale.style.bottom = '';
     this.scale.style.width = '';
@@ -116,7 +116,7 @@ class Scale {
   private addStick(position: number, size: 'small' | 'big') {
     const html = document.createElement('div');
     html.className = `slider__scale-${size}`;
-    if (this.vertical) {
+    if (this.isVertical) {
       html.style.bottom = `${position}%`;
     } else {
       html.style.left = `${position}%`;
@@ -156,7 +156,7 @@ class Scale {
     html.className = 'slider__scale-value';
     html.textContent = `${value}`;
     this.scale.append(html);
-    if (this.vertical) {
+    if (this.isVertical) {
       html.style.bottom = `${bigW - (html.offsetHeight / this.slider.offsetHeight / 2) * 100}%`;
     } else {
       html.style.left = `${bigW - ((html.offsetWidth - 2) / this.slider.offsetWidth / 2) * 100}%`;

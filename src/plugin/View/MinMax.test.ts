@@ -16,11 +16,11 @@ describe('MinMax class', () => {
     const minMax = new MinMax(parent);
     document.body.innerHTML = '';
     document.body.appendChild(parent);
-    test('should hide minMax tips, if isMinMax - false', () => {
+    test('should hide minMax, if hasMinMax - false', () => {
       minMax.update(false, 0, 1000, 15);
       expect((parent.firstElementChild as HTMLElement).classList.contains('slider__min-max_hidden')).toBe(true);
     });
-    test('should show minMax tips, if isMinMax - true', () => {
+    test('should show minMax, if hasMinMax - true', () => {
       minMax.update(true, 0, 1000, 15);
       expect((parent.firstElementChild as HTMLElement).classList.contains('slider__min-max_hidden')).toBe(false);
     });

@@ -18,10 +18,10 @@ describe('Validator class', () => {
     });
   });
 
-  describe('validate double', () => {
-    test('double should be a boolean', () => {
+  describe('validate isDouble', () => {
+    test('isDouble should be a boolean', () => {
       // @ts-expect-error
-      expect(Validator.validateDouble('true')).toBeBoolean();
+      expect(Validator.validateIsDouble('true')).toBeBoolean();
     });
   });
 
@@ -49,7 +49,7 @@ describe('Validator class', () => {
         max: 1000,
         from: 300,
         to: 700,
-        double: true,
+        isDouble: true,
       };
     });
     test('left and right values should be a number', () => {
@@ -59,13 +59,13 @@ describe('Validator class', () => {
     });
     test('value should be greater min in single slider', () => {
       config.to = -10;
-      config.double = false;
+      config.isDouble = false;
       const [, to] = Validator.validateFromTo(config);
       expect(to).toBeGreaterThanOrEqual(config.min);
     });
     test('value should be less max in single slider', () => {
       config.to = 2000;
-      config.double = false;
+      config.isDouble = false;
       const [, to] = Validator.validateFromTo(config);
       expect(to).toBeLessThanOrEqual(config.max);
     });
@@ -81,31 +81,31 @@ describe('Validator class', () => {
     });
   });
 
-  describe('validate tips', () => {
-    test('tips should be a boolean', () => {
+  describe('validate hasTips', () => {
+    test('hasTips should be a boolean', () => {
       // @ts-expect-error
-      expect(Validator.validateTips('true')).toBeBoolean();
+      expect(Validator.validateHasTips('true')).toBeBoolean();
     });
   });
 
-  describe('validate isMinMax', () => {
-    test('isMinMax should be a boolean', () => {
+  describe('validate hasMinMax', () => {
+    test('hasMinMax should be a boolean', () => {
       // @ts-expect-error
-      expect(Validator.validateIsMinMax('true')).toBeBoolean();
+      expect(Validator.validateHasMinMax('true')).toBeBoolean();
     });
   });
 
-  describe('validate vertical', () => {
-    test('vertical should be a boolean', () => {
+  describe('validate isVertical', () => {
+    test('isVertical should be a boolean', () => {
       // @ts-expect-error
-      expect(Validator.validateVertical('true')).toBeBoolean();
+      expect(Validator.validateIsVertical('true')).toBeBoolean();
     });
   });
 
-  describe('validate scale', () => {
-    test('scale should be a boolean', () => {
+  describe('validate hasScale', () => {
+    test('hasScale should be a boolean', () => {
       // @ts-expect-error
-      expect(Validator.validateIsScale('true')).toBeBoolean();
+      expect(Validator.validateHasScale('true')).toBeBoolean();
     });
   });
 
@@ -115,13 +115,13 @@ describe('Validator class', () => {
       min: 0,
       from: 2,
       to: 5,
-      double: true,
-      tips: false,
-      scale: true,
-      minMax: false,
+      isDouble: true,
+      hasTips: false,
+      hasScale: true,
+      hasMinMax: false,
       scin: 'orange',
       current: CurrentRunner.TO,
-      vertical: false,
+      isVertical: false,
       step: 1,
       scaleLimit: 50,
     };
