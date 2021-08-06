@@ -16,7 +16,7 @@ class Callbacks {
 
   public signalChange = () => {
     this.change.classList.add('callbacks__callback_active');
-    setTimeout(() => { this.change.classList.remove('callbacks__callback_active'); }, 5000);
+    setTimeout(() => { this.change.classList.remove('callbacks__callback_active'); }, 500);
   }
 
   public signalFinish = () => {

@@ -11,13 +11,13 @@ html(lang="ru")
     title Demo page
   body
     .demo-page
-      .demo-page__demo-slider.js-slider1
-        +demo-slider({})
-      .demo-page__demo-slider.js-slider2
-        +demo-slider({})
-      .demo-page__demo-slider.js-slider3
-        +demo-slider({})
-      .demo-page__demo-slider.js-slider4
-        +demo-slider({})
-      .demo-page__demo-slider.js-slider5
-        +demo-slider({})
+      .demo-page__demo-slider.js-demo-page__demo-slider
+        +demo-slider({ min:0, max: 1000, from: 400, to: 700, step: 1, scaleLimit: 10, isDouble: 'true', hasScale: 'true', scin: 'orange' })
+      .demo-page__demo-slider.js-demo-page__demo-slider
+        +demo-slider({ min: 0, max: 0.1, to: 0.035, step: 0.001, hasMinMax: 'true', scin: 'darkcongo' })
+      .demo-page__demo-slider.js-demo-page__demo-slider
+        +demo-slider({ min: 0, max: 1000, from: 300, to: 700, scaleLimit: 4, hasScale: 'true', isDouble: 'true', isVertical: 'true', scin: 'whitered' })
+      .demo-page__demo-slider.js-demo-page__demo-slider
+        +demo-slider({ min: 2, max: 10, from: 300, to: 3, step: 0.5, scaleLimit: 16, hasScale: 'true', isVertical: 'true', scin: 'azure' })
+      .demo-page__demo-slider.js-demo-page__demo-slider
+        +demo-slider({ min: -1000, max: 1000, from: -500, to: 500, isDouble: 'true', scin: 'indigo' })
