@@ -1,7 +1,7 @@
 import Slider from '../example-slider/example-slider';
 import TextInput from '../text-input/text-input';
 import Checkbox from '../checkbox/checkbox';
-import Callbacks from '../callbacks/callbacks';
+import Callbacks from '../callbacks-demo/callbacks-demo';
 
 class DemoSlider {
   private slider: Slider;

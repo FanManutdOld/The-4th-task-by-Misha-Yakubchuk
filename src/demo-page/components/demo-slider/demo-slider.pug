@@ -1,6 +1,6 @@
 include ../text-input/text-input.pug
 include ../checkbox/checkbox.pug
-include ../callbacks/callbacks.pug
+include ../callbacks-demo/callbacks-demo.pug
 include ../example-slider/example-slider.pug
 
 mixin demo-slider(data)
@@ -35,6 +35,6 @@ mixin demo-slider(data)
           +checkbox({ label: 'hasScale' })
     .demo-slider__plugin.js-demo-slider__plugin
       .demo-slider__callbacks.js-demo-slider__callbacks
-        +callbacks()
+        +callbacks-demo()
       .demo-slider__example-slider.js-demo-slider__example-slider
         +example-slider(data)
