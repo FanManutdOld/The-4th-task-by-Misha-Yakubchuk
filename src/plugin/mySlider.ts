@@ -5,40 +5,46 @@ import View from './View/MainView';
 import Presenter from './Presenter/Presenter';
 
 (function ($) {
-  const MySlider = function (el: HTMLElement, userConfig) {
-    const dataConfig = {
-      min: $(el).data('min'),
-      max: $(el).data('max'),
-      from: $(el).data('from'),
-      to: $(el).data('to'),
-      step: $(el).data('step'),
-      isDouble: $(el).data('isDouble'),
-      hasTips: $(el).data('hasTips'),
-      hasMinMax: $(el).data('hasMinMax'),
-      isVertical: $(el).data('isVertical'),
-      hasScale: $(el).data('hasScale'),
-      scaleLimit: $(el).data('scaleLimit'),
-      scin: $(el).data('scin'),
-    };
-    const resultConfig = $.extend(dataConfig, userConfig);
-    this.init(el, resultConfig);
-  };
+  class MySlider {
+    model: Model;
 
-  MySlider.prototype = {
-    init(parent: HTMLElement, userConfig) {
+    constructor(parent: HTMLElement, userConfig) {
+      const dataConfig = this.getConfigFromData(parent);
+      const resultConfig = $.extend(dataConfig, userConfig);
+      this.init(parent, resultConfig);
+    }
+
+    public update(newConfig) {
+      this.model.update(newConfig);
+    }
+
+    public getData() {
+      return this.model.getConfig();
+    }
+
+    private getConfigFromData(parent: HTMLElement) {
+      return {
+        min: $(parent).data('min'),
+        max: $(parent).data('max'),
+        from: $(parent).data('from'),
+        to: $(parent).data('to'),
+        step: $(parent).data('step'),
+        isDouble: $(parent).data('isDouble'),
+        hasTips: $(parent).data('hasTips'),
+        hasMinMax: $(parent).data('hasMinMax'),
+        isVertical: $(parent).data('isVertical'),
+        hasScale: $(parent).data('hasScale'),
+        scaleLimit: $(parent).data('scaleLimit'),
+        scin: $(parent).data('scin'),
+      };
+    }
+
+    private init(parent: HTMLElement, userConfig) {
       this.model = new Model(userConfig);
       const view = new View(parent);
       new Presenter(this.model, view);
-    },
-
-    update(newConfig) {
-      this.model.update(newConfig);
-    },
-
-    getData() {
-      return this.model.getConfig();
-    },
-  };
+    }
+  }
 
   // eslint-disable-next-line no-param-reassign
   $.fn.mySlider = function (userConfig) {
