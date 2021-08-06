@@ -1,7 +1,7 @@
 import IConfig from '../IConfig';
 import CurrentRunner from '../ECurrentRunner';
 import Observer from '../Observer/Observer';
-import Validator from './Validator';
+import { validateAll } from './Validator';
 
 class Model extends Observer {
   private config: IConfig = {
@@ -28,13 +28,13 @@ class Model extends Observer {
     super();
 
     this.updateConfig(userConfig);
-    this.config = Validator.validateAll(this.config);
+    this.config = validateAll(this.config);
     this.setStep();
   }
 
   public update(userConfig: any) {
     this.updateConfig(userConfig);
-    this.config = Validator.validateAll(this.config);
+    this.config = validateAll(this.config);
     this.setStep();
     this.notify('changeConfig');
     this.callOnChange();

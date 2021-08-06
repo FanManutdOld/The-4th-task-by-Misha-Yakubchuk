@@ -1,207 +1,217 @@
 import IConfig from '../IConfig';
 
-const Validator = {
-  validateAll(config: IConfig): IConfig {
-    const {
-      min,
-      max,
-      step,
-      isDouble,
-      hasTips,
-      hasMinMax,
-      isVertical,
-      hasScale,
-      scin,
-    } = config;
+function validateMinMax(min: number, max: number): number {
+  const isWrongType = typeof min !== 'number' || typeof max !== 'number';
 
-    const ValidatedConfig = { ...config };
+  if (isWrongType) {
+    throw new Error('min and max must be a number');
+  }
 
-    ValidatedConfig.max = this.validateMinMax(min, max);
-    ValidatedConfig.isDouble = this.validateIsDouble(isDouble);
-    ValidatedConfig.hasTips = this.validateHasTips(hasTips);
-    ValidatedConfig.hasMinMax = this.validateHasMinMax(hasMinMax);
-    ValidatedConfig.isVertical = this.validateIsVertical(isVertical);
-    ValidatedConfig.hasScale = this.validateHasScale(hasScale);
-    ValidatedConfig.scin = this.validateScin(scin);
-    ValidatedConfig.step = this.validateStep(ValidatedConfig.min, ValidatedConfig.max, step);
-    [ValidatedConfig.from, ValidatedConfig.to] = this.validateFromTo(ValidatedConfig);
-    ValidatedConfig.scaleLimit = this.validateScaleLimit(ValidatedConfig);
+  const checkedMax = (max <= min) ? min + 1000 : max;
 
-    return ValidatedConfig;
-  },
+  return checkedMax;
+}
 
-  validateMinMax(min: number, max: number): number {
-    const isWrongType = typeof min !== 'number' || typeof max !== 'number';
+function validateIsDouble(isDouble: boolean): boolean {
+  let checkedIsDouble = isDouble;
+  if (typeof isDouble !== 'boolean') {
+    console.warn('isDouble must be boolean');
+    checkedIsDouble = false;
+  }
 
-    if (isWrongType) {
-      throw new Error('min and max must be a number');
-    }
+  return checkedIsDouble;
+}
 
-    const checkedMax = (max <= min) ? min + 1000 : max;
+function validateStep(min: number, max: number, step: number): number {
+  if (typeof step !== 'number') {
+    console.warn('step must be a number');
+    return NaN;
+  }
 
-    return checkedMax;
-  },
+  if (!step) {
+    return NaN;
+  }
 
-  validateIsDouble(isDouble: boolean): boolean {
-    let checkedIsDouble = isDouble;
-    if (typeof isDouble !== 'boolean') {
-      console.warn('isDouble must be boolean');
-      checkedIsDouble = false;
-    }
+  let checkedStep = step;
+  if (step > Math.abs(min) + Math.abs(max)) {
+    console.warn('step too big');
+    checkedStep = Math.min(Math.abs(min), Math.abs(max));
+  }
 
-    return checkedIsDouble;
-  },
+  if (step < 0) {
+    console.warn('step must be equal or greater than 0');
+    checkedStep = 0;
+  }
 
-  validateStep(min: number, max: number, step: number): number {
-    if (typeof step !== 'number') {
-      console.warn('step must be a number');
-      return NaN;
-    }
+  return checkedStep;
+}
 
-    if (!step) {
-      return NaN;
-    }
+function validateFromTo(config: IConfig): [number, number] {
+  const {
+    min,
+    max,
+    from,
+    to,
+    isDouble,
+  } = config;
 
-    let checkedStep = step;
-    if (step > Math.abs(min) + Math.abs(max)) {
-      console.warn('step too big');
-      checkedStep = Math.min(Math.abs(min), Math.abs(max));
-    }
+  const isWrongType = typeof from !== 'number' || typeof to !== 'number';
 
-    if (step < 0) {
-      console.warn('step must be equal or greater than 0');
-      checkedStep = 0;
-    }
-
-    return checkedStep;
-  },
-
-  validateFromTo(config: IConfig): [number, number] {
-    const {
-      min,
-      max,
-      from,
-      to,
-      isDouble,
-    } = config;
-
-    const isWrongType = typeof from !== 'number' || typeof to !== 'number';
-
-    let checkedFrom = from; let checkedTo = to;
-    if (isWrongType) {
-      console.warn('from and to must be a number');
-      checkedFrom = min;
-      checkedTo = max;
-      return [checkedFrom, checkedTo];
-    }
-
-    if (isDouble) {
-      checkedTo = (to > max)
-        ? max : (to < min)
-          ? min : to;
-      checkedFrom = (from < min)
-        ? min : (from > max)
-          ? max : from;
-      checkedFrom = (checkedFrom > checkedTo) ? min : checkedFrom;
-    } else {
-      checkedTo = (to > max)
-        ? max : (to < min)
-          ? min : to;
-    }
-
+  let checkedFrom = from; let checkedTo = to;
+  if (isWrongType) {
+    console.warn('from and to must be a number');
+    checkedFrom = min;
+    checkedTo = max;
     return [checkedFrom, checkedTo];
-  },
+  }
 
-  validateHasTips(hasTips: boolean): boolean {
-    let checkedHasTips = hasTips;
-    if (typeof hasTips !== 'boolean') {
-      console.warn('isTip must be boolean');
-      checkedHasTips = true;
-    }
+  if (isDouble) {
+    checkedTo = (to > max)
+      ? max : (to < min)
+        ? min : to;
+    checkedFrom = (from < min)
+      ? min : (from > max)
+        ? max : from;
+    checkedFrom = (checkedFrom > checkedTo) ? min : checkedFrom;
+  } else {
+    checkedTo = (to > max)
+      ? max : (to < min)
+        ? min : to;
+  }
 
-    return checkedHasTips;
-  },
+  return [checkedFrom, checkedTo];
+}
 
-  validateHasMinMax(hasMinMax: boolean): boolean {
-    let checkedHasMinMax = hasMinMax;
-    if (typeof hasMinMax !== 'boolean') {
-      console.warn('isminMax must be boolean');
-      checkedHasMinMax = false;
-    }
+function validateHasTips(hasTips: boolean): boolean {
+  let checkedHasTips = hasTips;
+  if (typeof hasTips !== 'boolean') {
+    console.warn('isTip must be boolean');
+    checkedHasTips = true;
+  }
 
-    return checkedHasMinMax;
-  },
+  return checkedHasTips;
+}
 
-  validateIsVertical(isVertical: boolean): boolean {
-    let checkedIsVertical = isVertical;
-    if (typeof isVertical !== 'boolean') {
-      console.warn('isVertical must be boolean');
-      checkedIsVertical = false;
-    }
+function validateHasMinMax(hasMinMax: boolean): boolean {
+  let checkedHasMinMax = hasMinMax;
+  if (typeof hasMinMax !== 'boolean') {
+    console.warn('isminMax must be boolean');
+    checkedHasMinMax = false;
+  }
 
-    return checkedIsVertical;
-  },
+  return checkedHasMinMax;
+}
 
-  validateHasScale(hasScale: boolean): boolean {
-    let checkedHasScale = hasScale;
-    if (typeof hasScale !== 'boolean') {
-      console.warn('scale must be boolean');
-      checkedHasScale = false;
-    }
+function validateIsVertical(isVertical: boolean): boolean {
+  let checkedIsVertical = isVertical;
+  if (typeof isVertical !== 'boolean') {
+    console.warn('isVertical must be boolean');
+    checkedIsVertical = false;
+  }
 
-    return checkedHasScale;
-  },
+  return checkedIsVertical;
+}
 
-  validateScaleLimit(config: IConfig): number {
-    const {
-      min,
-      max,
-      step,
-    } = config;
+function validateHasScale(hasScale: boolean): boolean {
+  let checkedHasScale = hasScale;
+  if (typeof hasScale !== 'boolean') {
+    console.warn('scale must be boolean');
+    checkedHasScale = false;
+  }
 
-    let { scaleLimit } = config;
+  return checkedHasScale;
+}
 
-    if (typeof scaleLimit !== 'number') {
-      console.warn('scaleLimit must be a number');
-      scaleLimit = 4;
-    }
+function validateScaleLimit(config: IConfig): number {
+  const {
+    min,
+    max,
+    step,
+  } = config;
 
-    if (scaleLimit > 50) {
-      console.warn('scaleLimit too big');
-      scaleLimit = 50;
-    }
+  let { scaleLimit } = config;
 
-    const maxNumberOfValues = Math.ceil((max - min) / step);
+  if (typeof scaleLimit !== 'number') {
+    console.warn('scaleLimit must be a number');
+    scaleLimit = 4;
+  }
 
-    if (scaleLimit > maxNumberOfValues) {
-      console.warn('scaleLimit must be equal or less than (max - min) / step');
-      scaleLimit = maxNumberOfValues;
-    }
+  if (scaleLimit > 50) {
+    console.warn('scaleLimit too big');
+    scaleLimit = 50;
+  }
 
-    if (scaleLimit < 1) {
-      console.warn('scaleLimit must be equal or greater than 1');
-      scaleLimit = 1;
-    }
+  const maxNumberOfValues = Math.ceil((max - min) / step);
 
-    return scaleLimit;
-  },
+  if (scaleLimit > maxNumberOfValues) {
+    console.warn('scaleLimit must be equal or less than (max - min) / step');
+    scaleLimit = maxNumberOfValues;
+  }
 
-  validateScin(scin: string): string {
-    if (typeof scin !== 'string') {
-      console.warn('scin must be a string');
-      return 'orange';
-    }
+  if (scaleLimit < 1) {
+    console.warn('scaleLimit must be equal or greater than 1');
+    scaleLimit = 1;
+  }
 
-    const isWrong = scin !== 'orange' && scin !== 'darkcongo' && scin !== 'whitered' && scin !== 'azure' && scin !== 'indigo';
+  return scaleLimit;
+}
 
-    let checkedScin = scin;
-    if (isWrong) {
-      console.warn('scin invalid');
-      checkedScin = 'orange';
-    }
+function validateScin(scin: string): string {
+  if (typeof scin !== 'string') {
+    console.warn('scin must be a string');
+    return 'orange';
+  }
 
-    return checkedScin;
-  },
+  const isWrong = scin !== 'orange' && scin !== 'darkcongo' && scin !== 'whitered' && scin !== 'azure' && scin !== 'indigo';
+
+  let checkedScin = scin;
+  if (isWrong) {
+    console.warn('scin invalid');
+    checkedScin = 'orange';
+  }
+
+  return checkedScin;
+}
+
+function validateAll(config: IConfig): IConfig {
+  const {
+    min,
+    max,
+    step,
+    isDouble,
+    hasTips,
+    hasMinMax,
+    isVertical,
+    hasScale,
+    scin,
+  } = config;
+
+  const ValidatedConfig = { ...config };
+
+  ValidatedConfig.max = validateMinMax(min, max);
+  ValidatedConfig.isDouble = validateIsDouble(isDouble);
+  ValidatedConfig.hasTips = validateHasTips(hasTips);
+  ValidatedConfig.hasMinMax = validateHasMinMax(hasMinMax);
+  ValidatedConfig.isVertical = validateIsVertical(isVertical);
+  ValidatedConfig.hasScale = validateHasScale(hasScale);
+  ValidatedConfig.scin = validateScin(scin);
+  ValidatedConfig.step = validateStep(ValidatedConfig.min, ValidatedConfig.max, step);
+  [ValidatedConfig.from, ValidatedConfig.to] = validateFromTo(ValidatedConfig);
+  ValidatedConfig.scaleLimit = validateScaleLimit(ValidatedConfig);
+
+  return ValidatedConfig;
+}
+
+export {
+  validateAll,
+  validateFromTo,
+  validateHasMinMax,
+  validateHasScale,
+  validateHasTips,
+  validateIsDouble,
+  validateIsVertical,
+  validateMinMax,
+  validateScaleLimit,
+  validateScin,
+  validateStep,
 };
-
-export default Validator;
