@@ -1,12 +1,4 @@
 mixin text-input({ name, isSmall })
 
   .text-input__text #{name}:
-    if (name != 'scin')
-      input.text-input__input.js-text-input__input(type="number", class=isSmall ? 'text-input__input_size_small' : '', name=name)
-    else 
-      select.text-input__select.js-text-input__input(name="scin")
-        option(value="orange") orange
-        option(value="darkcongo") darkcongo
-        option(value="whitered") whitered
-        option(value="azure") azure
-        option(value="indigo") indigo
+    input.text-input__input.js-text-input__input(type="number", class=isSmall ? 'text-input__input_size_small' : '', name=name)

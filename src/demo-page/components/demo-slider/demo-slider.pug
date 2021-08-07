@@ -1,4 +1,5 @@
 include ../text-input/text-input.pug
+include ../select/select.pug
 include ../checkbox/checkbox.pug
 include ../callbacks-demo/callbacks-demo.pug
 include ../slider-example/slider-example.pug
@@ -12,8 +13,8 @@ mixin demo-slider(data)
           +text-input({ name: 'min' })
         .demo-slider__text-input.js-demo-slider__text-input
           +text-input({ name: 'from' })
-        .demo-slider__text-input.js-demo-slider__text-input
-          +text-input({ name: 'scin' })
+        .demo-slider__select.js-demo-slider__select
+          +select({ name: 'scin' })
         .demo-slider__checkbox.js-demo-slider__checkbox.demo-slider__checkbox_with_margin
           +checkbox({ label: 'isDouble' })
         .demo-slider__checkbox.js-demo-slider__checkbox
@@ -34,7 +35,7 @@ mixin demo-slider(data)
         .demo-slider__checkbox.js-demo-slider__checkbox
           +checkbox({ label: 'hasScale' })
     .demo-slider__plugin.js-demo-slider__plugin
-      .demo-slider__callbacks.js-demo-slider__callbacks
+      .demo-slider__callbacks-demo.js-demo-slider__callbacks-demo
         +callbacks-demo()
       .demo-slider__slider-example.js-demo-slider__slider-example
         +slider-example(data)

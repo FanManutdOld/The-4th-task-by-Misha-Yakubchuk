@@ -2,6 +2,7 @@
 @import '../callbacks-demo/callbacks-demo.scss';
 @import '../slider-example/slider-example.scss';
 @import '../text-input/text-input.scss';
+@import '../select/select.scss';
 
 .demo-slider {
   display: flex;
@@ -22,6 +23,9 @@
   &__text-input {
     margin-top: 20px;
   }
+  &__select {
+    margin-top: 20px;
+  }
   &__checkbox {
     margin-top: 20px;
     &_with_margin {
@@ -40,7 +44,7 @@
       justify-content: initial;
     }
   }
-  &__callbacks {
+  &__callbacks-demo {
     margin: 0 auto;
   }
   &__slider-example {

@@ -26,7 +26,7 @@ class TextInput extends Observer {
   }
 
   private updateSlider = () => {
-    const value = this.name === 'scin' ? this.input.value : Number(this.input.value);
+    const value = Number(this.input.value);
     this.notify('Change', { name: this.name, value });
   }
 }

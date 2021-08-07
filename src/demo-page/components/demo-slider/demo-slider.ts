@@ -1,14 +1,17 @@
 import SliderExample from '../slider-example/slider-example';
 import TextInput from '../text-input/text-input';
 import Checkbox from '../checkbox/checkbox';
+import Select from '../select/select';
 import CallbacksDemo from '../callbacks-demo/callbacks-demo';
 
 class DemoSlider {
   private sliderExample: SliderExample;
 
-  private InstancesOfTextInputs: TextInput[] = [];
+  private textInputs: TextInput[] = [];
 
-  private InstansesOfCheckboxes: Checkbox[] = [];
+  private checkboxes: Checkbox[] = [];
+
+  private select: Select;
 
   private callbacksDemo: CallbacksDemo;
 
@@ -20,10 +23,11 @@ class DemoSlider {
   }
 
   private init(userConfig?: any) {
-    const callbacksParent: HTMLElement = this.parent.querySelector('.js-demo-slider__callbacks');
+    const callbacksParent: HTMLElement = this.parent.querySelector('.js-demo-slider__callbacks-demo');
     const sliderParent: HTMLElement = this.parent.querySelector('.js-demo-slider__slider-example');
-    const textInputs = this.parent.querySelectorAll('.js-demo-slider__text-input');
-    const checkboxes = this.parent.querySelectorAll('.js-demo-slider__checkbox');
+    const HTMLTextInputs = this.parent.querySelectorAll('.js-demo-slider__text-input');
+    const HTMLCheckboxes = this.parent.querySelectorAll('.js-demo-slider__checkbox');
+    const HTMLSelect = this.parent.querySelector('.js-demo-slider__select');
     this.sliderExample = new SliderExample(sliderParent);
     const isVertical: boolean = userConfig
       ? userConfig.isVertical || this.sliderExample.isDataAttrIsVertical
@@ -51,18 +55,16 @@ class DemoSlider {
 
     this.callbacksDemo = new CallbacksDemo(callbacksParent);
 
-    /* this.slider.addSlider(extendedUserConfig);
-    this.slider.updateSlider('onStart', () => { this.callbacks.signalStart(); });
-    this.slider.updateSlider('onChange', this.handleOnChange);
-    this.slider.updateSlider('onFinish', () => { this.callbacks.signalFinish(); }); */
-    textInputs.forEach((item, index) => {
-      this.InstancesOfTextInputs.push(new TextInput(item as HTMLElement));
-      this.InstancesOfTextInputs[index].add('Change', this.updateSlider);
+    HTMLTextInputs.forEach((item, index) => {
+      this.textInputs.push(new TextInput(item as HTMLElement));
+      this.textInputs[index].add('Change', this.updateSlider);
     });
-    checkboxes.forEach((item, index) => {
-      this.InstansesOfCheckboxes.push(new Checkbox(item as HTMLElement));
-      this.InstansesOfCheckboxes[index].add('Change', this.updateSlider);
+    HTMLCheckboxes.forEach((item, index) => {
+      this.checkboxes.push(new Checkbox(item as HTMLElement));
+      this.checkboxes[index].add('Change', this.updateSlider);
     });
+    this.select = new Select(HTMLSelect as HTMLElement);
+    this.select.add('Change', this.updateSlider);
 
     this.updateDemo();
   }
@@ -91,12 +93,13 @@ class DemoSlider {
 
   private updateDemo() {
     const data = this.sliderExample.getSliderData();
-    this.InstancesOfTextInputs.forEach((item) => {
+    this.textInputs.forEach((item) => {
       item.updateInput(data);
     });
-    this.InstansesOfCheckboxes.forEach((item) => {
+    this.checkboxes.forEach((item) => {
       item.updateCheckbox(data);
     });
+    this.select.updateSelect(data);
   }
 }
 

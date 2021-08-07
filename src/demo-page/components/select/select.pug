@@ -1,0 +1,7 @@
+mixin select({ name="scin" })
+
+  - let options = ['orange', 'darkcongo', 'whitered', 'asure', 'indigo']
+
+  select.select.js-select(name="scin")
+    each option in options 
+      option(value=option)= option
