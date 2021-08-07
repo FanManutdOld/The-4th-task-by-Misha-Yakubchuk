@@ -62,13 +62,12 @@ class View extends Observer {
     if (isInit) {
       this.rebuild();
     }
-    let newPos: number;
     if (isUpdateR) {
-      newPos = (this.rightEdge * (to - min)) / (max - min);
+      const newPos = (this.rightEdge * (to - min)) / (max - min);
       this.updateR(newPos);
     }
     if (isUpdateL) {
-      newPos = (this.rightEdge * (from - min)) / (max - min);
+      const newPos = (this.rightEdge * (from - min)) / (max - min);
       this.updateL(newPos);
     }
     if (isCheckTips) {

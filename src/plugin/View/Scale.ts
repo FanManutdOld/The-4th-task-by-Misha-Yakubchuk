@@ -51,66 +51,61 @@ class Scale {
       scaleLimit,
     } = config;
     const total = max - min;
-    let bigNum = total / step;
-    let stepSize = NaN;
-
-    if (bigNum > scaleLimit) {
-      stepSize = step * Math.ceil(bigNum / scaleLimit);
-    } else {
-      stepSize = step;
-    }
+    const numOfValues = total / step;
+    const stepSize = numOfValues > scaleLimit
+      ? step * Math.ceil(numOfValues / scaleLimit)
+      : step;
 
     const isLastStepFull: boolean = !(this.getRemainder(total, stepSize));
 
-    bigNum = Math.floor(total / stepSize);
-    bigNum = isLastStepFull ? bigNum : bigNum + 1;
+    const bigNum = isLastStepFull
+      ? Math.floor(total / stepSize)
+      : Math.floor(total / stepSize) + 1;
 
     // определям количество маленьких рисочек
-    let smallMax = 4;
-    if (bigNum > 4) {
-      smallMax = 3;
-    }
-    if (bigNum > 7) {
-      smallMax = 2;
-    }
-    if (bigNum > 14) {
-      smallMax = 1;
-    }
-    if (bigNum > 28) {
-      smallMax = 0;
-    }
+    const smallMax = this.getSmallMax(bigNum);
 
-    let bigPos = 0;
-    let bigPrev = 0;
-    let smallPos = 0;
-    let smallSize = NaN; // расстояние между маленькими рисочками
-    for (let i = 0; i < bigNum + 1; i++) {
-      bigPos = (stepSize / total) * i * 100;
-      if (bigPos > 100) {
-        bigPos = 100;
-      }
+    for (let i = 0, prevBigPos = 0; i < bigNum + 1; i++) {
+      const bigPos = (stepSize / total) * i * 100;
+      const fixedBigPos = bigPos > 100 ? 100 : bigPos;
 
-      smallSize = (bigPos - bigPrev) / (smallMax + 1);
+      // расстояние между маленькими рисочками
+      const smallSize = (fixedBigPos - prevBigPos) / (smallMax + 1);
 
       for (let z = 1; z <= smallMax; z++) {
-        if (bigPos === 0) {
+        if (fixedBigPos === 0) {
           break;
         }
 
-        smallPos = Number((bigPos - (smallSize * z)).toFixed(20));
+        const smallPos = Number((fixedBigPos - (smallSize * z)).toFixed(20));
 
         this.addStick(smallPos, 'small');
       }
-      this.addStick(bigPos, 'big');
-      const value = this.calcValue(min, max, step, bigPos);
-      this.addValue(value, bigPos);
-      bigPrev = bigPos;
+      this.addStick(fixedBigPos, 'big');
+      const value = this.calcValue(min, max, step, fixedBigPos);
+      this.addValue(value, fixedBigPos);
+      prevBigPos = fixedBigPos;
     }
   }
 
   private getRemainder(a: number, b: number): number {
     // Корректный остаток от деления а на b, работающий с дробными числами.
     return a - b * Math.floor(a / b);
+  }
+
+  private getSmallMax(bigNum) {
+    switch (true) {
+      case (bigNum > 28):
+        return 0;
+      case (bigNum > 14):
+        return 1;
+      case (bigNum > 7):
+        return 2;
+      case (bigNum > 4):
+        return 3;
+      default:
+        return 4;
+    }
   }
 
   private addStick(position: number, size: 'small' | 'big') {

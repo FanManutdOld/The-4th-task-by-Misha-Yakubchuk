@@ -60,12 +60,12 @@ class Model extends Observer {
 
     const posRound = this.roundFractional(position, 3);
 
-    let center = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
-    center = this.roundFractional(center, 3);
+    const center = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
+    const roundedCenter = this.roundFractional(center, 3);
 
-    const isLastCurrentFrom: boolean = posRound === center
+    const isLastCurrentFrom: boolean = posRound === roundedCenter
       && this.config.current === CurrentRunner.FROM;
-    if (posRound < center) {
+    if (posRound < roundedCenter) {
       this.config.current = CurrentRunner.FROM;
     } else if (isLastCurrentFrom) {
       this.config.current = CurrentRunner.FROM;
