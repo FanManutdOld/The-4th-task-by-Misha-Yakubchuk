@@ -85,21 +85,21 @@ function validateFromTo(config: IConfig): [number, number] {
 function validateHasTips(hasTips: boolean): boolean {
   let checkedHasTips = hasTips;
   if (typeof hasTips !== 'boolean') {
-    console.warn('isTip must be boolean');
+    console.warn('hasTips must be boolean');
     checkedHasTips = true;
   }
 
   return checkedHasTips;
 }
 
-function validateHasMinMax(hasMinMax: boolean): boolean {
-  let checkedHasMinMax = hasMinMax;
-  if (typeof hasMinMax !== 'boolean') {
-    console.warn('isminMax must be boolean');
-    checkedHasMinMax = false;
+function validatehasLimits(hasLimits: boolean): boolean {
+  let checkedhasLimits = hasLimits;
+  if (typeof hasLimits !== 'boolean') {
+    console.warn('hasLimits must be boolean');
+    checkedhasLimits = false;
   }
 
-  return checkedHasMinMax;
+  return checkedhasLimits;
 }
 
 function validateIsVertical(isVertical: boolean): boolean {
@@ -115,7 +115,7 @@ function validateIsVertical(isVertical: boolean): boolean {
 function validateHasScale(hasScale: boolean): boolean {
   let checkedHasScale = hasScale;
   if (typeof hasScale !== 'boolean') {
-    console.warn('scale must be boolean');
+    console.warn('hasScale must be boolean');
     checkedHasScale = false;
   }
 
@@ -180,7 +180,7 @@ function validateAll(config: IConfig): IConfig {
     step,
     isDouble,
     hasTips,
-    hasMinMax,
+    hasLimits,
     isVertical,
     hasScale,
     scin,
@@ -191,7 +191,7 @@ function validateAll(config: IConfig): IConfig {
   ValidatedConfig.max = validateMinMax(min, max);
   ValidatedConfig.isDouble = validateIsDouble(isDouble);
   ValidatedConfig.hasTips = validateHasTips(hasTips);
-  ValidatedConfig.hasMinMax = validateHasMinMax(hasMinMax);
+  ValidatedConfig.hasLimits = validatehasLimits(hasLimits);
   ValidatedConfig.isVertical = validateIsVertical(isVertical);
   ValidatedConfig.hasScale = validateHasScale(hasScale);
   ValidatedConfig.scin = validateScin(scin);
@@ -205,7 +205,7 @@ function validateAll(config: IConfig): IConfig {
 export {
   validateAll,
   validateFromTo,
-  validateHasMinMax,
+  validatehasLimits,
   validateHasScale,
   validateHasTips,
   validateIsDouble,

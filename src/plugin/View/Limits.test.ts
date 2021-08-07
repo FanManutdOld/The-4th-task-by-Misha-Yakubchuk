@@ -1,55 +1,55 @@
-import MinMax from './MinMax';
+import Limits from './Limits';
 
-describe('MinMax class', () => {
+describe('Limits class', () => {
   describe('className', () => {
     const parent: HTMLElement = document.createElement('div');
-    new MinMax(parent);
+    new Limits(parent);
     document.body.innerHTML = '';
     document.body.appendChild(parent);
     test('should set correct className', () => {
-      expect((parent.firstElementChild as HTMLElement).className).toBe('slider__min-max');
+      expect((parent.firstElementChild as HTMLElement).className).toBe('slider__limits');
     });
   });
 
   describe('update method', () => {
     const parent: HTMLElement = document.createElement('div');
-    const minMax = new MinMax(parent);
+    const limits = new Limits(parent);
     document.body.innerHTML = '';
     document.body.appendChild(parent);
-    test('should hide minMax, if hasMinMax - false', () => {
-      minMax.update(false, 0, 1000, 15);
-      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__min-max_hidden')).toBe(true);
+    test('should hide limits, if hasLimits - false', () => {
+      limits.update(false, 0, 1000, 15);
+      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__limits_hidden')).toBe(true);
     });
-    test('should show minMax, if hasMinMax - true', () => {
-      minMax.update(true, 0, 1000, 15);
-      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__min-max_hidden')).toBe(false);
+    test('should show limits, if hasLimits - true', () => {
+      limits.update(true, 0, 1000, 15);
+      expect((parent.firstElementChild as HTMLElement).classList.contains('slider__limits_hidden')).toBe(false);
     });
     test('should set correct min value', () => {
-      minMax.update(true, 0, 1000, 15);
+      limits.update(true, 0, 1000, 15);
       expect((parent.firstElementChild.firstElementChild as HTMLElement).textContent).toBe('0');
     });
     test('should set correct max value', () => {
-      minMax.update(true, 0, 1000, 15);
+      limits.update(true, 0, 1000, 15);
       expect((parent.firstElementChild.lastElementChild as HTMLElement).textContent).toBe('1000');
     });
   });
 
   describe('horizontal slider', () => {
     const parent: HTMLElement = document.createElement('div');
-    const minMax = new MinMax(parent);
+    const limits = new Limits(parent);
     document.body.innerHTML = '';
     document.body.appendChild(parent);
     Object.defineProperty(parent, 'offsetWidth', { value: 650 });
     Object.defineProperty(parent.firstElementChild.firstElementChild, 'offsetWidth', { value: 13 });
     Object.defineProperty(parent.firstElementChild.lastElementChild, 'offsetWidth', { value: 28 });
-    minMax.setOrientation(false);
+    limits.setOrientation(false);
     describe('update method', () => {
       test('should set correct left minEl', () => {
-        minMax.update(true, 0, 1000, 15);
+        limits.update(true, 0, 1000, 15);
         expect((parent.firstElementChild.firstElementChild as HTMLElement).style.left).toBe('8.5px');
       });
       test('should set correct left maxEl', () => {
-        minMax.update(true, 0, 1000, 15);
+        limits.update(true, 0, 1000, 15);
         expect((parent.firstElementChild.lastElementChild as HTMLElement).style.left).toBe('621px');
       });
     });
@@ -57,20 +57,20 @@ describe('MinMax class', () => {
 
   describe('vertical slider', () => {
     const parent: HTMLElement = document.createElement('div');
-    const minMax = new MinMax(parent);
+    const limits = new Limits(parent);
     document.body.innerHTML = '';
     document.body.appendChild(parent);
     Object.defineProperty(parent, 'offsetHeight', { value: 277 });
     Object.defineProperty(parent.firstElementChild.firstElementChild, 'offsetHeight', { value: 15 });
     Object.defineProperty(parent.firstElementChild.lastElementChild, 'offsetHeight', { value: 15 });
-    minMax.setOrientation(true);
+    limits.setOrientation(true);
     describe('update method', () => {
       test('should set correct top minEl', () => {
-        minMax.update(true, 0, 1000, 15, 15);
+        limits.update(true, 0, 1000, 15, 15);
         expect((parent.firstElementChild.firstElementChild as HTMLElement).style.top).toBe('254.5px');
       });
       test('should set correct top maxEl', () => {
-        minMax.update(true, 0, 1000, 15);
+        limits.update(true, 0, 1000, 15);
         expect((parent.firstElementChild.lastElementChild as HTMLElement).style.top).toBe('7.5px');
       });
     });

@@ -1,16 +1,16 @@
-import Slider from '../example-slider/example-slider';
+import SliderExample from '../slider-example/slider-example';
 import TextInput from '../text-input/text-input';
 import Checkbox from '../checkbox/checkbox';
-import Callbacks from '../callbacks-demo/callbacks-demo';
+import CallbacksDemo from '../callbacks-demo/callbacks-demo';
 
 class DemoSlider {
-  private slider: Slider;
+  private sliderExample: SliderExample;
 
   private InstancesOfTextInputs: TextInput[] = [];
 
   private InstansesOfCheckboxes: Checkbox[] = [];
 
-  private callbacks: Callbacks;
+  private callbacksDemo: CallbacksDemo;
 
   private parent: HTMLElement;
 
@@ -21,35 +21,35 @@ class DemoSlider {
 
   private init(userConfig?: any) {
     const callbacksParent: HTMLElement = this.parent.querySelector('.js-demo-slider__callbacks');
-    const sliderParent: HTMLElement = this.parent.querySelector('.js-demo-slider__example-slider');
+    const sliderParent: HTMLElement = this.parent.querySelector('.js-demo-slider__slider-example');
     const textInputs = this.parent.querySelectorAll('.js-demo-slider__text-input');
     const checkboxes = this.parent.querySelectorAll('.js-demo-slider__checkbox');
-    this.slider = new Slider(sliderParent);
+    this.sliderExample = new SliderExample(sliderParent);
     const isVertical: boolean = userConfig
-      ? userConfig.isVertical || this.slider.isDataAttrIsVertical
-      : this.slider.isDataAttrIsVertical;
+      ? userConfig.isVertical || this.sliderExample.isDataAttrIsVertical
+      : this.sliderExample.isDataAttrIsVertical;
     if (isVertical) {
       const plugin = this.parent.querySelector('.js-demo-slider__plugin');
       plugin.classList.add('demo-slider__plugin_orient_ver');
-      sliderParent.classList.add('demo-slider__example-slider_orient_ver');
+      sliderParent.classList.add('demo-slider__slider-example_orient_ver');
     }
 
     if (userConfig) {
       const extendedUserConfig = Object.assign(userConfig, {
-        onStart: () => { this.callbacks.signalStart(); },
+        onStart: () => { this.callbacksDemo.signalStart(); },
         onChange: this.handleOnChange,
-        onFinish: () => { this.callbacks.signalFinish(); },
+        onFinish: () => { this.callbacksDemo.signalFinish(); },
       });
-      this.slider.addSlider(extendedUserConfig);
+      this.sliderExample.addSlider(extendedUserConfig);
     } else {
-      this.slider.addSlider({
-        onStart: () => { this.callbacks.signalStart(); },
+      this.sliderExample.addSlider({
+        onStart: () => { this.callbacksDemo.signalStart(); },
         onChange: this.handleOnChange,
-        onFinish: () => { this.callbacks.signalFinish(); },
+        onFinish: () => { this.callbacksDemo.signalFinish(); },
       });
     }
 
-    this.callbacks = new Callbacks(callbacksParent);
+    this.callbacksDemo = new CallbacksDemo(callbacksParent);
 
     /* this.slider.addSlider(extendedUserConfig);
     this.slider.updateSlider('onStart', () => { this.callbacks.signalStart(); });
@@ -69,28 +69,28 @@ class DemoSlider {
 
   private handleOnChange = () => {
     this.updateDemo();
-    this.callbacks.signalChange();
+    this.callbacksDemo.signalChange();
   }
 
   private updateSlider = ({ name, value }) => {
     const plugin = this.parent.querySelector('.js-demo-slider__plugin');
-    const sliderParent: HTMLElement = this.parent.querySelector('.js-demo-slider__example-slider');
+    const sliderParent: HTMLElement = this.parent.querySelector('.js-demo-slider__slider-example');
 
     if (name === 'isVertical') {
       if (value === true) {
         plugin.classList.add('demo-slider__plugin_orient_ver');
-        sliderParent.classList.add('demo-slider__example-slider_orient_ver');
+        sliderParent.classList.add('demo-slider__slider-example_orient_ver');
       } else {
         plugin.classList.remove('demo-slider__plugin_orient_ver');
-        sliderParent.classList.remove('demo-slider__example-slider_orient_ver');
+        sliderParent.classList.remove('demo-slider__slider-example_orient_ver');
       }
     }
 
-    this.slider.updateSlider(name, value);
+    this.sliderExample.updateSlider(name, value);
   }
 
   private updateDemo() {
-    const data = this.slider.getSliderData();
+    const data = this.sliderExample.getSliderData();
     this.InstancesOfTextInputs.forEach((item) => {
       item.updateInput(data);
     });

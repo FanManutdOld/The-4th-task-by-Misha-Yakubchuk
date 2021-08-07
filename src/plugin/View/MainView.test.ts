@@ -8,10 +8,10 @@ describe('MainView class', () => {
   let track: HTMLElement;
   let bar: HTMLElement;
   let scale: HTMLElement;
-  let runnerR: HTMLElement;
-  let tipR: HTMLElement;
-  let runnerL: HTMLElement;
-  let tipL: HTMLElement;
+  let runnerRight: HTMLElement;
+  let tipRight: HTMLElement;
+  let runnerLeft: HTMLElement;
+  let tipLeft: HTMLElement;
   let min: HTMLElement;
   let max: HTMLElement;
   let config: IConfig;
@@ -26,7 +26,7 @@ describe('MainView class', () => {
       step: 1,
       isDouble: true,
       hasTips: true,
-      hasMinMax: true,
+      hasLimits: true,
       hasScale: true,
       scaleLimit: 50,
       isVertical: false,
@@ -42,12 +42,12 @@ describe('MainView class', () => {
     track = parent.querySelector('.slider__track');
     bar = parent.querySelector('.slider__bar');
     scale = parent.querySelector('.slider__scale');
-    runnerR = parent.querySelector('.slider__runner.slider__runnerR');
-    tipR = parent.querySelector('.slider__tip.slider__tipR');
-    runnerL = parent.querySelector('.slider__runner.slider__runnerL');
-    tipL = parent.querySelector('.slider__tip.slider__tipL');
-    min = parent.querySelector('.slider__min');
-    max = parent.querySelector('.slider__max');
+    runnerRight = parent.querySelector('.slider__runner.slider__runner_pos_right');
+    tipRight = parent.querySelector('.slider__tip.slider__tip_pos_right');
+    runnerLeft = parent.querySelector('.slider__runner.slider__runner_pos_left');
+    tipLeft = parent.querySelector('.slider__tip.slider__tip_pos_left');
+    min = parent.querySelector('.slider__limit_min');
+    max = parent.querySelector('.slider__limit_max');
   });
 
   describe('initView method', () => {
@@ -55,10 +55,10 @@ describe('MainView class', () => {
       expect(track).toBeTruthy();
       expect(bar).toBeTruthy();
       expect(scale).toBeTruthy();
-      expect(runnerR).toBeTruthy();
-      expect(tipR).toBeTruthy();
-      expect(runnerL).toBeTruthy();
-      expect(tipL).toBeTruthy();
+      expect(runnerRight).toBeTruthy();
+      expect(tipRight).toBeTruthy();
+      expect(runnerLeft).toBeTruthy();
+      expect(tipLeft).toBeTruthy();
       expect(min).toBeTruthy();
       expect(max).toBeTruthy();
     });
@@ -67,14 +67,14 @@ describe('MainView class', () => {
   describe('updateView method', () => {
     test('should set correct values in HTML', () => {
       mainView.updateView(config, true);
-      expect(tipR.textContent).toBe('700');
-      expect(tipL.textContent).toBe('400');
+      expect(tipRight.textContent).toBe('700');
+      expect(tipLeft.textContent).toBe('400');
       expect(min.textContent).toBe('0');
       expect(max.textContent).toBe('1000');
     });
     test('should set united tips', () => {
-      tipR.style.width = '10px';
-      tipR.getBoundingClientRect = jest.fn(() => ({
+      tipRight.style.width = '10px';
+      tipRight.getBoundingClientRect = jest.fn(() => ({
         x: 0,
         y: 0,
         width: 0,
@@ -85,7 +85,7 @@ describe('MainView class', () => {
         bottom: 0,
         toJSON: jest.fn(),
       }));
-      tipL.getBoundingClientRect = jest.fn(() => ({
+      tipLeft.getBoundingClientRect = jest.fn(() => ({
         x: 0,
         y: 0,
         width: 0,
@@ -99,11 +99,11 @@ describe('MainView class', () => {
       config.to = 250;
       config.from = 220;
       mainView.updateView(config);
-      expect(tipR.textContent).toBe('220\u00A0—\u00A0250');
+      expect(tipRight.textContent).toBe('220\u00A0—\u00A0250');
     });
     test('should disconnect united tips after connect', () => {
-      tipR.style.width = '10px';
-      tipR.getBoundingClientRect = jest.fn(() => ({
+      tipRight.style.width = '10px';
+      tipRight.getBoundingClientRect = jest.fn(() => ({
         x: 0,
         y: 0,
         width: 0,
@@ -114,7 +114,7 @@ describe('MainView class', () => {
         bottom: 0,
         toJSON: jest.fn(),
       }));
-      tipL.getBoundingClientRect = jest.fn(() => ({
+      tipLeft.getBoundingClientRect = jest.fn(() => ({
         x: 0,
         y: 0,
         width: 0,
@@ -130,7 +130,7 @@ describe('MainView class', () => {
       config.from = 220;
       mainView.updateView(config);
 
-      tipL.getBoundingClientRect = jest.fn(() => ({
+      tipLeft.getBoundingClientRect = jest.fn(() => ({
         x: 0,
         y: 0,
         width: 0,
@@ -144,37 +144,37 @@ describe('MainView class', () => {
       // should disconnect
       config.from = 100;
       mainView.updateView(config);
-      expect(tipR.textContent).toBe('250');
+      expect(tipRight.textContent).toBe('250');
     });
     test('should remove left runner and left tip, in single slider', () => {
       config.isDouble = false;
       mainView.updateView(config, true);
-      runnerL = parent.querySelector('.slider__runner.slider__runnerL');
-      tipL = parent.querySelector('.slider__tip.slider__tipL');
-      expect(runnerL).toBeNull();
-      expect(tipL).toBeNull();
+      runnerLeft = parent.querySelector('.slider__runner.slider__runnerL');
+      tipLeft = parent.querySelector('.slider__tip.slider__tipL');
+      expect(runnerLeft).toBeNull();
+      expect(tipLeft).toBeNull();
     });
     test('should set correct right value', () => {
       config.to = 850;
       mainView.updateView(config);
-      expect(tipR.textContent).toBe('850');
+      expect(tipRight.textContent).toBe('850');
     });
     test('should set correct left value', () => {
       config.from = 250;
       config.current = CurrentRunner.FROM;
       mainView.updateView(config);
-      expect(tipL.textContent).toBe('250');
+      expect(tipLeft.textContent).toBe('250');
     });
   });
 
   describe('updateZIndex method', () => {
     test('should set z-index', () => {
       mainView.updateZIndex(CurrentRunner.TO);
-      expect(runnerR.style.zIndex).toBe('1');
+      expect(runnerRight.style.zIndex).toBe('1');
     });
     test('should remove z-index', () => {
       mainView.updateZIndex(CurrentRunner.FROM);
-      expect(runnerR.style.zIndex).toBe('0');
+      expect(runnerRight.style.zIndex).toBe('0');
     });
   });
 
@@ -209,14 +209,14 @@ describe('MainView class', () => {
       const callback = jest.fn();
       mainView.add('mouseDown', callback);
       const mousedown = new MouseEvent('mousedown', { bubbles: true, button: 3 });
-      runnerR.dispatchEvent(mousedown);
+      runnerRight.dispatchEvent(mousedown);
       expect(callback).not.toBeCalled();
     });
     test('should notify about mousedown on runner', () => {
       const callback = jest.fn();
       mainView.add('mouseDown', callback);
       const mousedown = new MouseEvent('mousedown', { bubbles: true, button: 0 });
-      runnerR.dispatchEvent(mousedown);
+      runnerRight.dispatchEvent(mousedown);
       expect(callback).toBeCalled();
     });
     test('should notify about mousedown on track', () => {
@@ -249,8 +249,8 @@ describe('MainView class', () => {
       // @ts-expect-error
       const mousedown = new MouseEvent('mousedown', { bubbles: true, which: 1 });
       const mousemove = new MouseEvent('mousemove', { bubbles: true });
-      runnerR.dispatchEvent(mousedown);
-      runnerR.dispatchEvent(mousemove);
+      runnerRight.dispatchEvent(mousedown);
+      runnerRight.dispatchEvent(mousemove);
       expect(callback).toBeCalled();
     });
   });

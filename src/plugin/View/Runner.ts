@@ -11,7 +11,7 @@ class Runner {
 
   private isVertical: boolean;
 
-  constructor(slider: HTMLElement, runnerSide: string) {
+  constructor(slider: HTMLElement, runnerSide: 'right' | 'left') {
     this.slider = slider;
     this.init(runnerSide);
   }
@@ -88,12 +88,11 @@ class Runner {
     }
   }
 
-  private init(runnerSide: string) {
+  private init(runnerSide: 'right' | 'left') {
     this.runner = document.createElement('div');
-    this.runner.className = `slider__runner slider__${runnerSide}`;
+    this.runner.className = `slider__runner slider__runner_pos_${runnerSide}`;
     this.slider.append(this.runner);
-    const tipSide = runnerSide === 'runnerR' ? 'tipR' : 'tipL';
-    this.tip = new Tip(this.slider, tipSide);
+    this.tip = new Tip(this.slider, runnerSide);
   }
 }
 

@@ -9,7 +9,7 @@ $(document).ready(() => {
     to: 700,
     scin: 'orange',
     isDouble: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin2').mySlider({
     min: 0,
@@ -19,7 +19,7 @@ $(document).ready(() => {
     scin: 'orange',
     isDouble: true,
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin3').mySlider({
     min: 0,
@@ -28,7 +28,7 @@ $(document).ready(() => {
     to: 700,
     scin: 'orange',
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin4').mySlider({
     min: 2,
@@ -37,7 +37,7 @@ $(document).ready(() => {
     to: 3,
     step: 0.5,
     scin: 'orange',
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin5').mySlider({
     min: -1000,
@@ -46,7 +46,7 @@ $(document).ready(() => {
     from: -1000,
     to: 1000,
     scin: 'orange',
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin6').mySlider({
     min: 0,
@@ -55,7 +55,7 @@ $(document).ready(() => {
     to: 700,
     scin: 'darkcongo',
     isDouble: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin7').mySlider({
     min: 0,
@@ -65,7 +65,7 @@ $(document).ready(() => {
     scin: 'darkcongo',
     isDouble: true,
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin8').mySlider({
     min: 0,
@@ -74,7 +74,7 @@ $(document).ready(() => {
     to: 700,
     scin: 'darkcongo',
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin9').mySlider({
     min: 2,
@@ -83,7 +83,7 @@ $(document).ready(() => {
     to: 3,
     step: 0.5,
     scin: 'darkcongo',
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin10').mySlider({
     min: -1000,
@@ -92,7 +92,7 @@ $(document).ready(() => {
     from: -1000,
     to: 1000,
     scin: 'darkcongo',
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin11').mySlider({
     min: 0,
@@ -110,7 +110,7 @@ $(document).ready(() => {
     scin: 'whitered',
     isDouble: true,
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin13').mySlider({
     min: 0,
@@ -119,7 +119,7 @@ $(document).ready(() => {
     to: 700,
     scin: 'whitered',
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin14').mySlider({
     min: 2,
@@ -128,7 +128,7 @@ $(document).ready(() => {
     to: 3,
     step: 0.5,
     scin: 'whitered',
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin15').mySlider({
     min: -1000,
@@ -137,7 +137,7 @@ $(document).ready(() => {
     from: -1000,
     to: 1000,
     scin: 'whitered',
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin16').mySlider({
     min: 0,
@@ -146,7 +146,7 @@ $(document).ready(() => {
     to: 700,
     scin: 'azure',
     isDouble: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin17').mySlider({
     min: 0,
@@ -156,7 +156,7 @@ $(document).ready(() => {
     scin: 'azure',
     isDouble: true,
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin18').mySlider({
     min: 0,
@@ -165,7 +165,7 @@ $(document).ready(() => {
     to: 700,
     scin: 'azure',
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin19').mySlider({
     min: 2,
@@ -174,7 +174,7 @@ $(document).ready(() => {
     to: 3,
     step: 0.5,
     scin: 'azure',
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin20').mySlider({
     min: -1000,
@@ -183,7 +183,7 @@ $(document).ready(() => {
     from: -1000,
     to: 1000,
     scin: 'azure',
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin21').mySlider({
     min: 0,
@@ -201,7 +201,7 @@ $(document).ready(() => {
     scin: 'indigo',
     isDouble: true,
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin23').mySlider({
     min: 0,
@@ -210,7 +210,7 @@ $(document).ready(() => {
     to: 700,
     scin: 'indigo',
     isVertical: true,
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin24').mySlider({
     min: 2,
@@ -219,7 +219,7 @@ $(document).ready(() => {
     to: 3,
     step: 0.5,
     scin: 'indigo',
-    hasMinMax: true,
+    hasLimits: true,
   });
   $('.more-sliders__plugin25').mySlider({
     min: -1000,
@@ -228,6 +228,6 @@ $(document).ready(() => {
     from: -1000,
     to: 1000,
     scin: 'indigo',
-    hasMinMax: true,
+    hasLimits: true,
   });
 });

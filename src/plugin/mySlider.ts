@@ -31,7 +31,7 @@ import Presenter from './Presenter/Presenter';
         step: $(parent).data('step'),
         isDouble: $(parent).data('isDouble'),
         hasTips: $(parent).data('hasTips'),
-        hasMinMax: $(parent).data('hasMinMax'),
+        hasLimits: $(parent).data('hasLimits'),
         isVertical: $(parent).data('isVertical'),
         hasScale: $(parent).data('hasScale'),
         scaleLimit: $(parent).data('scaleLimit'),

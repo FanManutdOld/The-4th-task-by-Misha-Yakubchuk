@@ -1,5 +1,5 @@
-class MinMax {
-  private minMax: HTMLElement;
+class Limits {
+  private limits: HTMLElement;
 
   private slider: HTMLElement;
 
@@ -14,9 +14,9 @@ class MinMax {
     this.init();
   }
 
-  public update(hasMinMax: boolean, min: number, max: number, shiftR: number, shiftL = shiftR) {
-    if (hasMinMax) {
-      this.minMax.classList.remove('slider__min-max_hidden');
+  public update(hasLimits: boolean, min: number, max: number, shiftR: number, shiftL = shiftR) {
+    if (hasLimits) {
+      this.limits.classList.remove('slider__limits_hidden');
       this.minEl.textContent = `${min}`;
       this.maxEl.textContent = `${max}`;
       if (this.isVertical) {
@@ -27,7 +27,7 @@ class MinMax {
         this.maxEl.style.left = `${this.slider.offsetWidth - shiftR - this.maxEl.offsetWidth / 2}px`;
       }
     } else {
-      this.minMax.classList.add('slider__min-max_hidden');
+      this.limits.classList.add('slider__limits_hidden');
     }
   }
 
@@ -40,16 +40,16 @@ class MinMax {
   }
 
   private init() {
-    this.minMax = document.createElement('div');
+    this.limits = document.createElement('div');
     this.minEl = document.createElement('div');
     this.maxEl = document.createElement('div');
-    this.minMax.className = 'slider__min-max';
-    this.minEl.className = 'slider__range slider__min';
-    this.maxEl.className = 'slider__range slider__max';
-    this.minMax.append(this.minEl);
-    this.minMax.append(this.maxEl);
-    this.slider.append(this.minMax);
+    this.limits.className = 'slider__limits';
+    this.minEl.className = 'slider__limit slider__limit_min';
+    this.maxEl.className = 'slider__limit slider__limit_max';
+    this.limits.append(this.minEl);
+    this.limits.append(this.maxEl);
+    this.slider.append(this.limits);
   }
 }
 
-export default MinMax;
+export default Limits;

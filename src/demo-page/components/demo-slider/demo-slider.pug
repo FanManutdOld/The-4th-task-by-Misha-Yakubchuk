@@ -1,7 +1,7 @@
 include ../text-input/text-input.pug
 include ../checkbox/checkbox.pug
 include ../callbacks-demo/callbacks-demo.pug
-include ../example-slider/example-slider.pug
+include ../slider-example/slider-example.pug
 
 mixin demo-slider(data)
 
@@ -30,11 +30,11 @@ mixin demo-slider(data)
         .demo-slider__checkbox.js-demo-slider__checkbox
           +checkbox({ label: 'isVertical' })
         .demo-slider__checkbox.js-demo-slider__checkbox
-          +checkbox({ label: 'hasMinMax' })
+          +checkbox({ label: 'hasLimits' })
         .demo-slider__checkbox.js-demo-slider__checkbox
           +checkbox({ label: 'hasScale' })
     .demo-slider__plugin.js-demo-slider__plugin
       .demo-slider__callbacks.js-demo-slider__callbacks
         +callbacks-demo()
-      .demo-slider__example-slider.js-demo-slider__example-slider
-        +example-slider(data)
+      .demo-slider__slider-example.js-demo-slider__slider-example
+        +slider-example(data)

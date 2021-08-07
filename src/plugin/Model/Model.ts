@@ -12,7 +12,7 @@ class Model extends Observer {
     step: NaN,
     isDouble: false,
     hasTips: true,
-    hasMinMax: false,
+    hasLimits: false,
     hasScale: false,
     scaleLimit: 10,
     isVertical: false,

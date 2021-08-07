@@ -1,6 +1,6 @@
 @import '../checkbox/checkbox.scss';
 @import '../callbacks-demo/callbacks-demo.scss';
-@import '../example-slider/example-slider.scss';
+@import '../slider-example/slider-example.scss';
 @import '../text-input/text-input.scss';
 
 .demo-slider {
@@ -43,7 +43,7 @@
   &__callbacks {
     margin: 0 auto;
   }
-  &__example-slider {
+  &__slider-example {
     height: 150px;
     &_orient_ver {
       height: auto;

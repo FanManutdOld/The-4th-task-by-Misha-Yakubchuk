@@ -16,9 +16,9 @@ class View extends Observer {
 
   private bar: Bar;
 
-  private runnerR: Runner;
+  private runnerRight: Runner;
 
-  private runnerL: Runner;
+  private runnerLeft: Runner;
 
   private refHandleDocumentMouseMove: EventListener;
 
@@ -35,8 +35,8 @@ class View extends Observer {
   public initView(config: IConfig) {
     this.track = new Track(this.slider);
     this.bar = new Bar(this.slider);
-    this.runnerR = new Runner(this.slider, 'runnerR');
-    this.runnerL = new Runner(this.slider, 'runnerL');
+    this.runnerRight = new Runner(this.slider, 'right');
+    this.runnerLeft = new Runner(this.slider, 'left');
 
     this.updateView(config, true);
     this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
@@ -78,61 +78,61 @@ class View extends Observer {
 
   public updateZIndex(current: string) {
     if (current === CurrentRunner.TO) {
-      this.runnerR.setZIndex();
+      this.runnerRight.setZIndex();
     } else {
-      this.runnerR.removeZIndex();
+      this.runnerRight.removeZIndex();
     }
   }
 
   private rebuild() {
     const { hasTips, isDouble } = this.config;
     this.connectedTips = false;
-    this.runnerR.updateTipVisibility(hasTips);
+    this.runnerRight.updateTipVisibility(hasTips);
     this.updateOrientation();
     this.updateRightEdge();
     if (isDouble) {
-      this.runnerL.append();
+      this.runnerLeft.append();
       if (!this.connectedTips) {
-        this.runnerL.updateTipVisibility(hasTips);
+        this.runnerLeft.updateTipVisibility(hasTips);
       }
-      this.track.update(this.config, this.runnerR.halfWidth, this.runnerL.halfWidth);
+      this.track.update(this.config, this.runnerRight.halfWidth, this.runnerLeft.halfWidth);
     } else {
-      this.runnerL.remove();
-      this.track.update(this.config, this.runnerR.halfWidth);
+      this.runnerLeft.remove();
+      this.track.update(this.config, this.runnerRight.halfWidth);
     }
   }
 
   private updateR(newPos: number) {
-    this.runnerR.setPos(newPos);
-    this.bar.setRight(newPos, this.runnerR.halfWidth);
+    this.runnerRight.setPos(newPos);
+    this.bar.setRight(newPos, this.runnerRight.halfWidth);
     if (this.connectedTips) {
       this.updateConnectedTips();
     } else {
-      this.runnerR.updateTip(newPos, this.config.to);
+      this.runnerRight.updateTip(newPos, this.config.to);
     }
   }
 
   private updateL(newPos: number) {
-    this.runnerL.setPos(newPos);
-    this.bar.setLeft(newPos, this.runnerL.halfWidth);
+    this.runnerLeft.setPos(newPos);
+    this.bar.setLeft(newPos, this.runnerLeft.halfWidth);
     if (this.connectedTips) {
       this.updateConnectedTips();
     }
-    this.runnerL.updateTip(newPos, this.config.from);
+    this.runnerLeft.updateTip(newPos, this.config.from);
   }
 
   private checkConnectionTips() {
-    const rectTipL = this.runnerL.getTipRect();
+    const rectTipL = this.runnerLeft.getTipRect();
     if (!this.connectedTips) {
-      if (this.runnerR.isConnectedTips(rectTipL)) {
+      if (this.runnerRight.isConnectedTips(rectTipL)) {
         this.connectedTips = true;
-        this.runnerL.updateTipVisibility(false);
+        this.runnerLeft.updateTipVisibility(false);
         this.updateConnectedTips();
       }
     } else if (this.connectedTips) {
-      if (this.runnerR.isDisconnectedTips(rectTipL)) {
+      if (this.runnerRight.isDisconnectedTips(rectTipL)) {
         this.connectedTips = false;
-        this.runnerL.updateTipVisibility(true);
+        this.runnerLeft.updateTipVisibility(true);
         const { to, min, max } = this.config;
         const newPos = (this.rightEdge * (to - min)) / (max - min);
         this.updateR(newPos);
@@ -147,7 +147,7 @@ class View extends Observer {
       : this.bar.getCenter() - rect.left;
 
     const { from, to } = this.config;
-    this.runnerR.updateTip(pos, `${from}\u00A0—\u00A0${to}`, true);
+    this.runnerRight.updateTip(pos, `${from}\u00A0—\u00A0${to}`, true);
   }
 
   private handleSliderMouseDown = (event: MouseEvent | TouchEvent) => {
@@ -199,13 +199,13 @@ class View extends Observer {
     const { isDouble, isVertical } = this.config;
 
     if (!isDouble) {
-      return this.runnerR.halfWidth;
+      return this.runnerRight.halfWidth;
     }
     const center = this.bar.getCenter();
     if (isVertical) {
-      return (posClick < center) ? this.runnerR.halfWidth : this.runnerL.halfWidth;
+      return (posClick < center) ? this.runnerRight.halfWidth : this.runnerLeft.halfWidth;
     }
-    return (posClick > center) ? this.runnerR.halfWidth : this.runnerL.halfWidth;
+    return (posClick > center) ? this.runnerRight.halfWidth : this.runnerLeft.halfWidth;
   }
 
   private getRelativePosition(posClick: number, shift: number): number {
@@ -261,21 +261,21 @@ class View extends Observer {
 
   private updateRightEdge() {
     this.rightEdge = this.config.isVertical
-      ? this.slider.offsetHeight - this.runnerR.halfWidth * 2
-      : this.slider.offsetWidth - this.runnerR.halfWidth * 2;
+      ? this.slider.offsetHeight - this.runnerRight.halfWidth * 2
+      : this.slider.offsetWidth - this.runnerRight.halfWidth * 2;
   }
 
   private updateOrientation() {
     const { scin, isVertical, isDouble } = this.config;
 
     this.slider.className = isVertical
-      ? `slider slider_${scin} slider_${scin}_ver`
-      : `slider slider_${scin} slider_${scin}_hor`;
+      ? `slider slider_scin_${scin} slider_orient_ver`
+      : `slider slider_scin_${scin} slider_orient_hor`;
     this.bar.setOrientation(isVertical);
     this.track.setOrientation(isVertical);
-    this.runnerR.setOrientation(isVertical);
+    this.runnerRight.setOrientation(isVertical);
     if (isDouble) {
-      this.runnerL.setOrientation(isVertical);
+      this.runnerLeft.setOrientation(isVertical);
     }
   }
 

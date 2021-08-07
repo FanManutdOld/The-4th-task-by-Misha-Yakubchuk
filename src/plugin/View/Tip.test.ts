@@ -2,10 +2,10 @@ import Tip from './Tip';
 
 describe('Tip class', () => {
   let parent: HTMLElement;
-  let tipR: Tip;
+  let tipRight: Tip;
   beforeEach(() => {
     parent = document.createElement('div');
-    tipR = new Tip(parent, 'tipR');
+    tipRight = new Tip(parent, 'right');
     document.body.innerHTML = '';
     document.body.appendChild(parent);
     (parent.firstElementChild as HTMLElement).style.width = '23px';
@@ -16,56 +16,56 @@ describe('Tip class', () => {
 
   describe('className', () => {
     test('should set correct className', () => {
-      expect((parent.firstElementChild as HTMLElement).className).toBe('slider__tip slider__tipR');
+      expect((parent.firstElementChild as HTMLElement).className).toBe('slider__tip slider__tip_pos_right');
     });
   });
 
   describe('setValue method', () => {
     test('should set correct value', () => {
-      tipR.setValue(200);
+      tipRight.setValue(200);
       expect((parent.firstElementChild as HTMLElement).textContent).toBe('200');
     });
   });
 
   describe('remove method', () => {
     test('should remove tip from parent', () => {
-      tipR.remove();
-      const tipRDOM = parent.querySelector('.slider__tipR');
+      tipRight.remove();
+      const tipRDOM = parent.querySelector('.slider__tip_pos_right');
       expect(tipRDOM).toBeNull();
     });
   });
 
   describe('append method', () => {
     test('should append tip to parent', () => {
-      tipR.remove();
-      tipR.append();
-      const tipRDOM = parent.querySelector('.slider__tipR');
+      tipRight.remove();
+      tipRight.append();
+      const tipRDOM = parent.querySelector('.slider__tip_pos_right');
       expect(tipRDOM).toBeTruthy();
     });
   });
 
   describe('updateVisibility method', () => {
     test('should show tip, if isVisible - true', () => {
-      tipR.updateVisibility(true);
+      tipRight.updateVisibility(true);
       expect((parent.firstElementChild as HTMLElement).classList.contains('slider__tip_hidden')).toBe(false);
     });
     test('should hide tip, if isVisible - false', () => {
-      tipR.updateVisibility(false);
+      tipRight.updateVisibility(false);
       expect((parent.firstElementChild as HTMLElement).classList.contains('slider__tip_hidden')).toBe(true);
     });
   });
 
   describe('setPos method', () => {
     test('should set correct position in horizontal slider', () => {
-      tipR.setOrientation(false);
-      tipR.setValue(300);
-      tipR.setPos(186, 15);
+      tipRight.setOrientation(false);
+      tipRight.setValue(300);
+      tipRight.setPos(186, 15);
       expect((parent.firstElementChild as HTMLElement).style.left).toMatch('29.1538');
     });
     test('should set correct position in vertical slider', () => {
-      tipR.setOrientation(true);
-      tipR.setValue(300);
-      tipR.setPos(186, 15);
+      tipRight.setOrientation(true);
+      tipRight.setValue(300);
+      tipRight.setPos(186, 15);
       expect((parent.firstElementChild as HTMLElement).style.bottom).toMatch('29.7692');
     });
   });
@@ -73,15 +73,15 @@ describe('Tip class', () => {
   describe('setUnitedPos method', () => {
     test('should set correct unitedPos in horizontal slider', () => {
       (parent.firstElementChild as HTMLElement).style.width = '60.5px';
-      tipR.setOrientation(false);
-      tipR.setValue('660-700');
-      tipR.setUnitedPos(437);
+      tipRight.setOrientation(false);
+      tipRight.setValue('660-700');
+      tipRight.setUnitedPos(437);
       expect((parent.firstElementChild as HTMLElement).style.left).toBe('407px');
     });
     test('should set correct unitedPos in vertical slider', () => {
-      tipR.setOrientation(true);
-      tipR.setValue('660-700');
-      tipR.setUnitedPos(414.5);
+      tipRight.setOrientation(true);
+      tipRight.setValue('660-700');
+      tipRight.setUnitedPos(414.5);
       expect((parent.firstElementChild as HTMLElement).style.bottom).toMatch('407px');
     });
   });

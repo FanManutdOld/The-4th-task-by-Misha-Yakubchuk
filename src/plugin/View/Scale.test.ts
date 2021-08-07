@@ -18,7 +18,7 @@ describe('Scale class', () => {
     scaleLimit: 50,
     isDouble: false,
     hasTips: true,
-    hasMinMax: true,
+    hasLimits: true,
     hasScale: false,
     isVertical: false,
     scin: 'orange',

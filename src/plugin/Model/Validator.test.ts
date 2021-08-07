@@ -1,5 +1,5 @@
 import {
-  validateFromTo, validateHasMinMax, validateHasScale,
+  validateFromTo, validatehasLimits, validateHasScale,
   validateHasTips, validateIsDouble, validateIsVertical,
   validateMinMax, validateScaleLimit, validateScin, validateStep,
 } from './Validator';
@@ -92,10 +92,10 @@ describe('Validator class', () => {
     });
   });
 
-  describe('validate hasMinMax', () => {
-    test('hasMinMax should be a boolean', () => {
+  describe('validate hasLimits', () => {
+    test('hasLimits should be a boolean', () => {
       // @ts-expect-error
-      expect(validateHasMinMax('true')).toBeBoolean();
+      expect(validatehasLimits('true')).toBeBoolean();
     });
   });
 
@@ -122,7 +122,7 @@ describe('Validator class', () => {
       isDouble: true,
       hasTips: false,
       hasScale: true,
-      hasMinMax: false,
+      hasLimits: false,
       scin: 'orange',
       current: CurrentRunner.TO,
       isVertical: false,

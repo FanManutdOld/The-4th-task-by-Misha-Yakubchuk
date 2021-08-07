@@ -18,7 +18,7 @@ describe('Model class', () => {
         step: 1,
         isDouble: false,
         hasTips: true,
-        hasMinMax: false,
+        hasLimits: false,
         isVertical: false,
         scin: 'orange',
         current: CurrentRunner.TO,
@@ -67,7 +67,7 @@ describe('Model class', () => {
         from: 100,
         to: 455,
         isVertical: true,
-        hasMinMax: false,
+        hasLimits: false,
       };
       model.update(newConfig);
       expect(model.getConfig()).toMatchObject(newConfig);

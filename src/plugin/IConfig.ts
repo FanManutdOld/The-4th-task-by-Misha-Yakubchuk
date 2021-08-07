@@ -8,7 +8,7 @@ interface IConfig {
   step: number,
   isDouble: boolean,
   hasTips: boolean,
-  hasMinMax: boolean,
+  hasLimits: boolean,
   hasScale: boolean,
   scaleLimit: number,
   isVertical: boolean,

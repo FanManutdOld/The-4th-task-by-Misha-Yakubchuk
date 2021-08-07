@@ -1,4 +1,4 @@
-class Callbacks {
+class CallbacksDemo {
   private start: HTMLElement;
 
   private change: HTMLElement;
@@ -31,4 +31,4 @@ class Callbacks {
   }
 }
 
-export default Callbacks;
+export default CallbacksDemo;

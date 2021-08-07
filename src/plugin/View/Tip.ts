@@ -7,7 +7,7 @@ class Tip {
 
   private isVertical: boolean;
 
-  constructor(slider: HTMLElement, tipSide: string) {
+  constructor(slider: HTMLElement, tipSide: 'right' | 'left') {
     this.slider = slider;
     this.init(tipSide);
   }
@@ -81,9 +81,9 @@ class Tip {
     }
   }
 
-  private init(tipSide: string) {
+  private init(tipSide: 'right' | 'left') {
     this.tip = document.createElement('div');
-    this.tip.className = `slider__tip slider__${tipSide}`;
+    this.tip.className = `slider__tip slider__tip_pos_${tipSide}`;
     this.slider.append(this.tip);
   }
 }

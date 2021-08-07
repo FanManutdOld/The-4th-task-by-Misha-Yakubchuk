@@ -1,27 +1,27 @@
 import IConfig from '../IConfig';
 import Scale from './Scale';
-import MinMax from './minMax';
+import Limits from './Limits';
 
 class Track {
   private track: HTMLElement;
 
   private scale: Scale;
 
-  private minMax: MinMax;
+  private limits: Limits;
 
   constructor(slider: HTMLElement) {
     this.init(slider);
   }
 
   public update(config: IConfig, halfWidthRunnerR: number, halfWidthRunnerL?: number) {
-    const { min, max, hasMinMax } = config;
+    const { min, max, hasLimits } = config;
     this.scale.update(config, halfWidthRunnerR, halfWidthRunnerL);
-    this.minMax.update(hasMinMax, min, max, halfWidthRunnerR, halfWidthRunnerL);
+    this.limits.update(hasLimits, min, max, halfWidthRunnerR, halfWidthRunnerL);
   }
 
   public setOrientation(isVertical: boolean) {
     this.scale.setOrientation(isVertical);
-    this.minMax.setOrientation(isVertical);
+    this.limits.setOrientation(isVertical);
   }
 
   private init(slider: HTMLElement) {
@@ -29,7 +29,7 @@ class Track {
     this.track.className = 'slider__track';
     slider.append(this.track);
     this.scale = new Scale(slider);
-    this.minMax = new MinMax(slider);
+    this.limits = new Limits(slider);
   }
 }
 
