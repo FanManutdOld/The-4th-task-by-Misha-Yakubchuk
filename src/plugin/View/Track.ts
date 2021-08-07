@@ -13,10 +13,10 @@ class Track {
     this.init(slider);
   }
 
-  public update(config: IConfig, halfWidthRunnerR: number, halfWidthRunnerL?: number) {
+  public update(config: IConfig, halfWidthRunnerRight: number, halfWidthRunnerLeft?: number) {
     const { min, max, hasLimits } = config;
-    this.scale.update(config, halfWidthRunnerR, halfWidthRunnerL);
-    this.limits.update(hasLimits, min, max, halfWidthRunnerR, halfWidthRunnerL);
+    this.scale.update(config, halfWidthRunnerRight, halfWidthRunnerLeft);
+    this.limits.update(hasLimits, min, max, halfWidthRunnerRight, halfWidthRunnerLeft);
   }
 
   public setOrientation(isVertical: boolean) {

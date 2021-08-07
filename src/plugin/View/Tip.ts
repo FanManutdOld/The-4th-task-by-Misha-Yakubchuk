@@ -39,20 +39,20 @@ class Tip {
     }
   }
 
-  public isConnected(rectL: DOMRect): boolean {
-    const rectR = this.tip.getBoundingClientRect();
+  public isConnected(rectLeft: DOMRect): boolean {
+    const rectRight = this.tip.getBoundingClientRect();
     if (this.isVertical) {
-      return (rectR.bottom >= rectL.top);
+      return (rectRight.bottom >= rectLeft.top);
     }
-    return (rectL.right >= rectR.left + 1);
+    return (rectLeft.right >= rectRight.left + 1);
   }
 
-  public isDisconnected(rectL: DOMRect): boolean {
-    const rectR = this.tip.getBoundingClientRect();
+  public isDisconnected(rectLeft: DOMRect): boolean {
+    const rectRight = this.tip.getBoundingClientRect();
     if (this.isVertical) {
-      return (rectR.bottom <= rectL.top + this.halfWidth - 1);
+      return (rectRight.bottom <= rectLeft.top + this.halfWidth - 1);
     }
-    return (rectL.right <= rectR.left + this.halfWidth);
+    return (rectLeft.right <= rectRight.left + this.halfWidth);
   }
 
   public updateVisibility(isVisible: boolean) {

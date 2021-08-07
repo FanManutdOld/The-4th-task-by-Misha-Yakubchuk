@@ -55,20 +55,20 @@ class View extends Observer {
       current,
       hasTips,
     } = this.config;
-    const isUpdateR: boolean = current === CurrentRunner.TO || isInit;
-    const isUpdateL: boolean = (current === CurrentRunner.FROM || isInit) && isDouble;
+    const isUpdateRight: boolean = current === CurrentRunner.TO || isInit;
+    const isUpdateLeft: boolean = (current === CurrentRunner.FROM || isInit) && isDouble;
     const isCheckTips: boolean = isDouble && hasTips;
 
     if (isInit) {
       this.rebuild();
     }
-    if (isUpdateR) {
+    if (isUpdateRight) {
       const newPos = (this.rightEdge * (to - min)) / (max - min);
-      this.updateR(newPos);
+      this.updateRight(newPos);
     }
-    if (isUpdateL) {
+    if (isUpdateLeft) {
       const newPos = (this.rightEdge * (from - min)) / (max - min);
-      this.updateL(newPos);
+      this.updateLeft(newPos);
     }
     if (isCheckTips) {
       this.checkConnectionTips();
@@ -101,7 +101,7 @@ class View extends Observer {
     }
   }
 
-  private updateR(newPos: number) {
+  private updateRight(newPos: number) {
     this.runnerRight.setPos(newPos);
     this.bar.setRight(newPos, this.runnerRight.halfWidth);
     if (this.connectedTips) {
@@ -111,7 +111,7 @@ class View extends Observer {
     }
   }
 
-  private updateL(newPos: number) {
+  private updateLeft(newPos: number) {
     this.runnerLeft.setPos(newPos);
     this.bar.setLeft(newPos, this.runnerLeft.halfWidth);
     if (this.connectedTips) {
@@ -134,7 +134,7 @@ class View extends Observer {
         this.runnerLeft.updateTipVisibility(true);
         const { to, min, max } = this.config;
         const newPos = (this.rightEdge * (to - min)) / (max - min);
-        this.updateR(newPos);
+        this.updateRight(newPos);
       }
     }
   }

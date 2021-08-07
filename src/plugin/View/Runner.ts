@@ -28,12 +28,12 @@ class Runner {
     return this.tip.getRect();
   }
 
-  public isConnectedTips(rectTipL: DOMRect) {
-    return this.tip.isConnected(rectTipL);
+  public isConnectedTips(rectTipLeft: DOMRect) {
+    return this.tip.isConnected(rectTipLeft);
   }
 
-  public isDisconnectedTips(rectTipL: DOMRect) {
-    return this.tip.isDisconnected(rectTipL);
+  public isDisconnectedTips(rectTipLeft: DOMRect) {
+    return this.tip.isDisconnected(rectTipLeft);
   }
 
   public updateTip(pos: number, value: number | string, isUnited?: boolean) {
