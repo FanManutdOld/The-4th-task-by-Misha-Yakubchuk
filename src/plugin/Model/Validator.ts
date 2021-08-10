@@ -1,4 +1,5 @@
 import IConfig from '../IConfig';
+import CurrentRunner from '../ECurrentRunner';
 
 function validateMinMax(min: number, max: number): number {
   const isWrongType = typeof min !== 'number' || typeof max !== 'number';
@@ -173,6 +174,29 @@ function validateScin(scin: string): string {
   return checkedScin;
 }
 
+function validateNewValue(config: IConfig, newValue: number): number {
+  const {
+    min,
+    max,
+    from,
+    to,
+    isDouble,
+    current,
+  } = config;
+  let checkedValue: number;
+
+  if (current === CurrentRunner.TO) {
+    const leftEdge = isDouble ? from : min;
+    checkedValue = (newValue > max)
+      ? max : (newValue < leftEdge)
+        ? leftEdge : newValue;
+  } else {
+    checkedValue = (newValue > to) ? to : newValue;
+  }
+
+  return checkedValue;
+}
+
 function validateAll(config: IConfig): IConfig {
   const {
     min,
@@ -204,6 +228,7 @@ function validateAll(config: IConfig): IConfig {
 
 export {
   validateAll,
+  validateNewValue,
   validateFromTo,
   validatehasLimits,
   validateHasScale,

@@ -1,7 +1,7 @@
 import IConfig from '../IConfig';
 import CurrentRunner from '../ECurrentRunner';
 import Observer from '../Observer/Observer';
-import { validateAll } from './Validator';
+import { validateAll, validateNewValue } from './Validator';
 
 class Model extends Observer {
   private config: IConfig = {
@@ -78,7 +78,7 @@ class Model extends Observer {
   public setValueFromView(value: number) {
     const { current } = this.config;
 
-    this.config[current] = this.checkNewValue(value);
+    this.config[current] = validateNewValue(this.config, value);
     this.notify('changeValue');
     this.callOnChange();
   }
@@ -91,42 +91,21 @@ class Model extends Observer {
       current,
     } = this.config;
 
-    let newValue = (max - min) * position + min;
-    newValue = (newValue >= max)
-      ? max : (newValue <= min)
-        ? min : Math.round((newValue - min) / step) * step + min;
-
-    if (this.isFractional) {
-      newValue = this.roundFractional(newValue, this.numOfSymbols);
+    const newValue = (max - min) * position + min;
+    if (newValue >= max) {
+      this.config[current] = max;
+    } else if (newValue <= min) {
+      this.config[current] = min;
+    } else {
+      let roundedValue = Math.round((newValue - min) / step) * step + min;
+      if (this.isFractional) {
+        roundedValue = this.roundFractional(roundedValue, this.numOfSymbols);
+      }
+      this.config[current] = validateNewValue(this.config, roundedValue);
     }
-
-    this.config[current] = this.checkNewValue(newValue);
 
     this.notify('changeValue');
     this.callOnChange();
-  }
-
-  private checkNewValue(newValue: number): number {
-    const {
-      min,
-      max,
-      from,
-      to,
-      isDouble,
-      current,
-    } = this.config;
-    let checkedValue: number;
-
-    if (current === CurrentRunner.TO) {
-      const leftEdge = isDouble ? from : min;
-      checkedValue = (newValue > max)
-        ? max : (newValue < leftEdge)
-          ? leftEdge : newValue;
-    } else {
-      checkedValue = (newValue > to) ? to : newValue;
-    }
-
-    return checkedValue;
   }
 
   private setStep() {
