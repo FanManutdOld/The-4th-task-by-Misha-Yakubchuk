@@ -2,7 +2,7 @@ import {
   validateFromTo, validatehasLimits, validateHasScale,
   validateHasTips, validateIsDouble, validateIsVertical,
   validateMinMax, validateScaleLimit, validateScin, validateStep,
-} from './Validator';
+} from './validators';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'jest-extended';
 import CurrentRunner from '../ECurrentRunner';

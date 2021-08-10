@@ -1,7 +1,7 @@
 import IConfig from '../IConfig';
 import CurrentRunner from '../ECurrentRunner';
 import Observer from '../Observer/Observer';
-import { validateAll, validateNewValue } from './Validator';
+import { validateAll, validateNewValue } from './validators';
 
 class Model extends Observer {
   private config: IConfig = {
