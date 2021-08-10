@@ -3,7 +3,9 @@
 .more-sliders {
   margin: 0 auto;
   max-width: 1920px;
-  &__flex {
+  display: flex;
+  justify-content: space-evenly;
+  &__vertical-sliders {
     display: flex;
     justify-content: space-evenly;
   }
@@ -22,18 +24,18 @@
     font-weight: bold;
     text-transform: uppercase;
   }
-  &__plugin {
+  &__slider {
     margin-bottom: 100px;
     height: 50px;
     &:last-child {
       margin-bottom: 0;
     }
-  }
-  &__plugin6 {
-    margin-top: 10px;
-  }
-  &__ver {
-    height: 320px;
-    width: 50px;
+    &_vertical {
+      height: 320px;
+      width: 50px;
+    }
+    &_with-margin {
+      margin-top: 10px;
+    }
   }
 }
