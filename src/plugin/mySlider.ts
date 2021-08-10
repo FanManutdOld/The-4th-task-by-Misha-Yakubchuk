@@ -42,7 +42,8 @@ import Presenter from './Presenter/Presenter';
     private init(parent: HTMLElement, userConfig) {
       this.model = new Model(userConfig);
       const view = new View(parent);
-      new Presenter(this.model, view);
+      const config = this.model.getConfig();
+      new Presenter(this.model, view, config);
     }
   }
 

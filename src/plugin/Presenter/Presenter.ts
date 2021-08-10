@@ -1,15 +1,16 @@
 import Model from '../Model/Model';
 import View from '../View/MainView';
+import IConfig from '../IConfig';
 
 class Presenter {
   private model: Model;
 
   private view: View;
 
-  constructor(model: Model, view: View) {
+  constructor(model: Model, view: View, config: IConfig) {
     this.model = model;
     this.view = view;
-    this.view.initView(this.model.getConfig());
+    this.view.initView(config);
     this.addListeners();
   }
 
