@@ -1,5 +1,4 @@
-import IConfig from '../IConfig';
-import CurrentRunner from '../ECurrentRunner';
+import { MySliderConfig, CurrentRunner } from '../types';
 import Scale from './Scale';
 
 describe('Scale class', () => {
@@ -9,7 +8,7 @@ describe('Scale class', () => {
   Object.defineProperty(parent, 'offsetWidth', { value: 650 });
   Object.defineProperty(parent, 'offsetHeight', { value: 277 });
   const scale = new Scale(parent);
-  const config: IConfig = {
+  const config: MySliderConfig = {
     min: 0,
     max: 1000,
     from: 400,

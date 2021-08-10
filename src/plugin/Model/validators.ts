@@ -1,5 +1,4 @@
-import IConfig from '../IConfig';
-import CurrentRunner from '../ECurrentRunner';
+import { MySliderConfig, CurrentRunner } from '../types';
 
 function validateMinMax(min: number, max: number): number {
   const isWrongType = typeof min !== 'number' || typeof max !== 'number';
@@ -47,7 +46,7 @@ function validateStep(min: number, max: number, step: number): number {
   return checkedStep;
 }
 
-function validateFromTo(config: IConfig): [number, number] {
+function validateFromTo(config: MySliderConfig): [number, number] {
   const {
     min,
     max,
@@ -123,7 +122,7 @@ function validateHasScale(hasScale: boolean): boolean {
   return checkedHasScale;
 }
 
-function validateScaleLimit(config: IConfig): number {
+function validateScaleLimit(config: MySliderConfig): number {
   const {
     min,
     max,
@@ -174,7 +173,7 @@ function validateScin(scin: string): string {
   return checkedScin;
 }
 
-function validateNewValue(config: IConfig, newValue: number): number {
+function validateNewValue(config: MySliderConfig, newValue: number): number {
   const {
     min,
     max,
@@ -197,7 +196,7 @@ function validateNewValue(config: IConfig, newValue: number): number {
   return checkedValue;
 }
 
-function validateAll(config: IConfig): IConfig {
+function validateAll(config: MySliderConfig): MySliderConfig {
   const {
     min,
     max,

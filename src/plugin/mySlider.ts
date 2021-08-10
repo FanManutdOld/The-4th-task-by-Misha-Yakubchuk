@@ -1,5 +1,4 @@
 /* eslint-disable func-names */
-import './jQueryInterface';
 import Model from './Model/Model';
 import View from './View/MainView';
 import Presenter from './Presenter/Presenter';

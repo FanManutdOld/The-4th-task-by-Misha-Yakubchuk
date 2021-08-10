@@ -1,5 +1,5 @@
 import Model from './Model';
-import CurrentRunner from '../ECurrentRunner';
+import { CurrentRunner } from '../types';
 
 describe('Model class', () => {
   let model: Model;

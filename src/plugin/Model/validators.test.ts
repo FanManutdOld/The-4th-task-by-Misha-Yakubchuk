@@ -5,7 +5,7 @@ import {
 } from './validators';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'jest-extended';
-import CurrentRunner from '../ECurrentRunner';
+import { CurrentRunner } from '../types';
 
 describe('Validator class', () => {
   beforeEach(() => {

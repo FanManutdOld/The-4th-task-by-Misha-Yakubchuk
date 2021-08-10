@@ -1,12 +1,11 @@
-import IConfig from '../IConfig';
+import { MySliderConfig, CurrentRunner } from '../types';
 import Track from './Track';
 import Bar from './Bar';
 import Runner from './Runner';
 import Observer from '../Observer/Observer';
-import CurrentRunner from '../ECurrentRunner';
 
 class View extends Observer {
-  private config: IConfig;
+  private config: MySliderConfig;
 
   private slider: HTMLElement;
 
@@ -32,7 +31,7 @@ class View extends Observer {
     parent.append(this.slider);
   }
 
-  public initView(config: IConfig) {
+  public initView(config: MySliderConfig) {
     this.track = new Track(this.slider);
     this.bar = new Bar(this.slider);
     this.runnerRight = new Runner(this.slider, 'right');
@@ -44,7 +43,7 @@ class View extends Observer {
     window.addEventListener('resize', this.handleWindowResize);
   }
 
-  public updateView(config: IConfig, isInit?: boolean) {
+  public updateView(config: MySliderConfig, isInit?: boolean) {
     this.config = config;
     const {
       min,

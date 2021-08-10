@@ -1,10 +1,9 @@
-import IConfig from '../IConfig';
-import CurrentRunner from '../ECurrentRunner';
+import { MySliderConfig, CurrentRunner } from '../types';
 import Observer from '../Observer/Observer';
 import { validateAll, validateNewValue } from './validators';
 
 class Model extends Observer {
-  private config: IConfig = {
+  private config: MySliderConfig = {
     min: 0,
     max: 1000,
     from: 400,
@@ -24,7 +23,7 @@ class Model extends Observer {
 
   private numOfSymbols: number; // после запятой
 
-  constructor(userConfig: any) {
+  constructor(userConfig: MySliderConfig) {
     super();
 
     this.updateConfig(userConfig);
@@ -32,7 +31,7 @@ class Model extends Observer {
     this.setStep();
   }
 
-  public update(userConfig: any) {
+  public update(userConfig: MySliderConfig) {
     this.updateConfig(userConfig);
     this.config = validateAll(this.config);
     this.setStep();
@@ -40,7 +39,7 @@ class Model extends Observer {
     this.callOnChange();
   }
 
-  public getConfig(): IConfig {
+  public getConfig(): MySliderConfig {
     return this.config;
   }
 
@@ -133,7 +132,7 @@ class Model extends Observer {
     this.config.step = this.roundFractional(10 ** (-this.numOfSymbols), this.numOfSymbols);
   }
 
-  private updateConfig(newConfig: any) {
+  private updateConfig(newConfig: MySliderConfig) {
     Object.entries(newConfig).forEach(([key, value]) => {
       const isInvalid = !(key in this.config) && typeof value !== 'function';
       if (isInvalid) {

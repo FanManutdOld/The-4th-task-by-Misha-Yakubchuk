@@ -1,18 +1,18 @@
 import '../../../plugin/mySlider';
-import '../../../plugin/jQueryInterface';
+import { MySliderConfig } from '../../../plugin/types';
 
 class SliderExample {
   public isDataAttrIsVertical: boolean;
 
   private exampleSlider: HTMLElement
 
-  private $sliderAPI: JQuery;
+  private $sliderAPI: MySliderAPI;
 
   constructor(parent: HTMLElement) {
     this.init(parent);
   }
 
-  public addSlider(userConfig?: any) {
+  public addSlider(userConfig?: MySliderConfig) {
     this.$sliderAPI = $(this.exampleSlider).mySlider(userConfig).data('mySlider');
   }
 

@@ -1,4 +1,4 @@
-import IConfig from '../IConfig';
+import { MySliderConfig } from '../types';
 import Scale from './Scale';
 import Limits from './Limits';
 
@@ -13,7 +13,8 @@ class Track {
     this.init(slider);
   }
 
-  public update(config: IConfig, halfWidthRunnerRight: number, halfWidthRunnerLeft?: number) {
+  // eslint-disable-next-line max-len
+  public update(config: MySliderConfig, halfWidthRunnerRight: number, halfWidthRunnerLeft?: number) {
     const { min, max, hasLimits } = config;
     this.scale.update(config, halfWidthRunnerRight, halfWidthRunnerLeft);
     this.limits.update(hasLimits, min, max, halfWidthRunnerRight, halfWidthRunnerLeft);

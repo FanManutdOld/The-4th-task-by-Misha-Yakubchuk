@@ -1,4 +1,4 @@
-import IConfig from '../IConfig';
+import { MySliderConfig } from '../types';
 
 class Scale {
   private slider: HTMLElement;
@@ -12,7 +12,7 @@ class Scale {
     this.init();
   }
 
-  public update(config: IConfig, rightEdge: number, leftEdge = rightEdge) {
+  public update(config: MySliderConfig, rightEdge: number, leftEdge = rightEdge) {
     if (config.hasScale) {
       this.scale.classList.remove('slider__scale_hidden');
       if (this.isVertical) {
@@ -42,7 +42,7 @@ class Scale {
     this.slider.append(this.scale);
   }
 
-  private drawScale(config: IConfig) {
+  private drawScale(config: MySliderConfig) {
     this.scale.innerHTML = '';
     const {
       min,

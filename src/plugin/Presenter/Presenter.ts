@@ -1,13 +1,13 @@
 import Model from '../Model/Model';
 import View from '../View/MainView';
-import IConfig from '../IConfig';
+import { MySliderConfig } from '../types';
 
 class Presenter {
   private model: Model;
 
   private view: View;
 
-  constructor(model: Model, view: View, config: IConfig) {
+  constructor(model: Model, view: View, config: MySliderConfig) {
     this.model = model;
     this.view = view;
     this.view.initView(config);

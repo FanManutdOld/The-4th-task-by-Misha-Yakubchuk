@@ -1,6 +1,5 @@
 import MainView from './MainView';
-import IConfig from '../IConfig';
-import CurrentRunner from '../ECurrentRunner';
+import { MySliderConfig, CurrentRunner } from '../types';
 
 describe('MainView class', () => {
   let mainView: MainView;
@@ -14,7 +13,7 @@ describe('MainView class', () => {
   let tipLeft: HTMLElement;
   let min: HTMLElement;
   let max: HTMLElement;
-  let config: IConfig;
+  let config: MySliderConfig;
 
   beforeEach(() => {
     jest.spyOn(console, 'warn').mockImplementation(() => { });

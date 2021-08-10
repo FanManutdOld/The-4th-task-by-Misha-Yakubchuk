@@ -3,6 +3,7 @@ import TextInput from '../text-input/text-input';
 import Checkbox from '../checkbox/checkbox';
 import Select from '../select/select';
 import CallbacksDemo from '../callbacks-demo/callbacks-demo';
+import { MySliderConfig } from '../../../plugin/types';
 
 class DemoSlider {
   private sliderExample: SliderExample;
@@ -17,12 +18,12 @@ class DemoSlider {
 
   private parent: HTMLElement;
 
-  constructor(parent: HTMLElement, userConfig?: any) {
+  constructor(parent: HTMLElement, userConfig?: MySliderConfig) {
     this.parent = parent;
     this.init(userConfig);
   }
 
-  private init(userConfig?: any) {
+  private init(userConfig?: MySliderConfig) {
     const callbacksParent: HTMLElement = this.parent.querySelector('.js-demo-slider__callbacks-demo');
     const sliderParent: HTMLElement = this.parent.querySelector('.js-demo-slider__slider-example');
     const HTMLTextInputs = this.parent.querySelectorAll('.js-demo-slider__text-input');

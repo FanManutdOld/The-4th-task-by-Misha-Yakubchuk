@@ -1,4 +1,3 @@
-import '../plugin/jQueryInterface';
 import '../plugin/mySlider';
 
 $(document).ready(() => {
