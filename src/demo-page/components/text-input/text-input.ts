@@ -1,4 +1,4 @@
-import Observer from '../observer/Observer';
+import Observer from '../../observer/Observer';
 
 class TextInput extends Observer {
   private input: HTMLInputElement;
