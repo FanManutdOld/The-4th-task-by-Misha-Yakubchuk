@@ -1,4 +1,5 @@
 import Observer from '../../../Observer/Observer';
+import { MySliderConfig } from '../../../plugin/types';
 
 class Select extends Observer {
   private select: HTMLSelectElement;
@@ -10,7 +11,7 @@ class Select extends Observer {
     this.init(parent);
   }
 
-  public updateSelect(data) {
+  public updateSelect(data: MySliderConfig) {
     this.select.value = data[this.name];
   }
 

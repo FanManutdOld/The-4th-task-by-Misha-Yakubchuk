@@ -89,7 +89,7 @@ class DemoSlider {
       }
     }
 
-    this.sliderExample.updateSlider(name, value);
+    this.sliderExample.updateSlider({ [name]: value });
   }
 
   private updateDemo() {

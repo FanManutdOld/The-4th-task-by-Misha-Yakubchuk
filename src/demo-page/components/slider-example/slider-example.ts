@@ -16,8 +16,8 @@ class SliderExample {
     this.sliderAPI = $(this.exampleSlider).mySlider(userConfig).data('mySlider');
   }
 
-  public updateSlider(name, value) {
-    this.sliderAPI.update({ [name]: value });
+  public updateSlider(config: MySliderConfig) {
+    this.sliderAPI.update(config);
   }
 
   public getSliderData() {

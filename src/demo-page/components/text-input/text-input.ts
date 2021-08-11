@@ -1,4 +1,5 @@
 import Observer from '../../../Observer/Observer';
+import { MySliderConfig } from '../../../plugin/types';
 
 class TextInput extends Observer {
   private input: HTMLInputElement;
@@ -10,12 +11,12 @@ class TextInput extends Observer {
     this.init(parent);
   }
 
-  public updateInput(data) {
+  public updateInput(data: MySliderConfig) {
     this.input.value = data[this.name];
 
     const isFromTo = this.name === 'from' || this.name === 'to';
     if (isFromTo) {
-      this.input.step = data.step;
+      this.input.step = data.step.toString();
     }
   }
 

@@ -2,18 +2,19 @@
 import Model from './Model/Model';
 import View from './View/MainView';
 import Presenter from './Presenter/Presenter';
+import { MySliderConfig } from './types';
 
 (function ($) {
   class MySlider {
     model: Model;
 
-    constructor(parent: HTMLElement, userConfig) {
+    constructor(parent: HTMLElement, userConfig: MySliderConfig) {
       const dataConfig = this.getConfigFromData(parent);
       const resultConfig = $.extend(dataConfig, userConfig);
       this.init(parent, resultConfig);
     }
 
-    public update(newConfig) {
+    public update(newConfig: MySliderConfig) {
       this.model.update(newConfig);
     }
 
@@ -38,7 +39,7 @@ import Presenter from './Presenter/Presenter';
       };
     }
 
-    private init(parent: HTMLElement, userConfig) {
+    private init(parent: HTMLElement, userConfig: MySliderConfig) {
       this.model = new Model(userConfig);
       const config = this.model.getConfig();
       const view = new View(parent, config);

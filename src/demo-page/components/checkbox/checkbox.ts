@@ -1,4 +1,5 @@
 import Observer from '../../../Observer/Observer';
+import { MySliderConfig } from '../../../plugin/types';
 
 class Checkbox extends Observer {
   private checkbox: HTMLInputElement;
@@ -10,7 +11,7 @@ class Checkbox extends Observer {
     this.init(parent);
   }
 
-  public updateCheckbox(data) {
+  public updateCheckbox(data: MySliderConfig) {
     this.checkbox.checked = data[this.name];
   }
 
