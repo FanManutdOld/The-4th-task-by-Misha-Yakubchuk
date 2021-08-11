@@ -6,22 +6,22 @@ class SliderExample {
 
   private exampleSlider: HTMLElement
 
-  private $sliderAPI: MySliderAPI;
+  private sliderAPI: MySliderAPI;
 
   constructor(parent: HTMLElement) {
     this.init(parent);
   }
 
   public addSlider(userConfig?: MySliderConfig) {
-    this.$sliderAPI = $(this.exampleSlider).mySlider(userConfig).data('mySlider');
+    this.sliderAPI = $(this.exampleSlider).mySlider(userConfig).data('mySlider');
   }
 
   public updateSlider(name, value) {
-    this.$sliderAPI.update({ [name]: value });
+    this.sliderAPI.update({ [name]: value });
   }
 
   public getSliderData() {
-    return this.$sliderAPI.getData();
+    return this.sliderAPI.getData();
   }
 
   private init(parent: HTMLElement) {
