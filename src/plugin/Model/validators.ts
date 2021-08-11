@@ -13,13 +13,12 @@ function validateMinMax(min: number, max: number): number {
 }
 
 function validateIsDouble(isDouble: boolean): boolean {
-  let checkedIsDouble = isDouble;
   if (typeof isDouble !== 'boolean') {
     console.warn('isDouble must be boolean');
-    checkedIsDouble = false;
+    return false;
   }
 
-  return checkedIsDouble;
+  return isDouble;
 }
 
 function validateStep(min: number, max: number, step: number): number {
@@ -32,18 +31,17 @@ function validateStep(min: number, max: number, step: number): number {
     return NaN;
   }
 
-  let checkedStep = step;
   if (step > Math.abs(min) + Math.abs(max)) {
     console.warn('step too big');
-    checkedStep = Math.min(Math.abs(min), Math.abs(max));
+    return Math.min(Math.abs(min), Math.abs(max));
   }
 
   if (step < 0) {
     console.warn('step must be equal or greater than 0');
-    checkedStep = 0;
+    return 0;
   }
 
-  return checkedStep;
+  return step;
 }
 
 function validateFromTo(config: MySliderConfig): [number, number] {
@@ -57,69 +55,62 @@ function validateFromTo(config: MySliderConfig): [number, number] {
 
   const isWrongType = typeof from !== 'number' || typeof to !== 'number';
 
-  let checkedFrom = from; let checkedTo = to;
   if (isWrongType) {
     console.warn('from and to must be a number');
-    checkedFrom = min;
-    checkedTo = max;
-    return [checkedFrom, checkedTo];
+    return [min, max];
   }
 
   if (isDouble) {
-    checkedTo = (to > max)
+    const checkedTo = (to > max)
       ? max : (to < min)
         ? min : to;
-    checkedFrom = (from < min)
+    let checkedFrom = (from < min)
       ? min : (from > max)
         ? max : from;
     checkedFrom = (checkedFrom > checkedTo) ? min : checkedFrom;
-  } else {
-    checkedTo = (to > max)
-      ? max : (to < min)
-        ? min : to;
+    return [checkedFrom, checkedTo];
   }
 
-  return [checkedFrom, checkedTo];
+  const checkedTo = (to > max)
+    ? max : (to < min)
+      ? min : to;
+  return [from, checkedTo];
 }
 
 function validateHasTips(hasTips: boolean): boolean {
-  let checkedHasTips = hasTips;
   if (typeof hasTips !== 'boolean') {
     console.warn('hasTips must be boolean');
-    checkedHasTips = true;
+    return true;
   }
 
-  return checkedHasTips;
+  return hasTips;
 }
 
 function validateHasLimits(hasLimits: boolean): boolean {
-  let checkedHasLimits = hasLimits;
   if (typeof hasLimits !== 'boolean') {
     console.warn('hasLimits must be boolean');
-    checkedHasLimits = false;
+    return false;
   }
 
-  return checkedHasLimits;
+  return hasLimits;
 }
 
 function validateIsVertical(isVertical: boolean): boolean {
-  let checkedIsVertical = isVertical;
   if (typeof isVertical !== 'boolean') {
     console.warn('isVertical must be boolean');
-    checkedIsVertical = false;
+    return false;
   }
 
-  return checkedIsVertical;
+  return isVertical;
 }
 
 function validateHasScale(hasScale: boolean): boolean {
-  let checkedHasScale = hasScale;
   if (typeof hasScale !== 'boolean') {
     console.warn('hasScale must be boolean');
-    checkedHasScale = false;
+    return false;
   }
 
-  return checkedHasScale;
+  return hasScale;
 }
 
 function validateScaleLimit(config: MySliderConfig): number {
@@ -127,30 +118,29 @@ function validateScaleLimit(config: MySliderConfig): number {
     min,
     max,
     step,
+    scaleLimit,
   } = config;
-
-  let { scaleLimit } = config;
 
   if (typeof scaleLimit !== 'number') {
     console.warn('scaleLimit must be a number');
-    scaleLimit = 4;
-  }
-
-  if (scaleLimit > 50) {
-    console.warn('scaleLimit too big');
-    scaleLimit = 50;
+    return 4;
   }
 
   const maxNumberOfValues = Math.ceil((max - min) / step);
 
   if (scaleLimit > maxNumberOfValues) {
     console.warn('scaleLimit must be equal or less than (max - min) / step');
-    scaleLimit = maxNumberOfValues;
+    return maxNumberOfValues;
   }
 
   if (scaleLimit < 1) {
     console.warn('scaleLimit must be equal or greater than 1');
-    scaleLimit = 1;
+    return 1;
+  }
+
+  if (scaleLimit > 50) {
+    console.warn('scaleLimit too big');
+    return 50;
   }
 
   return scaleLimit;
@@ -164,13 +154,12 @@ function validateSkin(skin: string): string {
 
   const isWrong = skin !== 'orange' && skin !== 'darkcongo' && skin !== 'whitered' && skin !== 'azure' && skin !== 'indigo';
 
-  let checkedSkin = skin;
   if (isWrong) {
     console.warn('skin invalid');
-    checkedSkin = 'orange';
+    return 'orange';
   }
 
-  return checkedSkin;
+  return skin;
 }
 
 function validateNewValue(config: MySliderConfig, newValue: number): number {
@@ -182,18 +171,14 @@ function validateNewValue(config: MySliderConfig, newValue: number): number {
     isDouble,
     current,
   } = config;
-  let checkedValue: number;
 
   if (current === CurrentRunner.TO) {
     const leftEdge = isDouble ? from : min;
-    checkedValue = (newValue > max)
+    return (newValue > max)
       ? max : (newValue < leftEdge)
         ? leftEdge : newValue;
-  } else {
-    checkedValue = (newValue > to) ? to : newValue;
   }
-
-  return checkedValue;
+  return (newValue > to) ? to : newValue;
 }
 
 function validateAll(config: MySliderConfig): MySliderConfig {

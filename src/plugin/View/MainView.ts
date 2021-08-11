@@ -181,15 +181,12 @@ class View extends Observer {
   }
 
   private calcShift(target: HTMLElement, posClick: number) {
-    let shift: number;
     if (target.classList.contains('slider__runner')) {
-      shift = this.config.isVertical
+      return this.config.isVertical
         ? target.getBoundingClientRect().bottom - posClick
         : posClick - target.getBoundingClientRect().left;
-    } else {
-      shift = this.getDefaultShift(posClick);
     }
-    return shift;
+    return this.getDefaultShift(posClick);
   }
 
   private getDefaultShift(posClick: number): number {

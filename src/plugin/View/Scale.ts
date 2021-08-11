@@ -126,14 +126,7 @@ class Scale {
     }
     const isFractional = step.toString().includes('.') || min.toString().includes('.') || max.toString().includes('.');
     if (isFractional) {
-      let numOfSymbols: number;
-      if (step.toString().includes('.')) {
-        numOfSymbols = step.toString().split('.').pop().length;
-      } else {
-        const minSymbols = min.toString().includes('.') ? min.toString().split('.').pop().length : 0;
-        const maxSymbols = max.toString().includes('.') ? max.toString().split('.').pop().length : 0;
-        numOfSymbols = Math.max(minSymbols, maxSymbols);
-      }
+      const numOfSymbols = this.getNumOfSymbols(min, max, step);
       const numPower = 10 ** numOfSymbols;
       value = Math.round(value * numPower) / numPower;
     }
@@ -144,6 +137,15 @@ class Scale {
     }
 
     return value;
+  }
+
+  private getNumOfSymbols(min: number, max: number, step: number): number {
+    if (step.toString().includes('.')) {
+      return step.toString().split('.').pop().length;
+    }
+    const minSymbols = min.toString().includes('.') ? min.toString().split('.').pop().length : 0;
+    const maxSymbols = max.toString().includes('.') ? max.toString().split('.').pop().length : 0;
+    return Math.max(minSymbols, maxSymbols);
   }
 
   private addValue(value: number, bigW: number) {

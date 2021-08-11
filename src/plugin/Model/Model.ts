@@ -96,15 +96,20 @@ class Model extends Observer {
     } else if (newValue <= min) {
       this.config[current] = min;
     } else {
-      let roundedValue = Math.round((newValue - min) / step) * step + min;
-      if (this.isFractional) {
-        roundedValue = this.roundFractional(roundedValue, this.numOfSymbols);
-      }
+      const roundedValue = this.getRoundedValue(newValue, min, step);
       this.config[current] = validateNewValue(this.config, roundedValue);
     }
 
     this.notify('changeValue');
     this.callOnChange();
+  }
+
+  private getRoundedValue(newValue: number, min: number, step: number): number {
+    const roundedValue = Math.round((newValue - min) / step) * step + min;
+    if (this.isFractional) {
+      return this.roundFractional(roundedValue, this.numOfSymbols);
+    }
+    return roundedValue;
   }
 
   private setStep() {
