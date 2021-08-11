@@ -92,14 +92,14 @@ function validateHasTips(hasTips: boolean): boolean {
   return checkedHasTips;
 }
 
-function validatehasLimits(hasLimits: boolean): boolean {
-  let checkedhasLimits = hasLimits;
+function validateHasLimits(hasLimits: boolean): boolean {
+  let checkedHasLimits = hasLimits;
   if (typeof hasLimits !== 'boolean') {
     console.warn('hasLimits must be boolean');
-    checkedhasLimits = false;
+    checkedHasLimits = false;
   }
 
-  return checkedhasLimits;
+  return checkedHasLimits;
 }
 
 function validateIsVertical(isVertical: boolean): boolean {
@@ -214,7 +214,7 @@ function validateAll(config: MySliderConfig): MySliderConfig {
   ValidatedConfig.max = validateMinMax(min, max);
   ValidatedConfig.isDouble = validateIsDouble(isDouble);
   ValidatedConfig.hasTips = validateHasTips(hasTips);
-  ValidatedConfig.hasLimits = validatehasLimits(hasLimits);
+  ValidatedConfig.hasLimits = validateHasLimits(hasLimits);
   ValidatedConfig.isVertical = validateIsVertical(isVertical);
   ValidatedConfig.hasScale = validateHasScale(hasScale);
   ValidatedConfig.scin = validateScin(scin);
@@ -229,7 +229,7 @@ export {
   validateAll,
   validateNewValue,
   validateFromTo,
-  validatehasLimits,
+  validateHasLimits,
   validateHasScale,
   validateHasTips,
   validateIsDouble,

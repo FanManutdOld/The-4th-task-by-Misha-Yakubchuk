@@ -1,5 +1,5 @@
 import {
-  validateFromTo, validatehasLimits, validateHasScale,
+  validateFromTo, validateHasLimits, validateHasScale,
   validateHasTips, validateIsDouble, validateIsVertical,
   validateMinMax, validateScaleLimit, validateScin, validateStep,
 } from './validators';
@@ -95,7 +95,7 @@ describe('Validator class', () => {
   describe('validate hasLimits', () => {
     test('hasLimits should be a boolean', () => {
       // @ts-expect-error
-      expect(validatehasLimits('true')).toBeBoolean();
+      expect(validateHasLimits('true')).toBeBoolean();
     });
   });
 
