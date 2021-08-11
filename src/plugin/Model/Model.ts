@@ -15,7 +15,7 @@ class Model extends Observer {
     hasScale: false,
     scaleLimit: 10,
     isVertical: false,
-    scin: 'orange',
+    skin: 'orange',
     current: CurrentRunner.TO,
   };
 

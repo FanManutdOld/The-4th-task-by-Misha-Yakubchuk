@@ -156,21 +156,21 @@ function validateScaleLimit(config: MySliderConfig): number {
   return scaleLimit;
 }
 
-function validateScin(scin: string): string {
-  if (typeof scin !== 'string') {
-    console.warn('scin must be a string');
+function validateSkin(skin: string): string {
+  if (typeof skin !== 'string') {
+    console.warn('skin must be a string');
     return 'orange';
   }
 
-  const isWrong = scin !== 'orange' && scin !== 'darkcongo' && scin !== 'whitered' && scin !== 'azure' && scin !== 'indigo';
+  const isWrong = skin !== 'orange' && skin !== 'darkcongo' && skin !== 'whitered' && skin !== 'azure' && skin !== 'indigo';
 
-  let checkedScin = scin;
+  let checkedSkin = skin;
   if (isWrong) {
-    console.warn('scin invalid');
-    checkedScin = 'orange';
+    console.warn('skin invalid');
+    checkedSkin = 'orange';
   }
 
-  return checkedScin;
+  return checkedSkin;
 }
 
 function validateNewValue(config: MySliderConfig, newValue: number): number {
@@ -206,7 +206,7 @@ function validateAll(config: MySliderConfig): MySliderConfig {
     hasLimits,
     isVertical,
     hasScale,
-    scin,
+    skin,
   } = config;
 
   const ValidatedConfig = { ...config };
@@ -217,7 +217,7 @@ function validateAll(config: MySliderConfig): MySliderConfig {
   ValidatedConfig.hasLimits = validateHasLimits(hasLimits);
   ValidatedConfig.isVertical = validateIsVertical(isVertical);
   ValidatedConfig.hasScale = validateHasScale(hasScale);
-  ValidatedConfig.scin = validateScin(scin);
+  ValidatedConfig.skin = validateSkin(skin);
   ValidatedConfig.step = validateStep(ValidatedConfig.min, ValidatedConfig.max, step);
   [ValidatedConfig.from, ValidatedConfig.to] = validateFromTo(ValidatedConfig);
   ValidatedConfig.scaleLimit = validateScaleLimit(ValidatedConfig);
@@ -236,6 +236,6 @@ export {
   validateIsVertical,
   validateMinMax,
   validateScaleLimit,
-  validateScin,
+  validateSkin,
   validateStep,
 };

@@ -39,7 +39,7 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
-    &_orient_ver {
+    &_orientation_vertical {
       flex-direction: row-reverse;
       justify-content: initial;
     }
@@ -49,7 +49,7 @@
   }
   &__slider-example {
     height: 150px;
-    &_orient_ver {
+    &_orientation_vertical {
       height: auto;
     }
   }

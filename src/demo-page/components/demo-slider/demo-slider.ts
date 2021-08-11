@@ -35,8 +35,8 @@ class DemoSlider {
       : this.sliderExample.isDataAttrIsVertical;
     if (isVertical) {
       const plugin = this.parent.querySelector('.js-demo-slider__plugin');
-      plugin.classList.add('demo-slider__plugin_orient_ver');
-      sliderParent.classList.add('demo-slider__slider-example_orient_ver');
+      plugin.classList.add('demo-slider__plugin_orientation_vertical');
+      sliderParent.classList.add('demo-slider__slider-example_orientation_vertical');
     }
 
     if (userConfig) {
@@ -81,11 +81,11 @@ class DemoSlider {
 
     if (name === 'isVertical') {
       if (value === true) {
-        plugin.classList.add('demo-slider__plugin_orient_ver');
-        sliderParent.classList.add('demo-slider__slider-example_orient_ver');
+        plugin.classList.add('demo-slider__plugin_orientation_vertical');
+        sliderParent.classList.add('demo-slider__slider-example_orientation_vertical');
       } else {
-        plugin.classList.remove('demo-slider__plugin_orient_ver');
-        sliderParent.classList.remove('demo-slider__slider-example_orient_ver');
+        plugin.classList.remove('demo-slider__plugin_orientation_vertical');
+        sliderParent.classList.remove('demo-slider__slider-example_orientation_vertical');
       }
     }
 

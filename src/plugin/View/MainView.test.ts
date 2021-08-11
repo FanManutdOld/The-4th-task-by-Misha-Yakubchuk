@@ -29,7 +29,7 @@ describe('MainView class', () => {
       hasScale: true,
       scaleLimit: 50,
       isVertical: false,
-      scin: 'orange',
+      skin: 'orange',
       current: CurrentRunner.TO,
     };
     parent = document.createElement('div');

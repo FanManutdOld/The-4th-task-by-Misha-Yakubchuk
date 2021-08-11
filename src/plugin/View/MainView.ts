@@ -265,11 +265,11 @@ class View extends Observer {
   }
 
   private updateOrientation() {
-    const { scin, isVertical, isDouble } = this.config;
+    const { skin, isVertical, isDouble } = this.config;
 
     this.slider.className = isVertical
-      ? `slider slider_scin_${scin} slider_orient_ver`
-      : `slider slider_scin_${scin} slider_orient_hor`;
+      ? `slider slider_skin_${skin} slider_orientation_vertical`
+      : `slider slider_skin_${skin} slider_orientation_horizontal`;
     this.bar.setOrientation(isVertical);
     this.track.setOrientation(isVertical);
     this.runnerRight.setOrientation(isVertical);

@@ -20,7 +20,7 @@ describe('Scale class', () => {
     hasLimits: true,
     hasScale: false,
     isVertical: false,
-    scin: 'orange',
+    skin: 'orange',
     current: CurrentRunner.TO,
   };
   describe('className', () => {

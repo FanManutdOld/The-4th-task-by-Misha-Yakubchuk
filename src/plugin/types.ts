@@ -26,7 +26,7 @@ type MySliderConfig = {
   hasScale?: boolean;
   scaleLimit?: number;
   isVertical?: boolean;
-  scin?: string;
+  skin?: string;
   current?: CurrentRunner;
   onStart?: (data: MySliderConfig) => void;
   onChange?: (data: MySliderConfig) => void;

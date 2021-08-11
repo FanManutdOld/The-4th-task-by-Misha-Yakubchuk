@@ -20,7 +20,7 @@ describe('Model class', () => {
         hasTips: true,
         hasLimits: false,
         isVertical: false,
-        scin: 'orange',
+        skin: 'orange',
         current: CurrentRunner.TO,
       };
       expect(model.getConfig()).toMatchObject(defaultConfig);

@@ -34,7 +34,7 @@ import Presenter from './Presenter/Presenter';
         isVertical: $(parent).data('isVertical'),
         hasScale: $(parent).data('hasScale'),
         scaleLimit: $(parent).data('scaleLimit'),
-        scin: $(parent).data('scin'),
+        skin: $(parent).data('skin'),
       };
     }
 

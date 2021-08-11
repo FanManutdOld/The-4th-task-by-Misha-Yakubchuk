@@ -1,7 +1,7 @@
 import {
   validateFromTo, validateHasLimits, validateHasScale,
   validateHasTips, validateIsDouble, validateIsVertical,
-  validateMinMax, validateScaleLimit, validateScin, validateStep,
+  validateMinMax, validateScaleLimit, validateSkin, validateStep,
 } from './validators';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'jest-extended';
@@ -123,7 +123,7 @@ describe('Validator class', () => {
       hasTips: false,
       hasScale: true,
       hasLimits: false,
-      scin: 'orange',
+      skin: 'orange',
       current: CurrentRunner.TO,
       isVertical: false,
       step: 1,
@@ -144,13 +144,13 @@ describe('Validator class', () => {
     });
   });
 
-  describe('validate scin', () => {
-    test('scin should be a string', () => {
+  describe('validate skin', () => {
+    test('skin should be a string', () => {
       // @ts-expect-error
-      expect(validateScin(10)).toBeString();
+      expect(validateSkin(10)).toBeString();
     });
-    test('scin should be an orange if not orange, darkcongo, whitered, azure or indigo', () => {
-      expect(validateScin('superscin')).toBe('orange');
+    test('skin should be an orange if not orange, darkcongo, whitered, azure or indigo', () => {
+      expect(validateSkin('superskin')).toBe('orange');
     });
   });
 });
