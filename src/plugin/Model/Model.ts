@@ -92,9 +92,9 @@ class Model extends Observer {
 
     const newValue = (max - min) * position + min;
     if (newValue >= max) {
-      this.config[current] = max;
+      this.config[current] = validateNewValue(this.config, max);
     } else if (newValue <= min) {
-      this.config[current] = min;
+      this.config[current] = validateNewValue(this.config, min);
     } else {
       const roundedValue = this.getRoundedValue(newValue, min, step);
       this.config[current] = validateNewValue(this.config, roundedValue);

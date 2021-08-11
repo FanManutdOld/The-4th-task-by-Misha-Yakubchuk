@@ -38,6 +38,7 @@ describe('Model class', () => {
       expect(model.getConfig()).toMatchObject(userConfig);
     });
     test('should throw invalid config property', () => {
+      // @ts-expect-error
       expect(() => { new Model({ mib: 200 }); }).toThrow('Invalid config property - mib');
     });
     test('should not set undefined property', () => {
@@ -165,7 +166,7 @@ describe('Model class', () => {
     test('should set left value to right value, if left value greater than right value in double slider', () => {
       model.update({ isDouble: true });
       model.setCurrent(0.3);
-      model.calcValue(0.8);
+      model.calcValue(1.8);
       expect(model.getConfig().from).toBe(model.getConfig().to);
     });
     test('should set right value to max, if right value greater than max after rounding', () => {
