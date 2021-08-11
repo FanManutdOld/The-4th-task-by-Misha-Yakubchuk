@@ -1,4 +1,4 @@
-import Observer from '../../observer/Observer';
+import Observer from '../../../Observer/Observer';
 
 class Select extends Observer {
   private select: HTMLSelectElement;

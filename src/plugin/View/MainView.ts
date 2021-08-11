@@ -2,7 +2,7 @@ import { MySliderConfig, CurrentRunner } from '../types';
 import Track from './Track';
 import Bar from './Bar';
 import Runner from './Runner';
-import Observer from '../Observer/Observer';
+import Observer from '../../Observer/Observer';
 
 class View extends Observer {
   private config: MySliderConfig;

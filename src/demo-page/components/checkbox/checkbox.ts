@@ -1,4 +1,4 @@
-import Observer from '../../observer/Observer';
+import Observer from '../../../Observer/Observer';
 
 class Checkbox extends Observer {
   private checkbox: HTMLInputElement;

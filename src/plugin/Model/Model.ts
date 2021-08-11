@@ -1,5 +1,5 @@
 import { MySliderConfig, CurrentRunner } from '../types';
-import Observer from '../Observer/Observer';
+import Observer from '../../Observer/Observer';
 import { validateAll, validateNewValue } from './validators';
 
 class Model extends Observer {
