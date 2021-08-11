@@ -23,20 +23,7 @@ import { MySliderConfig } from './types';
     }
 
     private getConfigFromData(parent: HTMLElement) {
-      return {
-        min: $(parent).data('min'),
-        max: $(parent).data('max'),
-        from: $(parent).data('from'),
-        to: $(parent).data('to'),
-        step: $(parent).data('step'),
-        isDouble: $(parent).data('isDouble'),
-        hasTips: $(parent).data('hasTips'),
-        hasLimits: $(parent).data('hasLimits'),
-        isVertical: $(parent).data('isVertical'),
-        hasScale: $(parent).data('hasScale'),
-        scaleLimit: $(parent).data('scaleLimit'),
-        skin: $(parent).data('skin'),
-      };
+      return $(parent).data();
     }
 
     private init(parent: HTMLElement, userConfig: MySliderConfig) {
