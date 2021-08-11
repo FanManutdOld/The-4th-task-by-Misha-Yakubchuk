@@ -25,22 +25,11 @@ class View extends Observer {
 
   private connectedTips: boolean;
 
-  constructor(parent: HTMLElement) {
+  constructor(parent: HTMLElement, config: MySliderConfig) {
     super();
     this.slider = document.createElement('div');
     parent.append(this.slider);
-  }
-
-  public initView(config: MySliderConfig) {
-    this.track = new Track(this.slider);
-    this.bar = new Bar(this.slider);
-    this.runnerRight = new Runner(this.slider, 'right');
-    this.runnerLeft = new Runner(this.slider, 'left');
-
-    this.updateView(config, true);
-    this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
-    this.slider.addEventListener('touchstart', this.handleSliderMouseDown, { passive: false });
-    window.addEventListener('resize', this.handleWindowResize);
+    this.initView(config);
   }
 
   public updateView(config: MySliderConfig, isInit?: boolean) {
@@ -80,6 +69,18 @@ class View extends Observer {
     } else {
       this.runnerRight.removeZIndex();
     }
+  }
+
+  private initView(config: MySliderConfig) {
+    this.track = new Track(this.slider);
+    this.bar = new Bar(this.slider);
+    this.runnerRight = new Runner(this.slider, 'right');
+    this.runnerLeft = new Runner(this.slider, 'left');
+
+    this.updateView(config, true);
+    this.slider.addEventListener('mousedown', this.handleSliderMouseDown);
+    this.slider.addEventListener('touchstart', this.handleSliderMouseDown, { passive: false });
+    window.addEventListener('resize', this.handleWindowResize);
   }
 
   private rebuild() {

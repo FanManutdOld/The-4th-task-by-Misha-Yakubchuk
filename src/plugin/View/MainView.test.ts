@@ -36,8 +36,7 @@ describe('MainView class', () => {
     (parent as HTMLElement).style.width = '650px';
     document.body.innerHTML = '';
     document.body.appendChild(parent);
-    mainView = new MainView(parent);
-    mainView.initView(config);
+    mainView = new MainView(parent, config);
     track = parent.querySelector('.slider__track');
     bar = parent.querySelector('.slider__bar');
     scale = parent.querySelector('.slider__scale');
@@ -49,7 +48,7 @@ describe('MainView class', () => {
     max = parent.querySelector('.slider__limit_max');
   });
 
-  describe('initView method', () => {
+  describe('create View', () => {
     test('should create HTML elements', () => {
       expect(track).toBeTruthy();
       expect(bar).toBeTruthy();
