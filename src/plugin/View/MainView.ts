@@ -19,9 +19,7 @@ class View extends Observer {
 
   private runnerLeft: Runner;
 
-  private refHandleDocumentMouseMove: EventListener;
-
-  private refHandleDocumentMouseUp: (event: MouseEvent | TouchEvent) => void;
+  private handleDocumentMouseMoveWithShift: EventListener;
 
   private connectedTips: boolean;
 
@@ -224,15 +222,14 @@ class View extends Observer {
 
   private bindDocumentMouseMove(event: MouseEvent | TouchEvent, shift: number) {
     // ссылки на eventListener, что бы удалить эти же eventListener
-    this.refHandleDocumentMouseMove = this.handleDocumentMouseMove.bind(this, shift);
-    this.refHandleDocumentMouseUp = this.handleDocumentMouseUp;
+    this.handleDocumentMouseMoveWithShift = this.handleDocumentMouseMove.bind(this, shift);
 
     if (event.type === 'mousedown') {
-      document.addEventListener('mousemove', this.refHandleDocumentMouseMove);
-      document.addEventListener('mouseup', this.refHandleDocumentMouseUp);
+      document.addEventListener('mousemove', this.handleDocumentMouseMoveWithShift);
+      document.addEventListener('mouseup', this.handleDocumentMouseUp);
     } else {
-      document.addEventListener('touchmove', this.refHandleDocumentMouseMove, { passive: false });
-      document.addEventListener('touchend', this.refHandleDocumentMouseUp);
+      document.addEventListener('touchmove', this.handleDocumentMouseMoveWithShift, { passive: false });
+      document.addEventListener('touchend', this.handleDocumentMouseUp);
     }
   }
 
@@ -245,11 +242,11 @@ class View extends Observer {
 
   private handleDocumentMouseUp = (event: MouseEvent | TouchEvent) => {
     if (event.type === 'mouseup') {
-      document.removeEventListener('mousemove', this.refHandleDocumentMouseMove);
-      document.removeEventListener('mouseup', this.refHandleDocumentMouseUp);
+      document.removeEventListener('mousemove', this.handleDocumentMouseMoveWithShift);
+      document.removeEventListener('mouseup', this.handleDocumentMouseUp);
     } else {
-      document.removeEventListener('touchmove', this.refHandleDocumentMouseMove);
-      document.removeEventListener('touchend', this.refHandleDocumentMouseUp);
+      document.removeEventListener('touchmove', this.handleDocumentMouseMoveWithShift);
+      document.removeEventListener('touchend', this.handleDocumentMouseUp);
     }
     this.callOnFinish();
   }
