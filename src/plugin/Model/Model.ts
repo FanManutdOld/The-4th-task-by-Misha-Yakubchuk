@@ -57,6 +57,18 @@ class Model extends Observer {
       return;
     }
 
+    const isFromToEqualMin = from === min && to === min;
+    const isFromToEqualMax = from === max && to === max;
+    if (isFromToEqualMin) {
+      this.config.current = CurrentRunner.TO;
+      this.notify('changeCurrent', this.config.current);
+      return;
+    } if (isFromToEqualMax) {
+      this.config.current = CurrentRunner.FROM;
+      this.notify('changeCurrent', this.config.current);
+      return;
+    }
+
     const posRound = this.roundFractional(position, 3);
 
     const center = (Math.abs((from - min) / (max - min)) + Math.abs((to - min) / (max - min))) / 2;
