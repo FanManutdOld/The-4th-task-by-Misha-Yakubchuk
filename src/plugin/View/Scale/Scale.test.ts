@@ -1,4 +1,4 @@
-import { MySliderConfig, CurrentRunner } from '../types';
+import { MySliderConfig, CurrentRunner } from '../../types';
 import Scale from './Scale';
 
 describe('Scale class', () => {

@@ -1,4 +1,4 @@
-import Tip from './Tip';
+import Tip from '../Tip/Tip';
 
 class Runner {
   public halfWidth: number;

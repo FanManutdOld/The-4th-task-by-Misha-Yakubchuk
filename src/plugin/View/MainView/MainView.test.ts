@@ -1,5 +1,5 @@
 import MainView from './MainView';
-import { MySliderConfig, CurrentRunner } from '../types';
+import { MySliderConfig, CurrentRunner } from '../../types';
 
 describe('MainView class', () => {
   let mainView: MainView;

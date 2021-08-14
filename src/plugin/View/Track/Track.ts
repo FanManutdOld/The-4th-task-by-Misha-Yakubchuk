@@ -1,6 +1,6 @@
-import { MySliderConfig } from '../types';
-import Scale from './Scale';
-import Limits from './Limits';
+import { MySliderConfig } from '../../types';
+import Scale from '../Scale/Scale';
+import Limits from '../Limits/Limits';
 
 class Track {
   private track: HTMLElement;

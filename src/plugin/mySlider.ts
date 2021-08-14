@@ -1,6 +1,6 @@
 /* eslint-disable func-names */
 import Model from './Model/Model';
-import View from './View/MainView';
+import View from './View/MainView/MainView';
 import Presenter from './Presenter/Presenter';
 import { MySliderConfig } from './types';
 

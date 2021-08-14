@@ -1,4 +1,4 @@
-import { MySliderConfig } from '../types';
+import { MySliderConfig } from '../../types';
 
 class Scale {
   private slider: HTMLElement;
