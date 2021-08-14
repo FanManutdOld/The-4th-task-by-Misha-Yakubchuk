@@ -9,8 +9,8 @@ const isDev = process.env.NODE_ENV === 'development';
 
 module.exports = {
   entry: {
-    'demo-page': path.join(__dirname, 'src/demo-page/index.ts'),
-    'more-sliders': path.join(__dirname, 'src/more-sliders/index.ts'),
+    'demo-page': path.join(__dirname, 'src/demo/pages/demo-page/index.ts'),
+    'more-sliders': path.join(__dirname, 'src/demo/pages/more-sliders/index.ts'),
   },
   output: {
     filename: 'js/[name].[contenthash].js',
@@ -85,12 +85,12 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       filename: 'demo-page.html',
-      template: 'src/demo-page/demo-page.pug',
+      template: 'src/demo/pages/demo-page/demo-page.pug',
       chunks: ['demo-page'],
     }),
     new HtmlWebpackPlugin({
       filename: 'more-sliders.html',
-      template: 'src/more-sliders/more-sliders.pug',
+      template: 'src/demo/pages/more-sliders/more-sliders.pug',
       chunks: ['more-sliders'],
     }),
     new MiniCssExtractPlugin({
