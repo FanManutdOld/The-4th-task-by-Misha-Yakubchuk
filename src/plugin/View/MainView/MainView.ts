@@ -7,6 +7,8 @@ import Observer from '../../../Observer/Observer';
 class View extends Observer {
   private config: MySliderConfig;
 
+  private parent: HTMLElement;
+
   private slider: HTMLElement;
 
   private rightEdge: number;
@@ -25,8 +27,9 @@ class View extends Observer {
 
   constructor(parent: HTMLElement, config: MySliderConfig) {
     super();
+    this.parent = parent;
     this.slider = document.createElement('div');
-    parent.append(this.slider);
+    this.parent.append(this.slider);
     this.initView(config);
   }
 
@@ -47,6 +50,7 @@ class View extends Observer {
 
     if (isInit) {
       this.rebuild();
+      this.setData();
     }
     if (isUpdateRight) {
       const newPos = (this.rightEdge * (to - min)) / (max - min);
@@ -99,8 +103,25 @@ class View extends Observer {
     }
   }
 
+  private setData() {
+    const {
+      min, max, step, scaleLimit, isDouble, isVertical, hasTips, hasScale, hasLimits, skin,
+    } = this.config;
+    this.parent.dataset.min = min.toString();
+    this.parent.dataset.max = max.toString();
+    this.parent.dataset.step = step.toString();
+    this.parent.dataset.scaleLimit = scaleLimit.toString();
+    this.parent.dataset.isDouble = isDouble.toString();
+    this.parent.dataset.isVertical = isVertical.toString();
+    this.parent.dataset.hasTips = hasTips.toString();
+    this.parent.dataset.hasScale = hasScale.toString();
+    this.parent.dataset.hasLimits = hasLimits.toString();
+    this.parent.dataset.skin = skin.toString();
+  }
+
   private updateRight(newPos: number) {
     this.runnerRight.setPos(newPos);
+    this.parent.dataset.to = this.config.to.toString();
     this.bar.setRight(newPos, this.runnerRight.halfWidth);
     if (this.connectedTips) {
       this.updateConnectedTips();
@@ -111,6 +132,7 @@ class View extends Observer {
 
   private updateLeft(newPos: number) {
     this.runnerLeft.setPos(newPos);
+    this.parent.dataset.from = this.config.from.toString();
     this.bar.setLeft(newPos, this.runnerLeft.halfWidth);
     if (this.connectedTips) {
       this.updateConnectedTips();
