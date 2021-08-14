@@ -1,5 +1,9 @@
 class Observer {
-  private observers;
+  private observers: {
+    [key: string]: {
+      data?: Function[]
+    }
+  };
 
   constructor() {
     this.observers = {};

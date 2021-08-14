@@ -93,7 +93,7 @@ class Scale {
     return a - b * Math.floor(a / b);
   }
 
-  private getSmallMax(bigNum) {
+  private getSmallMax(bigNum: number): number {
     switch (true) {
       case (bigNum > 28):
         return 0;
