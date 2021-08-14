@@ -5,7 +5,6 @@ import {
 } from './validators';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import 'jest-extended';
-import { CurrentRunner } from '../types';
 
 describe('Validator class', () => {
   beforeEach(() => {
@@ -46,42 +45,45 @@ describe('Validator class', () => {
   });
 
   describe('validate from to', () => {
-    let config;
+    let min: number;
+    let max: number;
+    let from: number;
+    let to: number;
+    let isDouble: boolean;
     beforeEach(() => {
-      config = {
-        min: 0,
-        max: 1000,
-        from: 300,
-        to: 700,
-        isDouble: true,
-      };
+      min = 300;
+      max = 1000;
+      from = 300;
+      to = 700;
+      isDouble = true;
     });
     test('left and right values should be a number', () => {
-      config.from = '300';
-      const [from] = validateFromTo(config);
-      expect(from).toBeNumber();
+      // @ts-expect-error
+      from = '300';
+      const [checkedFrom] = validateFromTo(min, max, from, to, isDouble);
+      expect(checkedFrom).toBeNumber();
     });
     test('value should be greater min in single slider', () => {
-      config.to = -10;
-      config.isDouble = false;
-      const [, to] = validateFromTo(config);
-      expect(to).toBeGreaterThanOrEqual(config.min);
+      to = -10;
+      isDouble = false;
+      const [, checkedTo] = validateFromTo(min, max, from, to, isDouble);
+      expect(checkedTo).toBeGreaterThanOrEqual(min);
     });
     test('value should be less max in single slider', () => {
-      config.to = 2000;
-      config.isDouble = false;
-      const [, to] = validateFromTo(config);
-      expect(to).toBeLessThanOrEqual(config.max);
+      to = 2000;
+      isDouble = false;
+      const [, checkedTo] = validateFromTo(min, max, from, to, isDouble);
+      expect(checkedTo).toBeLessThanOrEqual(max);
     });
     test('right value should be greater than left value in double slider', () => {
-      config.to = 250;
-      const [from, to] = validateFromTo(config);
-      expect(to).toBeGreaterThanOrEqual(from);
+      to = 250;
+      const [checkedFrom, checkedTo] = validateFromTo(min, max, from, to, isDouble);
+      expect(checkedTo).toBeGreaterThanOrEqual(checkedFrom);
     });
     test('left value should be less than right value in double slider', () => {
-      config.from = 800;
-      const [from, to] = validateFromTo(config);
-      expect(from).toBeLessThanOrEqual(to);
+      from = 800;
+      const [checkedFrom, checkedTo] = validateFromTo(min, max, from, to, isDouble);
+      expect(checkedFrom).toBeLessThanOrEqual(checkedTo);
     });
   });
 
@@ -114,33 +116,22 @@ describe('Validator class', () => {
   });
 
   describe('validate scaleLimit', () => {
-    const config = {
-      max: 1000,
-      min: 0,
-      from: 2,
-      to: 5,
-      isDouble: true,
-      hasTips: false,
-      hasScale: true,
-      hasLimits: false,
-      skin: 'orange',
-      current: CurrentRunner.TO,
-      isVertical: false,
-      step: 1,
-      scaleLimit: 50,
-    };
+    const min = 0;
+    const max = 1000;
+    const step = 1;
+    let scaleLimit: number;
     test('scaleLimit should be a number', () => {
       // @ts-expect-error
-      config.scaleLimit = '59';
-      expect(validateScaleLimit(config)).toBeNumber();
+      scaleLimit = '59';
+      expect(validateScaleLimit(min, max, step, scaleLimit)).toBeNumber();
     });
     test('scaleLimit should be less or equal than 50', () => {
-      config.scaleLimit = 55;
-      expect(validateScaleLimit(config)).toBeLessThanOrEqual(50);
+      scaleLimit = 55;
+      expect(validateScaleLimit(min, max, step, scaleLimit)).toBeLessThanOrEqual(50);
     });
     test('scaleLimit should be equal or greater than 1', () => {
-      config.scaleLimit = -5;
-      expect(validateScaleLimit(config)).toBeGreaterThanOrEqual(1);
+      scaleLimit = -5;
+      expect(validateScaleLimit(min, max, step, scaleLimit)).toBeGreaterThanOrEqual(1);
     });
   });
 

@@ -44,15 +44,9 @@ function validateStep(min: number, max: number, step: number): number {
   return step;
 }
 
-function validateFromTo(config: MySliderConfig): [number, number] {
-  const {
-    min,
-    max,
-    from,
-    to,
-    isDouble,
-  } = config;
-
+function validateFromTo(
+  min: number, max: number, from: number, to: number, isDouble: boolean,
+): [number, number] {
   const isWrongType = typeof from !== 'number' || typeof to !== 'number';
 
   if (isWrongType) {
@@ -113,14 +107,7 @@ function validateHasScale(hasScale: boolean): boolean {
   return hasScale;
 }
 
-function validateScaleLimit(config: MySliderConfig): number {
-  const {
-    min,
-    max,
-    step,
-    scaleLimit,
-  } = config;
-
+function validateScaleLimit(min: number, max: number, step: number, scaleLimit: number): number {
   if (typeof scaleLimit !== 'number') {
     console.warn('scaleLimit must be a number');
     return 4;
@@ -185,29 +172,45 @@ function validateAll(config: MySliderConfig): MySliderConfig {
   const {
     min,
     max,
+    from,
+    to,
     step,
+    scaleLimit,
     isDouble,
     hasTips,
     hasLimits,
     isVertical,
     hasScale,
     skin,
+    current,
+    onStart,
+    onChange,
+    onFinish,
   } = config;
 
-  const ValidatedConfig = { ...config };
+  const chechedMax = validateMinMax(min, max);
+  const checkedIsDouble = validateIsDouble(isDouble);
+  const checkedStep = validateStep(min, chechedMax, step);
+  const [CheckedFrom, checkedTo] = validateFromTo(min, chechedMax, from, to, checkedIsDouble);
 
-  ValidatedConfig.max = validateMinMax(min, max);
-  ValidatedConfig.isDouble = validateIsDouble(isDouble);
-  ValidatedConfig.hasTips = validateHasTips(hasTips);
-  ValidatedConfig.hasLimits = validateHasLimits(hasLimits);
-  ValidatedConfig.isVertical = validateIsVertical(isVertical);
-  ValidatedConfig.hasScale = validateHasScale(hasScale);
-  ValidatedConfig.skin = validateSkin(skin);
-  ValidatedConfig.step = validateStep(ValidatedConfig.min, ValidatedConfig.max, step);
-  [ValidatedConfig.from, ValidatedConfig.to] = validateFromTo(ValidatedConfig);
-  ValidatedConfig.scaleLimit = validateScaleLimit(ValidatedConfig);
-
-  return ValidatedConfig;
+  return {
+    min,
+    max: chechedMax,
+    from: CheckedFrom,
+    to: checkedTo,
+    step: checkedStep,
+    scaleLimit: validateScaleLimit(min, chechedMax, checkedStep, scaleLimit),
+    isDouble: checkedIsDouble,
+    isVertical: validateIsVertical(isVertical),
+    hasTips: validateHasTips(hasTips),
+    hasLimits: validateHasLimits(hasLimits),
+    hasScale: validateHasScale(hasScale),
+    skin: validateSkin(skin),
+    current,
+    onStart,
+    onChange,
+    onFinish,
+  };
 }
 
 export {
