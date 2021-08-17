@@ -27,10 +27,6 @@ function validateStep(min: number, max: number, step: number): number {
     return NaN;
   }
 
-  if (!step) {
-    return NaN;
-  }
-
   if (step > Math.abs(min) + Math.abs(max)) {
     console.warn('step too big');
     return Math.min(Math.abs(min), Math.abs(max));
