@@ -41,16 +41,16 @@ class DemoSlider {
 
     if (userConfig) {
       const extendedUserConfig = Object.assign(userConfig, {
-        onStart: () => { this.callbacksDemo.signalStart(); },
+        onStart: () => this.callbacksDemo.signalStart(),
         onChange: this.handleOnChange,
-        onFinish: () => { this.callbacksDemo.signalFinish(); },
+        onFinish: () => this.callbacksDemo.signalFinish(),
       });
       this.sliderExample.addSlider(extendedUserConfig);
     } else {
       this.sliderExample.addSlider({
-        onStart: () => { this.callbacksDemo.signalStart(); },
+        onStart: () => this.callbacksDemo.signalStart(),
         onChange: this.handleOnChange,
-        onFinish: () => { this.callbacksDemo.signalFinish(); },
+        onFinish: () => this.callbacksDemo.signalFinish(),
       });
     }
 
