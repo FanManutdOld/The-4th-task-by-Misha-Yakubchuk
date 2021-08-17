@@ -54,20 +54,15 @@ function validateFromTo(
     return [min, max];
   }
 
-  if (isDouble) {
-    const checkedTo = (to > max)
-      ? max : (to < min)
-        ? min : to;
-    let checkedFrom = (from < min)
-      ? min : (from > max)
-        ? max : from;
-    checkedFrom = (checkedFrom > checkedTo) ? min : checkedFrom;
-    return [checkedFrom, checkedTo];
-  }
+  const checkedToForMin = to < min ? min : to;
+  const checkedTo = to > max ? max : checkedToForMin;
 
-  const checkedTo = (to > max)
-    ? max : (to < min)
-      ? min : to;
+  if (isDouble) {
+    const checkedMinFrom = from < min ? min : from;
+    const checkedFrom = from > max ? max : checkedMinFrom;
+    const finallyCheckedFrom = (checkedFrom > checkedTo) ? min : checkedFrom;
+    return [finallyCheckedFrom, checkedTo];
+  }
   return [from, checkedTo];
 }
 
@@ -161,9 +156,8 @@ function validateNewValue(config: MySliderConfig, newValue: number): number {
 
   if (current === CurrentRunner.TO) {
     const leftEdge = isDouble ? from : min;
-    return (newValue > max)
-      ? max : (newValue < leftEdge)
-        ? leftEdge : newValue;
+    const checkedNewValueForMax = newValue > max ? max : newValue;
+    return newValue < leftEdge ? leftEdge : checkedNewValueForMax;
   }
   return (newValue > to) ? to : newValue;
 }
