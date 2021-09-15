@@ -10,9 +10,9 @@
 6. [UML-диаграмма](#uml)
 
 ### Демонстрация <a name="demo"></a> 
-[Демо страница](https://fanmanutd.github.io/The-4th-task-by-Misha-Yakubchuk/demo-page.html)
+[Демо страница](https://fanmanutdold.github.io/The-4th-task-by-Misha-Yakubchuk/demo-page.html)
 
-[Больше слайдеров богу слайдеров](https://fanmanutd.github.io/The-4th-task-by-Misha-Yakubchuk/more-sliders.html)
+[Больше слайдеров богу слайдеров](https://fanmanutdold.github.io/The-4th-task-by-Misha-Yakubchuk/more-sliders.html)
 
 Использованные библиотеки:
 - упаковщик/сборщик/бандлер [webpack](https://v4.webpack.js.org/)
